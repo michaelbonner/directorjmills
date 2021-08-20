@@ -21,17 +21,27 @@ export default {
       },
     },
     {
-      name: "overview",
-      title: "Overview",
-      type: "blockContent",
-    },
-    {
-      name: "poster",
-      title: "Poster Image",
+      name: "photo",
+      title: "Photo",
       type: "image",
       options: {
         hotspot: true,
       },
+    },
+    {
+      name: "bio",
+      title: "Bio",
+      type: "blockContent",
+    },
+    {
+      name: "Representation",
+      title: "representation",
+      type: "blockContent",
+    },
+    {
+      name: "notableAwards",
+      title: "Notable Awards",
+      type: "blockContent",
     },
   ],
   preview: {
