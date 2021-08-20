@@ -27,6 +27,7 @@ export default function Home() {
         <meta name="msapplication-TileColor" content="#ffffff" />
         <meta name="theme-color" content="#ffffff" />
         <meta property="og:title" content="Director Jeremy Miller" />
+        <meta property="og:type" content="website" />
         <meta
           property="og:description"
           content="A visionary with an inner sense for aesthetic, story and human connection. His deep experience in the film world has positioned him in the Directors chair. Understanding the scope and gravity of projects from pre-production through the finishing touches of post. His portfolio includes commercial projects across the globe. Relate-ability and insightfulness keep him in tune with the emotion that runs deep within each project."
