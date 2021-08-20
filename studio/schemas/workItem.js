@@ -136,6 +136,12 @@ export default {
         editModal: "popover",
       },
     },
+    {
+      name: "order",
+      title: "Order",
+      type: "number",
+      hidden: true,
+    },
   ],
   preview: {
     select: {

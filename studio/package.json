@@ -17,6 +17,7 @@
     "@sanity/base": "^2.15.1",
     "@sanity/components": "^2.14.0",
     "@sanity/core": "^2.15.0",
+    "@sanity/dashboard": "^2.15.1",
     "@sanity/default-layout": "^2.15.1",
     "@sanity/default-login": "^2.15.0",
     "@sanity/desk-tool": "^2.15.2",
@@ -25,7 +26,9 @@
     "prop-types": "^15.7",
     "react": "^17.0",
     "react-dom": "^17.0",
-    "react-icons": "^3.11.0"
+    "react-icons": "^3.11.0",
+    "sanity-plugin-dashboard-widget-vercel": "^1.1.0",
+    "sanity-plugin-order-documents": "^0.0.20"
   },
   "devDependencies": {}
 }
