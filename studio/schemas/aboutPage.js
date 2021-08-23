@@ -34,8 +34,8 @@ export default {
       type: "blockContent",
     },
     {
-      name: "Representation",
-      title: "representation",
+      name: "representation",
+      title: "Representation",
       type: "blockContent",
     },
     {
