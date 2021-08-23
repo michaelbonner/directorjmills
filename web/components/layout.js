@@ -102,6 +102,7 @@ const Layout = ({ children, title, description, heroImageUrl, isDesktop }) => {
           property="og:image"
           content="https://directorjmills.vercel.app/og-image.jpg"
         />
+        <meta name="description" content={description} />
       </Head>
 
       <div className="absolute w-full top-12 lg:top-16">
