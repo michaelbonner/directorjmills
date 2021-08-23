@@ -26,7 +26,7 @@ function Home({ workItems }) {
           return (
             <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
               <a
-                className="text-white flex flex-col items-center justify-center space-y-2 bpd-project-tile"
+                className="text-white flex flex-col items-center justify-center space-y-2 lg:space-y-0 bpd-project-tile"
                 key={workItem._id}
                 style={{
                   backgroundImage: `url(${urlForSanitySource(

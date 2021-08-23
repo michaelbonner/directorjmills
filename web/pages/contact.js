@@ -11,7 +11,7 @@ function Home({ about }) {
       title="Contact Jeremy Miller"
       description="Get in touch with Jeremy Miller"
     >
-      <div className="max-w-md mx-auto">
+      <div className="max-w-md mx-auto px-4 lg:px-0">
         <div className="relative border-2 border-black py-8 px-7 max-w-xs mx-auto w-full">
           <Image
             src={urlForSanitySource(about.photo).url()}
