@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.prose h2 {
+  @apply text-3xl;
+  @apply mb-3;
+}
+.prose strong {
+  @apply font-extrabold;
+}

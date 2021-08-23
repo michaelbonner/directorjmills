@@ -8,7 +8,6 @@ function Home({ workItems }) {
     <Layout>
       <div className="container mx-auto">
         {workItems.map((workItem) => {
-          console.log("workItem", workItem);
           return (
             <div
               className="text-white flex flex-col items-center justify-center space-y-2"

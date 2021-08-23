@@ -153,8 +153,16 @@ const Layout = ({ children, title, description }) => {
 
       <header className="relative text-center py-8 container mx-auto">
         <div>
-          <p className="uppercase font-extrabold text-3xl">Director</p>
-          <p className="uppercase font-light text-3xl">Jeremy Miller</p>
+          <p className="uppercase font-extrabold text-3xl">
+            <Link href={`/`}>
+              <a>Director</a>
+            </Link>
+          </p>
+          <p className="uppercase font-light text-3xl">
+            <Link href={`/`}>
+              <a>Jeremy Miller</a>
+            </Link>
+          </p>
         </div>
         <div className="absolute right-0 top-12 flex justify-end items-center">
           <div className="relative lg:ml-8 lg:mr-0">
