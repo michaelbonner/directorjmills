@@ -3,6 +3,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ["proxima-nova", "sans-serif"],
+      outline: ["hwt-republic-gothic-outline", "sans-serif"],
+    },
   },
   variants: {
     extend: {},

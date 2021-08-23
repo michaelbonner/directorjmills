@@ -1,52 +1,51 @@
-import Head from "next/head";
+import Layout from "../components/layout";
+import groq from "groq";
+import { getClient } from "../lib/sanity";
+import urlForSanitySource from "../lib/urlForSanitySource";
 
-export default function Home() {
+function Home({ workItems }) {
   return (
-    <div>
-      <Head>
-        <title>Director Jeremy Miller</title>
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/apple-touch-icon.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/favicon-32x32.png"
-        />
-        <link
-          rel="icon"
-          type="image/png"
-          sizes="16x16"
-          href="/favicon-16x16.png"
-        />
-        <link rel="manifest" href="/site.webmanifest" />
-        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta property="og:title" content="Director Jeremy Miller" />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:description"
-          content="A visionary with an inner sense for aesthetic, story and human connection. His deep experience in the film world has positioned him in the Directors chair. Understanding the scope and gravity of projects from pre-production through the finishing touches of post. His portfolio includes commercial projects across the globe. Relate-ability and insightfulness keep him in tune with the emotion that runs deep within each project."
-        />
-        <meta
-          property="og:image"
-          content="https://directorjmills.vercel.app/og-image.jpg"
-        />
-      </Head>
-
-      <main className="text-center h-screen w-full flex items-center justify-center">
-        <div>
-          <h1 className="text-3xl">Welcome to Jeremy Miller Director</h1>
-
-          <p>
-            Get started by editing <code>pages/index.js</code>
-          </p>
-        </div>
-      </main>
-    </div>
+    <Layout>
+      <div className="container mx-auto">
+        {workItems.map((workItem) => {
+          console.log("workItem", workItem);
+          return (
+            <div
+              className="text-white flex flex-col items-center justify-center space-y-2"
+              key={workItem._id}
+              style={{
+                backgroundImage: `url(${urlForSanitySource(workItem.poster)})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                minHeight: "33vh",
+              }}
+            >
+              <h2 className="uppercase font-extrabold text-3xl">
+                {workItem.title}
+              </h2>
+              <h3 className="uppercase font-outline text-2xl">
+                {workItem.clientName}
+              </h3>
+            </div>
+          );
+        })}
+      </div>
+    </Layout>
   );
 }
+
+export async function getStaticProps() {
+  const workItems = await getClient().fetch(
+    groq`
+    *[_type == "workItem"][!(_id in path('drafts.**'))]|order(order asc)
+  `
+  );
+  return {
+    props: {
+      workItems,
+    },
+  };
+}
+
+export default Home;
