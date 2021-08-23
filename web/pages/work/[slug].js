@@ -76,7 +76,7 @@ const WorkItem = ({ workItem = {} }) => {
     >
       <article>
         {video_id ? (
-          <div className="max-w-6xl mx-auto">
+          <div className="container mx-auto">
             <div
               className={`aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
                 showVideo ? `opacity-100` : `opacity-0`
@@ -105,7 +105,7 @@ const WorkItem = ({ workItem = {} }) => {
             </div>
           </div>
         ) : (
-          <div className="max-w-6xl mx-auto">
+          <div className="container mx-auto">
             <div
               className={`aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700`}
             >
@@ -118,7 +118,7 @@ const WorkItem = ({ workItem = {} }) => {
           </div>
         )}
 
-        <div className="max-w-6xl mx-auto">
+        <div className="container mx-auto">
           <div className="flex justify-start items-center">
             <h1 className="text-4xl uppercase flex space-x-8 text-left py-4">
               <span className="font-extrabold">
@@ -132,7 +132,7 @@ const WorkItem = ({ workItem = {} }) => {
             {credits && credits.length > 0 && (
               <>
                 <button
-                  className="w-full flex items-center space-x-2 font-bold text-3xl text-left my-12 uppercase border-b-2 border-black pb-2"
+                  className="w-full flex items-center space-x-2 font-bold text-2xl text-left my-12 uppercase border-b-2 border-black pb-2"
                   onClick={() => setCreditsOpen(!creditsOpen)}
                   type="button"
                 >
