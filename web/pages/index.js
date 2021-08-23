@@ -9,7 +9,6 @@ function Home({ workItems }) {
     <Layout>
       <div className="container mx-auto">
         {workItems.map((workItem) => {
-          console.log("workItem.slug", workItem.slug);
           return (
             <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
               <a

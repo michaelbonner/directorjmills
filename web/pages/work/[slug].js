@@ -118,9 +118,9 @@ const WorkItem = ({ workItem = {} }) => {
           </div>
         )}
 
-        <div className="container mx-auto">
+        <div className="container px-4 md:px-0 mx-auto">
           <div className="flex justify-start items-center">
-            <h1 className="text-4xl uppercase flex space-x-8 text-left py-4">
+            <h1 className="text-2xl md:text-2xl lg:text-4xl uppercase flex space-x-4 md:space-x-8 text-left py-4">
               <span className="font-extrabold">
                 {clientName ? `${clientName}` : ""}
               </span>
@@ -128,11 +128,11 @@ const WorkItem = ({ workItem = {} }) => {
             </h1>
           </div>
 
-          <div className="container mx-auto">
+          <div>
             {credits && credits.length > 0 && (
               <>
                 <button
-                  className="w-full flex items-center space-x-2 font-bold text-2xl text-left my-12 uppercase border-b-2 border-black pb-2"
+                  className="w-full flex items-center space-x-2 font-bold text-lg lg:text-2xl text-left my-12 uppercase border-b-2 border-black pb-2"
                   onClick={() => setCreditsOpen(!creditsOpen)}
                   type="button"
                 >
@@ -146,7 +146,7 @@ const WorkItem = ({ workItem = {} }) => {
                   </span>
                 </button>
                 <div
-                  className={`grid grid-cols-3 gap-x-12 gap-y-4 ${
+                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-4 ${
                     creditsOpen ? "h-auto" : "h-0"
                   } transition-all overflow-hidden`}
                 >

@@ -164,7 +164,7 @@ const Layout = ({ children, title, description }) => {
             </Link>
           </p>
         </div>
-        <div className="absolute right-0 top-12 flex justify-end items-center">
+        <div className="absolute right-4 md:right-0 top-12 flex justify-end items-center">
           <div className="relative lg:ml-8 lg:mr-0">
             <button
               className="w-12 h-8 focus:outline-none relative"
