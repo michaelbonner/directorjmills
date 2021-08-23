@@ -2,31 +2,37 @@ import Layout from "../components/layout";
 import groq from "groq";
 import { getClient } from "../lib/sanity";
 import urlForSanitySource from "../lib/urlForSanitySource";
+import Link from "next/link";
 
 function Home({ workItems }) {
   return (
     <Layout>
       <div className="container mx-auto">
         {workItems.map((workItem) => {
+          console.log("workItem.slug", workItem.slug);
           return (
-            <div
-              className="text-white flex flex-col items-center justify-center space-y-2"
-              key={workItem._id}
-              style={{
-                backgroundImage: `url(${urlForSanitySource(workItem.poster)})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-                minHeight: "33vh",
-              }}
-            >
-              <h2 className="uppercase font-extrabold text-3xl">
-                {workItem.title}
-              </h2>
-              <h3 className="uppercase font-outline text-2xl">
-                {workItem.clientName}
-              </h3>
-            </div>
+            <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
+              <a
+                className="text-white flex flex-col items-center justify-center space-y-2"
+                key={workItem._id}
+                style={{
+                  backgroundImage: `url(${urlForSanitySource(
+                    workItem.poster
+                  )})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  backgroundRepeat: "no-repeat",
+                  minHeight: "33vh",
+                }}
+              >
+                <h2 className="uppercase font-extrabold text-3xl">
+                  {workItem.title}
+                </h2>
+                <h3 className="uppercase font-outline text-2xl">
+                  {workItem.clientName}
+                </h3>
+              </a>
+            </Link>
           );
         })}
       </div>
