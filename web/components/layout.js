@@ -3,12 +3,15 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
+import urlForSanitySource from "../lib/urlForSanitySource";
 
-const Layout = ({ children, title, description }) => {
+const Layout = ({ children, title, description, heroImageUrl, isDesktop }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const router = useRouter();
   const [hoveredMenuItem, setHoveredMenuItem] = useState("");
+  const [headerStyles, setHeaderStyles] = useState({});
+  const [showHero, setShowHero] = useState(false);
 
   const toggleMenu = () => {
     if (menuOpen) {
@@ -47,6 +50,19 @@ const Layout = ({ children, title, description }) => {
       router.events.off("routeChangeComplete", handleRouteChangeComplete);
     };
   }, [router]);
+
+  useEffect(() => {
+    if (heroImageUrl && isDesktop) {
+      setShowHero(true);
+      setHeaderStyles({
+        backgroundImage: `url(${urlForSanitySource(heroImageUrl)})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        minHeight: "50vh",
+      });
+    }
+  }, [heroImageUrl, isDesktop]);
 
   return (
     <div>
@@ -151,39 +167,51 @@ const Layout = ({ children, title, description }) => {
         </Link>
       </nav>
 
-      <header className="relative text-center py-8 container mx-auto">
-        <div>
-          <p className="uppercase font-extrabold text-3xl">
-            <Link href={`/`}>
-              <a>Director</a>
-            </Link>
-          </p>
-          <p className="uppercase font-light text-3xl">
-            <Link href={`/`}>
-              <a>Jeremy Miller</a>
-            </Link>
-          </p>
-        </div>
-        <div className="absolute right-4 md:right-0 top-12 flex justify-end items-center">
-          <div className="relative lg:ml-8 lg:mr-0">
-            <button
-              className="w-12 h-8 focus:outline-none relative"
-              onClick={() => toggleMenu(!menuOpen)}
-              aria-label="Open menu"
+      <header style={headerStyles}>
+        <div className="relative text-center py-8 container mx-auto">
+          <div>
+            <p
+              className={`uppercase font-extrabold text-3xl ${
+                showHero ? "text-white" : null
+              }`}
             >
-              <span
-                className={`${!menuOpen ? "opacity-100" : "opacity-0"} ${
-                  !menuVisible ? "absolute" : "hidden"
-                } top-0 right-0 w-12 h-8 transform transition-all ease-in duration-300`}
+              <Link href={`/`}>
+                <a>Director</a>
+              </Link>
+            </p>
+            <p
+              className={`uppercase font-light text-3xl ${
+                showHero ? "text-white" : null
+              }`}
+            >
+              <Link href={`/`}>
+                <a>Jeremy Miller</a>
+              </Link>
+            </p>
+          </div>
+          <div className="absolute right-4 md:right-0 top-12 flex justify-end items-center">
+            <div className="relative lg:ml-8 lg:mr-0">
+              <button
+                className="w-12 h-8 focus:outline-none relative"
+                onClick={() => toggleMenu(!menuOpen)}
+                aria-label="Open menu"
               >
-                <Image
-                  alt="Open menu"
-                  className={`w-12 h-8 fill-current text-white stroke-2 stroke-current`}
-                  src={`/images/menu.svg`}
-                  layout="fill"
-                />
-              </span>
-            </button>
+                <span
+                  className={`${!menuOpen ? "opacity-100" : "opacity-0"} ${
+                    !menuVisible ? "absolute" : "hidden"
+                  } top-0 right-0 w-12 h-8 transform transition-all ease-in duration-300`}
+                >
+                  <Image
+                    alt="Open menu"
+                    className={`w-12 h-8 fill-current text-white stroke-2 stroke-current`}
+                    src={
+                      showHero ? `/images/menu-white.svg` : `/images/menu.svg`
+                    }
+                    layout="fill"
+                  />
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </header>

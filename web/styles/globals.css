@@ -14,7 +14,7 @@
   min-height: 33vh;
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 1024px) {
   .bpd-project-tile {
     min-height: 180px;
   }
