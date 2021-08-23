@@ -91,15 +91,15 @@ const WorkItem = ({ workItem = {} }) => {
                 title="Jeremy Miller"
                 url={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
                 width={`100%`}
-                fallback={
-                  <BackgroundFallback
-                    image={urlForSanitySource(poster).width(1200).url()}
-                  />
-                }
+                // fallback={
+                //   <BackgroundFallback
+                //     image={urlForSanitySource(poster).width(1200).url()}
+                //   />
+                // }
                 onReady={() => {
                   setTimeout(() => {
                     setShowVideo(true);
-                  }, [100]);
+                  }, [500]);
                 }}
               ></ReactPlayer>
             </div>
