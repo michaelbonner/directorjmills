@@ -7,12 +7,12 @@ import Link from "next/link";
 function Home({ workItems }) {
   return (
     <Layout>
-      <div className="container mx-auto">
+      <div className="container mx-auto lg:grid lg:grid-cols-3">
         {workItems.map((workItem) => {
           return (
             <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
               <a
-                className="text-white flex flex-col items-center justify-center space-y-2"
+                className="text-white flex flex-col items-center justify-center space-y-2 bpd-project-tile"
                 key={workItem._id}
                 style={{
                   backgroundImage: `url(${urlForSanitySource(
@@ -21,14 +21,13 @@ function Home({ workItems }) {
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
-                  minHeight: "33vh",
                 }}
               >
                 <h2 className="uppercase font-extrabold text-3xl">
-                  {workItem.title}
+                  {workItem.clientName}
                 </h2>
                 <h3 className="uppercase font-outline text-2xl">
-                  {workItem.clientName}
+                  {workItem.title}
                 </h3>
               </a>
             </Link>
