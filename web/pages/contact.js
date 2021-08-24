@@ -11,7 +11,7 @@ function Home({ about }) {
       title="Contact Jeremy Miller"
       description="Get in touch with Jeremy Miller"
     >
-      <div className="max-w-md mx-auto px-4 lg:px-0">
+      <div className="max-w-5xl mx-auto px-4 lg:px-0">
         <div className="relative border-2 border-black py-8 px-7 max-w-xs mx-auto w-full">
           <Image
             src={urlForSanitySource(about.photo).url()}
@@ -34,13 +34,16 @@ function Home({ about }) {
             </div>
           </div>
         </div>
-        <BlockContent className="my-16 prose text-center" blocks={about.bio} />
         <BlockContent
-          className="my-16 prose text-center"
+          className="my-16 prose max-w-3xl text-center mx-auto"
+          blocks={about.bio}
+        />
+        <BlockContent
+          className="my-16 prose max-w-3xl text-center mx-auto"
           blocks={about.representation}
         />
         <BlockContent
-          className="my-16 prose text-center"
+          className="my-16 prose max-w-3xl text-center mx-auto"
           blocks={about.notableAwards}
         />
       </div>
