@@ -43,7 +43,7 @@ function Home({ about }) {
           blocks={about.representation}
         />
         <BlockContent
-          className="my-16 prose max-w-3xl text-center mx-auto"
+          className="my-16 prose max-w-5xl text-center mx-auto"
           blocks={about.notableAwards}
         />
       </div>
