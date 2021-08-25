@@ -54,12 +54,6 @@ const WorkItem = ({ workItem = {} }) => {
   const [videoPlaying, setVideoPlaying] = useState(false);
   const player = useRef(null);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setVideoPlaying(true);
-    }, 300);
-  }, []);
-
   const {
     clientName = "",
     credits = [],
