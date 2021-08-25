@@ -35,7 +35,7 @@ const WorkItemTile = ({ workItem }) => {
             <source id="ogv" src={workItem.shortClipOgvURL} type="video/ogg" />
           </video>
         )}
-        <div className="z-10">
+        <div className="z-10 text-center">
           <h2 className="uppercase font-extrabold text-3xl lg:text-xl">
             {workItem.clientName}
           </h2>
