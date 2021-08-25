@@ -8,6 +8,7 @@ import useWindowSize from "../hooks/useWindowSize";
 
 const WorkItemTile = ({ workItem }) => {
   const [isHovered, setIsHovered] = useState(false);
+  const [hasHovered, setHasHovered] = useState(false);
   return (
     <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
       <a
@@ -19,10 +20,13 @@ const WorkItemTile = ({ workItem }) => {
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
         }}
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => {
+          setHasHovered(true);
+          setIsHovered(true);
+        }}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {workItem.shortClipMp4URL && workItem.shortClipOgvURL && (
+        {hasHovered && workItem.shortClipMp4URL && workItem.shortClipOgvURL && (
           <video
             className={`absolute w-full h-full inset-0 object-cover transition-all duration-700 ${
               isHovered ? "opacity-100" : "opacity-0"
@@ -31,6 +35,7 @@ const WorkItemTile = ({ workItem }) => {
             autoPlay={true}
             loop={true}
             playsInline={true}
+            preload="none"
           >
             <source id="mp4" src={workItem.shortClipMp4URL} type="video/mp4" />
             <source id="ogv" src={workItem.shortClipOgvURL} type="video/ogg" />
