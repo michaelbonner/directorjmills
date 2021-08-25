@@ -24,7 +24,7 @@ const WorkItemTile = ({ workItem }) => {
       >
         {workItem.shortClipMp4URL && workItem.shortClipOgvURL && (
           <video
-            className={`absolute inset-0 object-cover transition-all duration-700 ${
+            className={`absolute w-full h-full inset-0 object-cover transition-all duration-700 ${
               isHovered ? "opacity-100" : "opacity-0"
             }`}
             muted
@@ -61,6 +61,7 @@ function Home({ homePage, workItems }) {
       title={homePage.seo_title}
       description={homePage.seo_description}
       heroImageUrl={homePage.poster}
+      heroVideoId={homePage.video_id}
       isDesktop={isDesktop}
     >
       <div className="mx-auto lg:grid lg:grid-cols-3">

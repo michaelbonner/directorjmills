@@ -4,8 +4,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import urlForSanitySource from "../lib/urlForSanitySource";
+import ReactPlayer from "react-player";
 
-const Layout = ({ children, title, description, heroImageUrl, isDesktop }) => {
+const Layout = ({
+  children,
+  title,
+  description,
+  heroImageUrl,
+  heroVideoId,
+  isDesktop,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const router = useRouter();
@@ -173,8 +181,31 @@ const Layout = ({ children, title, description, heroImageUrl, isDesktop }) => {
         </Link>
       </nav>
 
-      <header style={headerStyles}>
-        <div className="relative text-center py-8 container mx-auto">
+      <header className="relative" style={headerStyles}>
+        {isDesktop && heroVideoId && (
+          <div className="bpd-hero-foreground absolute z-0 h-full w-full inset-0">
+            <ReactPlayer
+              allow="autoplay; fullscreen; picture-in-picture"
+              controls={false}
+              frameBorder="0"
+              height={`100%`}
+              loop={true}
+              muted={true}
+              playing={true}
+              playsinline={true}
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                pointerEvents: "none",
+              }}
+              title="Ravens Film Works"
+              url={`https://player.vimeo.com/video/${heroVideoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=true&background=true`}
+              width={`100%`}
+            />
+          </div>
+        )}
+        <div className="relative text-center py-8 container mx-auto z-10">
           <div>
             <p
               className={`uppercase font-extrabold text-3xl ${
