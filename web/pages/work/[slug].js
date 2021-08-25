@@ -1,10 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import groq from "groq";
-import Image from "next/image";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import { HiChevronDown } from "react-icons/hi";
+import { HiChevronDown, HiPlay, HiPause, HiLogin } from "react-icons/hi";
 import Layout from "../../components/layout";
 import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
@@ -53,6 +51,14 @@ aspect-w-16	aspect-h-16
 const WorkItem = ({ workItem = {} }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
+  const player = useRef(null);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setVideoPlaying(true);
+    }, 100);
+  }, []);
 
   const {
     clientName = "",
@@ -85,23 +91,35 @@ const WorkItem = ({ workItem = {} }) => {
               <ReactPlayer
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen={true}
-                controls={true}
+                controls={false}
                 frameBorder="0"
                 height={`100%`}
-                title="Jeremy Miller"
+                title={fullTitle}
                 url={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
                 width={`100%`}
-                // fallback={
-                //   <BackgroundFallback
-                //     image={urlForSanitySource(poster).width(1200).url()}
-                //   />
-                // }
+                playing={videoPlaying}
                 onReady={() => {
                   setTimeout(() => {
                     setShowVideo(true);
                   }, [500]);
                 }}
+                ref={player}
               ></ReactPlayer>
+            </div>
+            <div className="flex space-x-4">
+              <button
+                className="text-4xl"
+                onClick={() => setVideoPlaying(!videoPlaying)}
+              >
+                {videoPlaying ? <HiPause /> : <HiPlay />}
+              </button>
+              <button
+                className="text-4xl"
+                onClick={() => player.current.seekTo(0)}
+                title="Start over"
+              >
+                <HiLogin />
+              </button>
             </div>
           </div>
         ) : (
@@ -118,7 +136,7 @@ const WorkItem = ({ workItem = {} }) => {
           </div>
         )}
 
-        <div className="container px-4 md:px-0 mx-auto">
+        <div className="container px-4 md:px-0 mx-auto mt-4">
           <div className="flex justify-start items-center">
             <h1 className="text-2xl md:text-2xl lg:text-4xl uppercase flex space-x-4 md:space-x-8 text-left py-4">
               <span className="font-extrabold">
