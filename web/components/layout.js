@@ -20,6 +20,7 @@ const Layout = ({
   const [hoveredMenuItem, setHoveredMenuItem] = useState("");
   const [headerStyles, setHeaderStyles] = useState({});
   const [showHero, setShowHero] = useState(false);
+  const [videoPlaying, setVideoPlaying] = useState(false);
 
   const toggleMenu = () => {
     if (menuOpen) {
@@ -183,7 +184,11 @@ const Layout = ({
 
       <header className="relative" style={headerStyles}>
         {isDesktop && heroVideoId && (
-          <div className="bpd-hero-foreground absolute z-0 h-full w-full inset-0">
+          <div
+            className={`bpd-hero-foreground absolute z-0 h-full w-full inset-0 ${
+              videoPlaying ? "opacity-100" : "opacity-0"
+            }`}
+          >
             <ReactPlayer
               allow="autoplay; fullscreen; picture-in-picture"
               controls={false}
@@ -199,6 +204,7 @@ const Layout = ({
                 left: 0,
                 pointerEvents: "none",
               }}
+              onPlay={() => setVideoPlaying(true)}
               title="Ravens Film Works"
               url={`https://player.vimeo.com/video/${heroVideoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=true&background=true`}
               width={`100%`}
