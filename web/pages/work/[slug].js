@@ -57,7 +57,7 @@ const WorkItem = ({ workItem = {} }) => {
   useEffect(() => {
     setTimeout(() => {
       setVideoPlaying(true);
-    }, 100);
+    }, 300);
   }, []);
 
   const {
@@ -113,7 +113,7 @@ const WorkItem = ({ workItem = {} }) => {
                 onClick={() => setVideoPlaying(!videoPlaying)}
               >
                 <HiPlay
-                  className={`text-7xl text-white transition-all ${
+                  className={`text-7xl text-white transition-all duration-500 ${
                     videoPlaying ? "opacity-0" : "opacity-100"
                   }`}
                 />
