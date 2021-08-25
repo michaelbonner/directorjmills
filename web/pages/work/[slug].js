@@ -115,11 +115,20 @@ const WorkItem = ({ workItem = {} }) => {
             </div>
             <div className="flex space-x-4">
               <button
-                className="text-4xl"
+                className="relative text-4xl w-8 h-8"
                 onClick={() => setVideoPlaying(!videoPlaying)}
                 title="Play/Pause"
               >
-                {videoPlaying ? <HiPause /> : <HiPlay />}
+                <HiPause
+                  className={`${
+                    videoPlaying ? "opacity-100" : "opacity-0"
+                  } absolute inset-0 transition-all duration-500`}
+                />
+                <HiPlay
+                  className={`${
+                    videoPlaying ? "opacity-0" : "opacity-100"
+                  } absolute inset-0 transition-all duration-500`}
+                />
               </button>
               <button
                 className="text-4xl"
