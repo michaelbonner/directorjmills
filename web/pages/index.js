@@ -27,9 +27,10 @@ const WorkItemTile = ({ workItem }) => {
             className={`absolute w-full h-full inset-0 object-cover transition-all duration-700 ${
               isHovered ? "opacity-100" : "opacity-0"
             }`}
-            muted
-            autoPlay
-            loop
+            muted={true}
+            autoPlay={true}
+            loop={true}
+            playsInline={true}
           >
             <source id="mp4" src={workItem.shortClipMp4URL} type="video/mp4" />
             <source id="ogv" src={workItem.shortClipOgvURL} type="video/ogg" />
