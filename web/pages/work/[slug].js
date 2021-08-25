@@ -117,6 +117,7 @@ const WorkItem = ({ workItem = {} }) => {
               <button
                 className="text-4xl"
                 onClick={() => setVideoPlaying(!videoPlaying)}
+                title="Play/Pause"
               >
                 {videoPlaying ? <HiPause /> : <HiPlay />}
               </button>
