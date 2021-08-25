@@ -84,7 +84,7 @@ const WorkItem = ({ workItem = {} }) => {
         {video_id ? (
           <div className="container mx-auto">
             <div
-              className={`aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
+              className={`relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
                 showVideo ? `opacity-100` : `opacity-0`
               }`}
             >
@@ -103,8 +103,21 @@ const WorkItem = ({ workItem = {} }) => {
                     setShowVideo(true);
                   }, [500]);
                 }}
+                onEnded={() => {
+                  setVideoPlaying(false);
+                }}
                 ref={player}
               ></ReactPlayer>
+              <div
+                className="absolute inset-0 bg-transparent flex items-center justify-center"
+                onClick={() => setVideoPlaying(!videoPlaying)}
+              >
+                <HiPlay
+                  className={`text-7xl text-white transition-all ${
+                    videoPlaying ? "opacity-0" : "opacity-100"
+                  }`}
+                />
+              </div>
             </div>
             <div className="flex space-x-4">
               <button
