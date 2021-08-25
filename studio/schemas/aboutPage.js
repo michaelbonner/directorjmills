@@ -21,6 +21,16 @@ export default {
       },
     },
     {
+      name: "seo_title",
+      title: "SEO Title",
+      type: "string",
+    },
+    {
+      name: "seo_description",
+      title: "SEO Description",
+      type: "string",
+    },
+    {
       name: "photo",
       title: "Photo",
       type: "image",

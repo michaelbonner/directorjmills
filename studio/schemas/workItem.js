@@ -41,6 +41,22 @@ export default {
       type: "datetime",
     },
     {
+      name: "shortClipMp4",
+      title: "Short hover clip - mp4",
+      type: "file",
+      options: {
+        accept: "video/mp4",
+      },
+    },
+    {
+      name: "shortClipOgv",
+      title: "Short hover clip - ogv",
+      type: "file",
+      options: {
+        accept: "video/ogg",
+      },
+    },
+    {
       name: "video_id",
       title: "Video ID",
       type: "string",
