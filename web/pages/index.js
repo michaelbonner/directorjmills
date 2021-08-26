@@ -13,7 +13,7 @@ const WorkItemTile = ({ workItem }) => {
   useLayoutEffect(() => {
     setTimeout(() => {
       setHasHovered(true);
-    }, 500);
+    }, 1500);
   }, []);
 
   return (
