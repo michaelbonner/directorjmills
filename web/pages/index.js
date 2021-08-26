@@ -3,12 +3,19 @@ import groq from "groq";
 import { getClient } from "../lib/sanity";
 import urlForSanitySource from "../lib/urlForSanitySource";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 
 const WorkItemTile = ({ workItem }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasHovered, setHasHovered] = useState(false);
+
+  useLayoutEffect(() => {
+    setTimeout(() => {
+      setHasHovered(true);
+    }, 500);
+  }, []);
+
   return (
     <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
       <a
