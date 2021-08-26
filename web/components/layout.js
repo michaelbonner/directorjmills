@@ -61,7 +61,7 @@ const Layout = ({
   }, [router]);
 
   useEffect(() => {
-    if (heroImageUrl && isDesktop) {
+    if ((heroImageUrl || heroVideoId) && isDesktop) {
       setShowHero(true);
       setHeaderStyles({
         backgroundImage: `url(${urlForSanitySource(heroImageUrl)})`,
@@ -71,7 +71,7 @@ const Layout = ({
         minHeight: "50vh",
       });
     }
-  }, [heroImageUrl, isDesktop]);
+  }, [heroVideoId, heroImageUrl, isDesktop]);
 
   return (
     <div>
