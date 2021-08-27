@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { HiChevronDown } from "react-icons/hi";
 import { GrContract, GrExpand, GrPause, GrPlay } from "react-icons/gr";
-import { FiSkipBack } from "react-icons/fi";
 import Layout from "../../components/layout";
 import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
@@ -174,7 +173,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 ref={player}
               ></ReactPlayer>
               <button
-                className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer"
+                className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
                 onClick={() => setVideoPlaying(!videoPlaying)}
               >
                 <GrPlay
@@ -182,7 +181,6 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                     videoPlaying ? "opacity-0" : "opacity-100"
                   }`}
                   color="#ffffff"
-                  size="4rem"
                 />
               </button>
             </div>
