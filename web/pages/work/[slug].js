@@ -83,6 +83,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   };
 
   const handleFullScreenChange = (event) => {
+    console.log("event", event);
     if (screenfull.isFullscreen) {
       setIsFullscreen(true);
     } else {
@@ -91,13 +92,15 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   };
 
   useEffect(() => {
-    if (screenfull.isAvailable) {
+    if (screenfull.isEnabled) {
       screenfull.on("change", handleFullScreenChange);
-
-      return () => {
-        screenfull.off("change", handleFullScreenChange);
-      };
     }
+
+    return () => {
+      if (screenfull.isEnabled) {
+        screenfull.off("change", handleFullScreenChange);
+      }
+    };
   }, []);
 
   useEffect(() => {
