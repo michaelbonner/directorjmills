@@ -18,9 +18,9 @@ const WorkItemTile = ({ workItem }) => {
         className="relative text-white flex flex-col items-center justify-center space-y-2 lg:space-y-0 bpd-project-tile"
         key={workItem._id}
         style={{
-          backgroundImage: `url(${urlForSanitySource(workItem.poster).width(
-            700
-          )})`,
+          backgroundImage: workItem.poster
+            ? `url(${urlForSanitySource(workItem.poster).width(700)})`
+            : "",
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",

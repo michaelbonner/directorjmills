@@ -19,7 +19,7 @@ function Home({ homePage, workItems }) {
     <Layout
       title={homePage.seo_title}
       description={homePage.seo_description}
-      heroImageUrl={homePage.poster}
+      heroImageUrl={homePage.poster || null}
       heroVideoId={homePage.video_id}
       isDesktop={isDesktop}
     >
@@ -45,7 +45,7 @@ export async function getStaticProps() {
   );
   const workItems = await getClient().fetch(
     groq`
-    *[_type == "workItem"][!(_id in path('drafts.**'))]|order(order asc){
+    *[_type == "workItem"][0..5][!(_id in path('drafts.**'))]|order(order asc){
       _id,
       slug,
       clientName,

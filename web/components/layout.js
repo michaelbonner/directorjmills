@@ -64,7 +64,9 @@ const Layout = ({
     if ((heroImageUrl || heroVideoId) && isDesktop) {
       setShowHero(true);
       setHeaderStyles({
-        backgroundImage: `url(${urlForSanitySource(heroImageUrl).width(1400)})`,
+        backgroundImage: heroImageUrl
+          ? `url(${urlForSanitySource(heroImageUrl).width(1400)})`
+          : "",
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
@@ -152,10 +154,29 @@ const Layout = ({
             onMouseEnter={() => setHoveredMenuItem("/")}
             onMouseLeave={() => setHoveredMenuItem("")}
           >
-            <span className="relative z-10">Work</span>
+            <span className="relative z-10">Home</span>
             <span
               className={`${
                 hoveredMenuItem === "/" ? "w-full" : "w-0"
+              } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
+              style={{ bottom: "calc(50% - 1px)", height: "2px" }}
+            ></span>
+          </a>
+        </Link>
+        <Link href="/work">
+          <a
+            className={`${
+              !hoveredMenuItem || hoveredMenuItem === "/work"
+                ? "text-black"
+                : "text-gray-800"
+            } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
+            onMouseEnter={() => setHoveredMenuItem("/work")}
+            onMouseLeave={() => setHoveredMenuItem("")}
+          >
+            <span className="relative z-10">Work</span>
+            <span
+              className={`${
+                hoveredMenuItem === "/work" ? "w-full" : "w-0"
               } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
               style={{ bottom: "calc(50% - 1px)", height: "2px" }}
             ></span>

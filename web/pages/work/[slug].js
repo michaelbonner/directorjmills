@@ -262,11 +262,13 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
             <div
               className={`aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700`}
             >
-              <img
-                alt="Poster image"
-                className="w-full h-full"
-                src={urlForSanitySource(poster).width(1200).url()}
-              />
+              {poster ? (
+                <img
+                  alt="Poster image"
+                  className="w-full h-full"
+                  src={urlForSanitySource(poster).width(1200).url()}
+                />
+              ) : null}
             </div>
           </div>
         )}
