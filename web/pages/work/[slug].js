@@ -180,7 +180,6 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                   className={`bpd-play-icon transition-all duration-500 ${
                     videoPlaying ? "opacity-0" : "opacity-100"
                   }`}
-                  color="#ffffff"
                 />
               </button>
             </div>
