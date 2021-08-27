@@ -68,7 +68,7 @@ const Layout = ({
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
-        minHeight: "50vh",
+        minHeight: "60vh",
       });
     }
   }, [heroVideoId, heroImageUrl, isDesktop]);
