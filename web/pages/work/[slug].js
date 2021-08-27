@@ -11,6 +11,7 @@ import urlForSanitySource from "../../lib/urlForSanitySource";
 import useInterval from "../../hooks/useInterval";
 import useWindowSize from "../../hooks/useWindowSize";
 import WorkItemTile from "../../components/work-item-tile";
+import screenfull from "screenfull";
 
 const workItemQuery = groq`
 *[_type == "workItem" && slug.current == $slug][0]{
@@ -69,10 +70,12 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
 
   const toggleFullScreen = (onOff) => {
     if (onOff) {
-      document.documentElement.requestFullscreen();
+      if (screenfull.isEnabled) {
+        screenfull.request();
+      }
       setIsFullscreen(true);
     } else {
-      if (document.documentElement) {
+      if (screenfull.isEnabled && document.documentElement) {
         document.exitFullscreen();
       }
       setIsFullscreen(false);
@@ -170,8 +173,8 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 }}
                 ref={player}
               ></ReactPlayer>
-              <div
-                className="absolute inset-0 bg-transparent flex items-center justify-center"
+              <button
+                className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer"
                 onClick={() => setVideoPlaying(!videoPlaying)}
               >
                 <GrPlay
@@ -181,7 +184,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                   color="#ffffff"
                   size="4rem"
                 />
-              </div>
+              </button>
             </div>
 
             {isDesktop ? (
