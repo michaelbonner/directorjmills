@@ -3,9 +3,9 @@ import groq from "groq";
 import { getClient } from "../../lib/sanity";
 import WorkItemTile from "../../components/work-item-tile";
 
-function Work({ homePage, workItems }) {
+function Work({ workPage, workItems }) {
   return (
-    <Layout title={homePage.seo_title} description={homePage.seo_description}>
+    <Layout title={workPage.seo_title} description={workPage.seo_description}>
       <div className="mx-auto lg:grid lg:grid-cols-3">
         {workItems.map((workItem, index) => {
           return <WorkItemTile workItem={workItem} key={index} />;
@@ -16,9 +16,9 @@ function Work({ homePage, workItems }) {
 }
 
 export async function getStaticProps() {
-  const homePage = await getClient().fetch(
+  const workPage = await getClient().fetch(
     groq`
-  *[_type == "homePage"][0]{
+  *[_type == "workPage"][0]{
     seo_title,
     seo_description,
     poster,
@@ -41,7 +41,7 @@ export async function getStaticProps() {
   );
   return {
     props: {
-      homePage,
+      workPage,
       workItems,
     },
   };
