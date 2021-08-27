@@ -138,18 +138,15 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
         workItem.seo_description || `${fullTitle} | Director Jeremy Miller`
       }
     >
-      <div
-        className={`${
-          isFullscreen ? "absolute" : "hidden"
-        } bg-white inset-0 z-10`}
-      ></div>
       <article
         className={`bpd-player-container relative z-20 ${
-          isFullscreen ? "h-screen pt-12" : ""
+          isFullscreen
+            ? "h-screen flex flex-col justify-center items-center"
+            : ""
         }`}
       >
         {video_id ? (
-          <div className={`${isFullscreen ? "" : "container"} mx-auto`}>
+          <div className={`${isFullscreen ? "w-full" : "container"} mx-auto`}>
             <div
               className={`my-12 lg:my-0 relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
                 showVideo ? `opacity-100` : `opacity-0`
