@@ -79,7 +79,6 @@ const WorkItem = ({ workItem = {} }) => {
   };
 
   const handleFullScreenChange = (event) => {
-    console.log("event", event);
     if (document.fullscreenElement) {
       setIsFullscreen(true);
     } else {
