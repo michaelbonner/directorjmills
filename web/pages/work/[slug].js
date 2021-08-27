@@ -75,15 +75,15 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
       }
       setIsFullscreen(true);
     } else {
-      if (screenfull.isEnabled && document.documentElement) {
-        document.exitFullscreen();
+      if (screenfull.isEnabled) {
+        screenfull.exit();
       }
       setIsFullscreen(false);
     }
   };
 
   const handleFullScreenChange = (event) => {
-    if (document.fullscreenElement) {
+    if (screenfull.isFullscreen) {
       setIsFullscreen(true);
     } else {
       setIsFullscreen(false);
@@ -91,10 +91,10 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   };
 
   useEffect(() => {
-    document.addEventListener("fullscreenchange", handleFullScreenChange);
+    screenfull.on("change", handleFullScreenChange);
 
     return () => {
-      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+      screenfull.off("change", handleFullScreenChange);
     };
   }, []);
 
