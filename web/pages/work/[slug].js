@@ -10,6 +10,7 @@ import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
 import useInterval from "../../hooks/useInterval";
 import useWindowSize from "../../hooks/useWindowSize";
+import WorkItemTile from "../../components/work-item-tile";
 
 const workItemQuery = groq`
 *[_type == "workItem" && slug.current == $slug][0]{
@@ -48,7 +49,7 @@ aspect-w-15	aspect-h-15
 aspect-w-16	aspect-h-16
 */
 
-const WorkItem = ({ workItem = {} }) => {
+const WorkItem = ({ workItem = {}, workItems = [] }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -138,7 +139,7 @@ const WorkItem = ({ workItem = {} }) => {
         {video_id ? (
           <div className={`${isFullscreen ? "" : "container"} mx-auto`}>
             <div
-              className={`relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
+              className={`my-12 lg:my-0 relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
                 showVideo ? `opacity-100` : `opacity-0`
               }`}
             >
@@ -184,7 +185,7 @@ const WorkItem = ({ workItem = {} }) => {
             </div>
 
             {isDesktop ? (
-              <div className="container mx-auto mt-3 flex space-x-4">
+              <div className="container mx-auto mt-3 flex space-x-8">
                 <button
                   className="relative text-4xl w-8 h-8"
                   onClick={() => setVideoPlaying(!videoPlaying)}
@@ -201,7 +202,7 @@ const WorkItem = ({ workItem = {} }) => {
                     } absolute inset-0 transition-all duration-500`}
                   />
                 </button>
-                <button
+                {/* <button
                   className="text-4xl"
                   onClick={() => {
                     player.current.seekTo(0);
@@ -210,7 +211,7 @@ const WorkItem = ({ workItem = {} }) => {
                   title="Start over"
                 >
                   <FiSkipBack />
-                </button>
+                </button> */}
                 <div
                   className="relative w-full border-2 border-black rounded"
                   onClick={(e) => {
@@ -266,10 +267,12 @@ const WorkItem = ({ workItem = {} }) => {
         <div className="container px-4 md:px-0 mx-auto mt-4">
           <div className="flex justify-start items-center">
             <h1 className="text-2xl md:text-2xl lg:text-4xl uppercase flex space-x-4 md:space-x-8 text-left py-4">
-              <span className="font-extrabold">
+              <span className="font-extrabold tracking-wide">
                 {clientName ? `${clientName}` : ""}
               </span>
-              <span className="font-outline">{title ? `${title}` : ""}</span>
+              <span className="font-outline tracking-wide">
+                {title ? `${title}` : ""}
+              </span>
             </h1>
           </div>
 
@@ -309,6 +312,16 @@ const WorkItem = ({ workItem = {} }) => {
           </div>
         </div>
       </article>
+      <aside className="hidden lg:block container mx-auto border-t mt-12 pt-12">
+        <h3 className="font-outline uppercase text-3xl py-8 tracking-wider px-4 lg:px-0">
+          Work
+        </h3>
+        <div className="mx-auto lg:grid lg:grid-cols-3">
+          {workItems.map((workItem, index) => {
+            return <WorkItemTile workItem={workItem} key={index} />;
+          })}
+        </div>
+      </aside>
     </Layout>
   );
 };
@@ -337,8 +350,21 @@ export async function getStaticProps({ params }) {
   const { slug = "" } = params;
   try {
     const workItem = await getClient().fetch(workItemQuery, { slug });
+    const workItems = await getClient().fetch(
+      groq`
+      *[_type == "workItem"][!(_id in path('drafts.**'))]|order(order asc){
+        _id,
+        slug,
+        clientName,
+        title,
+        poster,
+        "shortClipMp4URL": shortClipMp4.asset->url,
+        "shortClipOgvURL": shortClipOgv.asset->url,
+      }
+    `
+    );
     return {
-      props: { workItem },
+      props: { workItem, workItems },
     };
   } catch (error) {
     return {
