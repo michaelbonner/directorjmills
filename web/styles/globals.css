@@ -62,3 +62,7 @@ body {
     transform: translate3d(-33%, 0, 0);
   }
 }
+
+.bpd-play-icon polygon {
+  stroke: #fff;
+}

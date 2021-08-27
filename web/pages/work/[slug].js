@@ -174,9 +174,11 @@ const WorkItem = ({ workItem = {} }) => {
                 onClick={() => setVideoPlaying(!videoPlaying)}
               >
                 <GrPlay
-                  className={`text-7xl text-white transition-all duration-500 ${
+                  className={`bpd-play-icon transition-all duration-500 ${
                     videoPlaying ? "opacity-0" : "opacity-100"
                   }`}
+                  color="#ffffff"
+                  size="4rem"
                 />
               </div>
             </div>
