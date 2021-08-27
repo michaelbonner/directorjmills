@@ -68,9 +68,10 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   }, [size.width]);
 
   const toggleFullScreen = (onOff) => {
+    const element = document.querySelector(".bpd-player-container");
     if (onOff) {
       if (screenfull.isEnabled) {
-        screenfull.request();
+        screenfull.request(element);
       }
       setIsFullscreen(true);
     } else {
@@ -137,7 +138,11 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
           isFullscreen ? "absolute" : "hidden"
         } bg-white inset-0 z-10`}
       ></div>
-      <article className="relative z-20">
+      <article
+        className={`bpd-player-container relative z-20 ${
+          isFullscreen ? "h-screen pt-12" : ""
+        }`}
+      >
         {video_id ? (
           <div className={`${isFullscreen ? "" : "container"} mx-auto`}>
             <div

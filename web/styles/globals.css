@@ -66,3 +66,13 @@ body {
 .bpd-play-icon polygon {
   stroke: #fff;
 }
+
+.bpd-player-container:fullscreen {
+  background-color: rgb(255, 255, 255);
+}
+.bpd-player-container:-webkit-full-screen {
+  background-color: rgb(255, 255, 255);
+}
+.bpd-player-container:-moz-full-screen {
+  background-color: rgb(255, 255, 255);
+}
