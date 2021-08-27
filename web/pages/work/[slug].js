@@ -2,14 +2,14 @@
 import groq from "groq";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import { HiChevronDown, HiPlay, HiPause, HiLogin } from "react-icons/hi";
+import { HiChevronDown } from "react-icons/hi";
+import { GrContract, GrExpand, GrPause, GrPlay } from "react-icons/gr";
+import { FiSkipBack } from "react-icons/fi";
 import Layout from "../../components/layout";
 import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
-
-const BackgroundFallback = ({ image }) => {
-  return <img alt="Background" className="w-full h-full" src={image} />;
-};
+import useInterval from "../../hooks/useInterval";
+import useWindowSize from "../../hooks/useWindowSize";
 
 const workItemQuery = groq`
 *[_type == "workItem" && slug.current == $slug][0]{
@@ -53,6 +53,62 @@ const WorkItem = ({ workItem = {} }) => {
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const player = useRef(null);
+  const scrubber = useRef(null);
+  const [scrubberWidth, setScrubberWidth] = useState(0);
+  const [scrubberPosition, setScrubberPosition] = useState(0);
+  const [totalPlaySeconds, setTotalPlaySeconds] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
+  const size = useWindowSize();
+
+  useEffect(() => {
+    setIsDesktop(size.width >= 1024);
+  }, [size.width]);
+
+  const toggleFullScreen = (onOff) => {
+    if (onOff) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      if (document.documentElement) {
+        document.exitFullscreen();
+      }
+      setIsFullscreen(false);
+    }
+  };
+
+  const handleFullScreenChange = (event) => {
+    console.log("event", event);
+    if (document.fullscreenElement) {
+      setIsFullscreen(true);
+    } else {
+      setIsFullscreen(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("fullscreenchange", handleFullScreenChange);
+
+    return () => {
+      document.removeEventListener("fullscreenchange", handleFullScreenChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setScrubberWidth(scrubber?.current?.clientWidth || 100);
+    }, 1000);
+  }, [scrubber]);
+
+  useInterval(
+    () => {
+      setScrubberPosition(
+        (player.current.getCurrentTime() / totalPlaySeconds) * scrubberWidth
+      );
+    },
+    isPlaying ? 75 : null
+  );
 
   const {
     clientName = "",
@@ -74,9 +130,14 @@ const WorkItem = ({ workItem = {} }) => {
         workItem.seo_description || `${fullTitle} | Director Jeremy Miller`
       }
     >
-      <article>
+      <div
+        className={`${
+          isFullscreen ? "absolute" : "hidden"
+        } bg-white inset-0 z-10`}
+      ></div>
+      <article className="relative z-20">
         {video_id ? (
-          <div className="container mx-auto">
+          <div className={`${isFullscreen ? "" : "container"} mx-auto`}>
             <div
               className={`relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
                 showVideo ? `opacity-100` : `opacity-0`
@@ -94,11 +155,18 @@ const WorkItem = ({ workItem = {} }) => {
                 playing={videoPlaying}
                 onReady={() => {
                   setTimeout(() => {
+                    setTotalPlaySeconds(player.current.getDuration());
                     setShowVideo(true);
                   }, [500]);
                 }}
                 onEnded={() => {
                   setVideoPlaying(false);
+                }}
+                onPlay={async () => {
+                  setIsPlaying(true);
+                }}
+                onPause={() => {
+                  setIsPlaying(false);
                 }}
                 ref={player}
               ></ReactPlayer>
@@ -106,38 +174,79 @@ const WorkItem = ({ workItem = {} }) => {
                 className="absolute inset-0 bg-transparent flex items-center justify-center"
                 onClick={() => setVideoPlaying(!videoPlaying)}
               >
-                <HiPlay
+                <GrPlay
                   className={`text-7xl text-white transition-all duration-500 ${
                     videoPlaying ? "opacity-0" : "opacity-100"
                   }`}
                 />
               </div>
             </div>
-            <div className="flex space-x-4">
-              <button
-                className="relative text-4xl w-8 h-8"
-                onClick={() => setVideoPlaying(!videoPlaying)}
-                title="Play/Pause"
-              >
-                <HiPause
-                  className={`${
-                    videoPlaying ? "opacity-100" : "opacity-0"
-                  } absolute inset-0 transition-all duration-500`}
-                />
-                <HiPlay
-                  className={`${
-                    videoPlaying ? "opacity-0" : "opacity-100"
-                  } absolute inset-0 transition-all duration-500`}
-                />
-              </button>
-              <button
-                className="text-4xl"
-                onClick={() => player.current.seekTo(0)}
-                title="Start over"
-              >
-                <HiLogin />
-              </button>
-            </div>
+
+            {isDesktop ? (
+              <div className="container mx-auto mt-3 flex space-x-4">
+                <button
+                  className="relative text-4xl w-8 h-8"
+                  onClick={() => setVideoPlaying(!videoPlaying)}
+                  title="Play/Pause"
+                >
+                  <GrPause
+                    className={`${
+                      videoPlaying ? "opacity-100" : "opacity-0"
+                    } absolute inset-0 transition-all duration-500`}
+                  />
+                  <GrPlay
+                    className={`${
+                      videoPlaying ? "opacity-0" : "opacity-100"
+                    } absolute inset-0 transition-all duration-500`}
+                  />
+                </button>
+                <button
+                  className="text-4xl"
+                  onClick={() => {
+                    player.current.seekTo(0);
+                    setScrubberPosition(0);
+                  }}
+                  title="Start over"
+                >
+                  <FiSkipBack />
+                </button>
+                <div
+                  className="relative w-full border-2 border-black rounded"
+                  onClick={(e) => {
+                    const scrubberBoundingClientRect =
+                      scrubber.current.getBoundingClientRect();
+
+                    const zeroBasedClickPosition =
+                      e.clientX - scrubberBoundingClientRect.left;
+
+                    const xPercentageClicked =
+                      zeroBasedClickPosition / scrubber.current.clientWidth;
+
+                    player.current.seekTo(xPercentageClicked, "fraction");
+                    setScrubberPosition(xPercentageClicked * scrubberWidth);
+                  }}
+                  ref={scrubber}
+                >
+                  <div
+                    className="h-full w-1 bg-gray-500 absolute"
+                    style={{
+                      transform: `translate3d(${scrubberPosition}px,0, 0)`,
+                    }}
+                  ></div>
+                </div>
+                <div className="text-2xl flex items-center">
+                  {isFullscreen ? (
+                    <button onClick={() => toggleFullScreen(false)}>
+                      <GrContract />
+                    </button>
+                  ) : (
+                    <button onClick={() => toggleFullScreen(true)}>
+                      <GrExpand />
+                    </button>
+                  )}
+                </div>
+              </div>
+            ) : null}
           </div>
         ) : (
           <div className="container mx-auto">
