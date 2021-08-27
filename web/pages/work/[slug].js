@@ -91,11 +91,13 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   };
 
   useEffect(() => {
-    screenfull.on("change", handleFullScreenChange);
+    if (screenfull.isAvailable) {
+      screenfull.on("change", handleFullScreenChange);
 
-    return () => {
-      screenfull.off("change", handleFullScreenChange);
-    };
+      return () => {
+        screenfull.off("change", handleFullScreenChange);
+      };
+    }
   }, []);
 
   useEffect(() => {
