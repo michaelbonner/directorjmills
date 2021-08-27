@@ -5,9 +5,10 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 
 // We import object and document schemas
 import blockContent from "./blockContent";
-import workItem from "./workItem";
 import aboutPage from "./aboutPage";
 import homePage from "./homePage";
+import workItem from "./workItem";
+import workPage from "./workPage";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -18,9 +19,10 @@ export default createSchema({
   types: schemaTypes.concat([
     // The following are document types which will appear
     // in the studio.
-    workItem,
-    aboutPage,
     homePage,
+    aboutPage,
+    workPage,
+    workItem,
     blockContent,
   ]),
 });
