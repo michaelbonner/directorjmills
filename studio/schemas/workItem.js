@@ -52,9 +52,6 @@ export default {
       name: "shortClipOgv",
       title: "Short hover clip - ogv",
       type: "file",
-      options: {
-        accept: "video/ogg",
-      },
     },
     {
       name: "video_id",
