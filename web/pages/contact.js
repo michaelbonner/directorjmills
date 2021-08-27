@@ -14,7 +14,7 @@ function Home({ about }) {
       <div className="max-w-5xl mx-auto px-4 lg:px-0">
         <div className="relative border-2 border-black py-8 px-7 max-w-xs mx-auto w-full">
           <Image
-            src={urlForSanitySource(about.photo).url()}
+            src={urlForSanitySource(about.photo).width(500).url()}
             alt="Jeremy Miller Headshot"
             width="500"
             height="621"

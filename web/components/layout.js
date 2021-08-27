@@ -64,7 +64,7 @@ const Layout = ({
     if ((heroImageUrl || heroVideoId) && isDesktop) {
       setShowHero(true);
       setHeaderStyles({
-        backgroundImage: `url(${urlForSanitySource(heroImageUrl)})`,
+        backgroundImage: `url(${urlForSanitySource(heroImageUrl).width(1400)})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",
