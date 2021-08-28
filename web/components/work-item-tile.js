@@ -47,10 +47,10 @@ const WorkItemTile = ({ workItem }) => {
           </video>
         )}
         <div className="z-10 text-center">
-          <h2 className="uppercase font-extrabold text-3xl lg:text-xl">
+          <h2 className="uppercase font-extrabold text-3xl lg:text-2xl">
             {workItem.clientName}
           </h2>
-          <h3 className="uppercase font-outline text-2xl lg:text-lg">
+          <h3 className="uppercase font-outline text-2xl lg:text-xl">
             {workItem.title}
           </h3>
         </div>
