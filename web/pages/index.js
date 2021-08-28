@@ -1,13 +1,12 @@
 import Layout from "../components/layout";
 import groq from "groq";
 import { getClient } from "../lib/sanity";
-import urlForSanitySource from "../lib/urlForSanitySource";
-import Link from "next/link";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import useWindowSize from "../hooks/useWindowSize";
 import WorkItemTile from "../components/work-item-tile";
 
-function Home({ homePage, workItems }) {
+function Home({ homePage }) {
+  const { workItems } = homePage;
   const [isDesktop, setIsDesktop] = useState(false);
   const size = useWindowSize();
 
@@ -40,12 +39,7 @@ export async function getStaticProps() {
     seo_description,
     poster,
     video_id,
-  }
-  `
-  );
-  const workItems = await getClient().fetch(
-    groq`
-    *[_type == "workItem"][0..5][!(_id in path('drafts.**'))]|order(order asc){
+    workItems[]->{
       _id,
       slug,
       clientName,
@@ -54,12 +48,12 @@ export async function getStaticProps() {
       "shortClipMp4URL": shortClipMp4.asset->url,
       "shortClipOgvURL": shortClipOgv.asset->url,
     }
+  }
   `
   );
   return {
     props: {
       homePage,
-      workItems,
     },
   };
 }
