@@ -22,7 +22,7 @@ function Home({ homePage }) {
       heroVideoId={homePage.video_id}
       isDesktop={isDesktop}
     >
-      <div className="mx-auto lg:grid lg:grid-cols-3">
+      <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-2 px-2 pt-2">
         {workItems.map((workItem, index) => {
           return <WorkItemTile workItem={workItem} key={index} />;
         })}
