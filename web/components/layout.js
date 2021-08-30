@@ -78,7 +78,7 @@ const Layout = ({
   useEffect(() => {
     setTimeout(() => {
       setVideoPlaying(true);
-    }, 1000);
+    }, 1500);
   }, []);
 
   return (
