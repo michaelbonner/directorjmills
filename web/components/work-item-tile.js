@@ -30,6 +30,11 @@ const WorkItemTile = ({ workItem }) => {
           setIsHovered(true);
         }}
         onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={() => {
+          setHasHovered(true);
+          setIsHovered(true);
+        }}
+        onTouchEnd={() => setIsHovered(false)}
       >
         {hasHovered && workItem.shortClipMp4URL && workItem.shortClipOgvURL && (
           <video
