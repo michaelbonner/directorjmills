@@ -2,7 +2,7 @@ import Link from "next/link";
 import { useLayoutEffect, useState } from "react";
 import urlForSanitySource from "../lib/urlForSanitySource";
 
-const WorkItemTile = ({ workItem }) => {
+const WorkItemTile = ({ workItem, index, hideAfterCount = 999 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasHovered, setHasHovered] = useState(false);
 
@@ -15,7 +15,9 @@ const WorkItemTile = ({ workItem }) => {
   return (
     <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
       <a
-        className="relative text-white flex flex-col items-center justify-center space-y-2 lg:space-y-0 bpd-project-tile"
+        className={`${
+          index >= hideAfterCount ? `lg:hidden` : null
+        } relative text-white flex flex-col items-center justify-center space-y-2 lg:space-y-0 bpd-project-tile`}
         key={workItem._id}
         style={{
           backgroundImage: workItem.poster

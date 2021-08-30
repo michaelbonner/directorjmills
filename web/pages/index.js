@@ -24,7 +24,14 @@ function Home({ homePage }) {
     >
       <div className="mx-auto lg:grid lg:grid-cols-3">
         {workItems.map((workItem, index) => {
-          return <WorkItemTile workItem={workItem} key={index} />;
+          return (
+            <WorkItemTile
+              workItem={workItem}
+              key={index}
+              index={index}
+              hideAfterCount={6}
+            />
+          );
         })}
       </div>
     </Layout>
