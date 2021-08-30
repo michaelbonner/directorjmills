@@ -177,7 +177,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
               <ReactPlayer
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen={true}
-                controls={false}
+                controls={isIos}
                 frameBorder="0"
                 height={`100%`}
                 title={fullTitle}
@@ -201,16 +201,18 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 }}
                 ref={player}
               ></ReactPlayer>
-              <button
-                className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
-                onClick={() => setVideoPlaying(!videoPlaying)}
-              >
-                <GrPlay
-                  className={`bpd-play-icon transition-all duration-500 ${
-                    videoPlaying ? "opacity-0" : "opacity-100"
-                  }`}
-                />
-              </button>
+              {!isIos && (
+                <button
+                  className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
+                  onClick={() => setVideoPlaying(!videoPlaying)}
+                >
+                  <GrPlay
+                    className={`bpd-play-icon transition-all duration-500 ${
+                      videoPlaying ? "opacity-0" : "opacity-100"
+                    }`}
+                  />
+                </button>
+              )}
             </div>
 
             {!isIos ? (
