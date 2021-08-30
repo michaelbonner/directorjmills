@@ -214,7 +214,7 @@ const Layout = ({
       </nav>
 
       <header
-        className={`relative bg-gradient-to-b from-gray-400 to-white via-gray-100 bg-opacity-25`}
+        className={`relative lg:bg-gradient-to-b from-gray-400 to-white via-gray-100 lg:bg-opacity-25`}
         style={headerStyles}
       >
         {isDesktop && heroVideoId && (
