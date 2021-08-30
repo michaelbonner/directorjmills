@@ -75,8 +75,18 @@ const Layout = ({
     }
   }, [heroVideoId, heroImageUrl, isDesktop]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setVideoPlaying(true);
+    }, 1000);
+  }, []);
+
   return (
-    <div>
+    <div
+      className={`${isDesktop && heroVideoId ? "opacity-0" : null} ${
+        isDesktop && heroVideoId && videoPlaying ? "bpd-fade-in" : null
+      }`}
+    >
       <Head>
         <title>{title || "Director Jeremy Miller"}</title>
         <link rel="stylesheet" href="https://use.typekit.net/apl0yxr.css" />
@@ -203,7 +213,10 @@ const Layout = ({
         </Link>
       </nav>
 
-      <header className="relative" style={headerStyles}>
+      <header
+        className={`relative bg-gradient-to-b from-gray-400 to-white via-gray-100 bg-opacity-25`}
+        style={headerStyles}
+      >
         {isDesktop && heroVideoId && (
           <div
             className={`bpd-hero-foreground absolute z-0 h-full w-full inset-0 ${
