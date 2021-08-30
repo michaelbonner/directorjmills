@@ -233,17 +233,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                     } absolute inset-0 transition-all duration-500`}
                   />
                 </button>
-                {/* <button
-                  className="text-4xl"
-                  onClick={() => {
-                    player.current.seekTo(0);
-                    setScrubberPosition(0);
-                  }}
-                  title="Start over"
-                >
-                  <FiSkipBack />
-                </button> */}
-                <div
+                <button
                   className="relative w-full border-2 border-black rounded"
                   onClick={(e) => {
                     const scrubberBoundingClientRect =
@@ -261,12 +251,12 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                   ref={scrubber}
                 >
                   <div
-                    className="h-full w-1 bg-gray-500 absolute"
+                    className="h-full w-1 bg-gray-500 absolute top-0"
                     style={{
                       transform: `translate3d(${scrubberPosition}px,0, 0)`,
                     }}
                   ></div>
-                </div>
+                </button>
                 <div className="text-2xl flex items-center">
                   {isFullscreen ? (
                     <button onClick={() => toggleFullScreen(false)}>
