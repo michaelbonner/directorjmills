@@ -183,7 +183,7 @@ const Layout = ({
               !hoveredMenuItem || hoveredMenuItem === "/work"
                 ? "text-black"
                 : "text-gray-800"
-            } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
+            } hidden lg:inline-block font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
             onMouseEnter={() => setHoveredMenuItem("/work")}
             onMouseLeave={() => setHoveredMenuItem("")}
           >

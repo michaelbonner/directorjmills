@@ -60,9 +60,8 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   const [totalPlaySeconds, setTotalPlaySeconds] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isDesktop, setIsDesktop] = useState(false);
-  const size = useWindowSize();
   const [isIos, setIsIos] = useState(false);
+  const [isIpad, setIsIpad] = useState(false);
 
   const checkIfIos = (navigator) => {
     return (
@@ -79,9 +78,13 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     );
   };
 
-  useEffect(() => {
-    setIsDesktop(size.width >= 1024);
-  }, [size.width]);
+  const checkIfIpad = (navigator) => {
+    return (
+      !["iPhone", "iPod"].includes(navigator.platform) &&
+      navigator.userAgent.includes("Mac") &&
+      "ontouchend" in document
+    );
+  };
 
   const toggleFullScreen = (onOff) => {
     const element = document.querySelector(".bpd-player-container");
@@ -99,7 +102,6 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   };
 
   const handleFullScreenChange = (event) => {
-    console.log("event", event);
     if (screenfull.isFullscreen) {
       setIsFullscreen(true);
     } else {
@@ -137,6 +139,9 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   useLayoutEffect(() => {
     if (checkIfIos(window.navigator)) {
       setIsIos(true);
+    }
+    if (checkIfIpad(window.navigator)) {
+      setIsIpad(true);
     }
   }, []);
 
@@ -177,7 +182,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
               <ReactPlayer
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen={true}
-                controls={isIos}
+                controls={isIpad}
                 frameBorder="0"
                 height={`100%`}
                 title={fullTitle}
@@ -201,7 +206,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 }}
                 ref={player}
               ></ReactPlayer>
-              {!isIos && (
+              {!isIpad && (
                 <button
                   className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
                   onClick={() => setVideoPlaying(!videoPlaying)}
