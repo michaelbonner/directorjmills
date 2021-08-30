@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import groq from "groq";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { HiChevronDown } from "react-icons/hi";
 import { GrContract, GrExpand, GrPause, GrPlay } from "react-icons/gr";
@@ -62,6 +62,22 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
   const size = useWindowSize();
+  const [isIos, setIsIos] = useState(false);
+
+  const checkIfIos = (navigator) => {
+    return (
+      [
+        "iPad Simulator",
+        "iPhone Simulator",
+        "iPod Simulator",
+        "iPad",
+        "iPhone",
+        "iPod",
+      ].includes(navigator.platform) ||
+      // iPad on iOS 13 detection
+      (navigator.userAgent.includes("Mac") && "ontouchend" in document)
+    );
+  };
 
   useEffect(() => {
     setIsDesktop(size.width >= 1024);
@@ -117,6 +133,12 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     },
     isPlaying ? 75 : null
   );
+
+  useLayoutEffect(() => {
+    if (checkIfIos(window.navigator)) {
+      setIsIos(true);
+    }
+  }, []);
 
   const {
     clientName = "",
@@ -191,7 +213,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
               </button>
             </div>
 
-            {isDesktop ? (
+            {!isIos ? (
               <div className="container mx-auto mt-3 flex space-x-8">
                 <button
                   className="relative text-4xl w-8 h-8"
