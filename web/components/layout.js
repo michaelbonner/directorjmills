@@ -124,6 +124,10 @@ const Layout = ({
           content="https://directorjmills.vercel.app/og-image.jpg"
         />
         <meta name="description" content={description} />
+        <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin />
+        <link rel="preconnect" href="https://player.vimeo.com" crossOrigin />
+        <link rel="preconnect" href="https://f.vimeocdn.com" crossOrigin />
+        <link rel="preconnect" href="https://i.vimeocdn.com" crossOrigin />
       </Head>
 
       <div className="absolute w-full top-12 lg:top-16">
