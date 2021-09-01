@@ -344,7 +344,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
         <h3 className="font-outline uppercase text-3xl py-8 tracking-wider px-4 lg:px-0">
           Work
         </h3>
-        <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-2">
+        <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-1">
           {workItems.map((workItem, index) => {
             return <WorkItemTile workItem={workItem} key={index} />;
           })}
