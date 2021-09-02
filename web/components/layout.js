@@ -300,7 +300,7 @@ const Layout = ({
           </div>
         </div>
       </header>
-      <main>{children}</main>
+      <main className="relative z-10 bg-white w-full">{children}</main>
       <footer className="py-8 text-center">
         &copy; Jeremy Miller {new Date().getFullYear()}
       </footer>

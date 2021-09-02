@@ -6,7 +6,7 @@ import WorkItemTile from "../../components/work-item-tile";
 function Work({ workPage, workItems }) {
   return (
     <Layout title={workPage.seo_title} description={workPage.seo_description}>
-      <div className="mx-auto lg:grid lg:grid-cols-3">
+      <div className="mx-1 grid grid-cols-1 lg:grid-cols-3 gap-1">
         {workItems.map((workItem, index) => {
           return <WorkItemTile workItem={workItem} key={index} />;
         })}
