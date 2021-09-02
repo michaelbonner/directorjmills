@@ -1,7 +1,8 @@
-import Layout from "../components/layout";
 import groq from "groq";
-import { getClient } from "../lib/sanity";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import Layout from "../components/layout";
+import { getClient } from "../lib/sanity";
 import useWindowSize from "../hooks/useWindowSize";
 import WorkItemTile from "../components/work-item-tile";
 
@@ -33,6 +34,11 @@ function Home({ homePage }) {
             />
           );
         })}
+      </div>
+      <div className="container mx-auto text-center py-8">
+        <Link href="/work">
+          <a className="font-bold underline uppercase">See All Work</a>
+        </Link>
       </div>
     </Layout>
   );
