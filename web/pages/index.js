@@ -35,11 +35,6 @@ function Home({ homePage }) {
           );
         })}
       </div>
-      <div className="container mx-auto text-center py-8">
-        <Link href="/work">
-          <a className="font-bold underline uppercase">See All Work</a>
-        </Link>
-      </div>
     </Layout>
   );
 }

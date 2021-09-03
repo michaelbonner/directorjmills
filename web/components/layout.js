@@ -301,7 +301,18 @@ const Layout = ({
         </div>
       </header>
       <main className="relative z-10 bg-white w-full">{children}</main>
-      <footer className="py-8 text-center">
+      <footer className="relative z-10 py-8 text-center">
+        <nav className="container mx-auto flex space-x-4 justify-center py-8">
+          <Link href="/">
+            <a className="font-bold underline uppercase">Home</a>
+          </Link>
+          <Link href="/work">
+            <a className="font-bold underline uppercase">Work</a>
+          </Link>
+          <Link href="/contact">
+            <a className="font-bold underline uppercase">Contact</a>
+          </Link>
+        </nav>
         &copy; Jeremy Miller {new Date().getFullYear()}
       </footer>
     </div>
