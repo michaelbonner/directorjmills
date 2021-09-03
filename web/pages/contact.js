@@ -8,10 +8,7 @@ import urlForSanitySource from "../lib/urlForSanitySource";
 
 function Home({ about }) {
   return (
-    <Layout
-      title="Contact Jeremy Miller"
-      description="Get in touch with Jeremy Miller"
-    >
+    <Layout title={about.seo_title} description={about.seo_description}>
       <div className="max-w-5xl mx-auto px-4 lg:px-0">
         <div className="relative border-2 border-black py-8 px-7 max-w-xs mx-auto w-full">
           <img
