@@ -2,7 +2,7 @@ import { MdPerson as icon } from "react-icons/md";
 
 export default {
   name: "aboutPage",
-  title: "About Page",
+  title: "Contact Page",
   type: "document",
   icon,
   fields: [
