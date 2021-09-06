@@ -8,7 +8,6 @@ import Layout from "../../components/layout";
 import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
 import useInterval from "../../hooks/useInterval";
-import useWindowSize from "../../hooks/useWindowSize";
 import WorkItemTile from "../../components/work-item-tile";
 import screenfull from "screenfull";
 
