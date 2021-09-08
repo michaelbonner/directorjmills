@@ -57,6 +57,8 @@ export async function getStaticProps() {
             bio,
             representation,
             notableAwards,
+            seo_title,
+            seo_description
           }
         `),
     },
