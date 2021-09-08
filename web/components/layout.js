@@ -307,7 +307,9 @@ const Layout = ({
             <a className="font-bold underline uppercase">Home</a>
           </Link>
           <Link href="/work">
-            <a className="font-bold underline uppercase">Work</a>
+            <a className="hidden lg:inline-block font-bold underline uppercase">
+              Work
+            </a>
           </Link>
           <Link href="/contact">
             <a className="font-bold underline uppercase">Contact</a>
