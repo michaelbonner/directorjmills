@@ -121,7 +121,7 @@ const Layout = ({
         <meta property="og:description" content={description} />
         <meta
           property="og:image"
-          content="https://directorjmills.vercel.app/og-image.jpg"
+          content="https://jeremymillerdirector.com/og-image.jpg"
         />
         <meta name="description" content={description} />
         <link rel="preconnect" href="https://cdn.sanity.io" crossOrigin />
