@@ -172,7 +172,11 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
         }`}
       >
         {video_id ? (
-          <div className={`${isFullscreen ? "w-full" : "container"} mx-auto`}>
+          <div
+            className={`${isFullscreen ? "w-full" : "container"}${
+              !showVideo ? " bg-gray-50" : ""
+            } mx-auto transition-all duration-700`}
+          >
             <div
               className={`my-12 lg:my-0 relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
                 showVideo ? `opacity-100` : `opacity-0`
@@ -190,7 +194,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 playing={videoPlaying}
                 onReady={() => {
                   setTimeout(() => {
-                    setTotalPlaySeconds(player.current.getDuration());
+                    setTotalPlaySeconds(player.current?.getDuration() || 0);
                     setShowVideo(true);
                   }, [500]);
                 }}
@@ -220,7 +224,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
             </div>
 
             {!isIos ? (
-              <div className="container mx-auto mt-3 flex space-x-8">
+              <div className="container mx-auto pt-3 flex space-x-8 bg-white">
                 <button
                   className="relative text-4xl w-8 h-8"
                   onClick={() => setVideoPlaying(!videoPlaying)}
