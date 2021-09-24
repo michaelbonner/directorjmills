@@ -1,6 +1,5 @@
 import groq from "groq";
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import Layout from "../components/layout";
 import { getClient } from "../lib/sanity";
 import useWindowSize from "../hooks/useWindowSize";
