@@ -31,8 +31,8 @@ module.exports = {
         permanent: true,
       },
       {
-        source: "/work/VERIZON",
-        destination: "/work/verizon",
+        source: "/work/special-gift",
+        destination: "/work/doterra-special-gift",
         permanent: true,
       },
       {
