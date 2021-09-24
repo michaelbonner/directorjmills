@@ -6,12 +6,6 @@ const WorkItemTile = ({ workItem, index, hideAfterCount = 999 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasHovered, setHasHovered] = useState(false);
 
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      setHasHovered(true);
-    }, 1500);
-  }, []);
-
   return (
     <Link href={`/work/${workItem.slug.current}`} key={workItem._id}>
       <a
