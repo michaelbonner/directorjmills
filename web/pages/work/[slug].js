@@ -360,7 +360,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
 export async function getStaticPaths() {
   const paths = await getClient().fetch(
     `
-    *[_type == "workItem"]{slug}
+    *[_type == "workItem"][!(_id in path('drafts.**'))]{slug}
   `
   );
 
