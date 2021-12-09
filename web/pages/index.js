@@ -40,12 +40,12 @@ function Home({ homePage, workItems }) {
 export async function getStaticProps() {
   const homePage = await getClient().fetch(
     groq`
-  *[_type == "homePage"][0]{
-    seo_title,
-    seo_description,
-    poster,
-    video_id,
-  }
+    *[_type == "homePage"][0]{
+      seo_title,
+      seo_description,
+      poster,
+      video_id,
+    }
   `
   );
   const workItems = await getClient().fetch(
