@@ -5,8 +5,7 @@ import { getClient } from "../lib/sanity";
 import useWindowSize from "../hooks/useWindowSize";
 import WorkItemTile from "../components/work-item-tile";
 
-function Home({ homePage }) {
-  const { workItems } = homePage;
+function Home({ homePage, workItems }) {
   const [isDesktop, setIsDesktop] = useState(false);
   const size = useWindowSize();
 
@@ -46,7 +45,12 @@ export async function getStaticProps() {
     seo_description,
     poster,
     video_id,
-    workItems[]->{
+  }
+  `
+  );
+  const workItems = await getClient().fetch(
+    groq`
+    *[_type == "workItem"][!(_id in path('drafts.**'))]|order(order asc){
       _id,
       slug,
       clientName,
@@ -55,12 +59,12 @@ export async function getStaticProps() {
       "shortClipMp4URL": shortClipMp4.asset->url,
       "shortClipOgvURL": shortClipOgv.asset->url,
     }
-  }
   `
   );
   return {
     props: {
       homePage,
+      workItems,
     },
   };
 }
