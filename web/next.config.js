@@ -6,6 +6,11 @@ module.exports = {
   async redirects() {
     return [
       {
+        source: "/work/back-to-work",
+        destination: "/work/orbit-gum",
+        permanent: true,
+      },
+      {
         source: "/work/webb",
         destination: "/work/webb-who-we-are",
         permanent: true,
