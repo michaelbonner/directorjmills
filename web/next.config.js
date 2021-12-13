@@ -6,7 +6,7 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: "/work/orbit gum",
+        source: "/work/orbit%20gum",
         destination: "/work/orbit-gum",
         permanent: true,
       },
