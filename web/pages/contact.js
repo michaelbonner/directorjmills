@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
+import { PortableText } from "@portabletext/react";
 import groq from "groq";
 import Image from "next/image";
-import BlockContent from "@sanity/block-content-to-react";
 import Layout from "../components/layout";
 import { getClient } from "../lib/sanity";
 import urlForSanitySource from "../lib/urlForSanitySource";
@@ -30,18 +30,15 @@ function Home({ about }) {
             </div>
           </div>
         </div>
-        <BlockContent
-          className="my-16 prose max-w-3xl text-center mx-auto"
-          blocks={about.bio}
-        />
-        <BlockContent
-          className="my-16 prose max-w-3xl text-center mx-auto"
-          blocks={about.representation}
-        />
-        <BlockContent
-          className="my-16 prose max-w-5xl text-center mx-auto"
-          blocks={about.notableAwards}
-        />
+        <div className="my-16 prose max-w-3xl text-center mx-auto">
+          <PortableText value={about.bio} />
+        </div>
+        <div className="my-16 prose max-w-3xl text-center mx-auto">
+          <PortableText value={about.representation} />
+        </div>
+        <div className="my-16 prose max-w-5xl text-center mx-auto">
+          <PortableText value={about.notableAwards} />
+        </div>
       </div>
     </Layout>
   );

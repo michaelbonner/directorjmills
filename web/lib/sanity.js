@@ -1,11 +1,12 @@
+import createImageUrlBuilder from "@sanity/image-url";
 import {
-  groq,
   createClient,
-  createImageUrlBuilder,
+  createCurrentUserHook,
   createPortableTextComponent,
   createPreviewSubscriptionHook,
-  createCurrentUserHook,
 } from "next-sanity";
+
+import { PortableText as PortableTextComponent } from "@portabletext/react";
 
 const config = {
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
@@ -24,12 +25,9 @@ export const urlFor = (source) => createImageUrlBuilder(config).image(source);
 export const usePreviewSubscription = createPreviewSubscriptionHook(config);
 
 // Set up Portable Text serialization
-export const PortableText = createPortableTextComponent({
-  ...config,
-  // Serializers passed to @sanity/block-content-to-react
-  // (https://github.com/sanity-io/block-content-to-react)
-  serializers: {},
-});
+export const PortableText = (props) => (
+  <PortableTextComponent components={{}} {...props} />
+);
 
 // Set up the client for fetching data in the getProps page functions
 export const sanityClient = createClient(config);
