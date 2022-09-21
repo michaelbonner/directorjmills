@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import urlForSanitySource from "../lib/urlForSanitySource";
 import ReactPlayer from "react-player";
+import { menuItems } from "../data/menu-items";
 
 const Layout = ({
   children,
@@ -174,63 +175,29 @@ const Layout = ({
           menuVisible ? "fixed" : "hidden"
         } inset-0 bg-white transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
       >
-        <Link href="/">
-          <a
-            className={`${
-              !hoveredMenuItem || hoveredMenuItem === "/"
-                ? "text-black"
-                : "text-gray-800"
-            } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
-            onMouseEnter={() => setHoveredMenuItem("/")}
-            onMouseLeave={() => setHoveredMenuItem("")}
-          >
-            <span className="relative z-10">Home</span>
-            <span
+        {menuItems.map((item) => (
+          <Link key={item.href} href={item.href}>
+            <a
               className={`${
-                hoveredMenuItem === "/" ? "w-full" : "w-0"
-              } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
-              style={{ bottom: "calc(50% - 1px)", height: "2px" }}
-            ></span>
-          </a>
-        </Link>
-        <Link href="/work">
-          <a
-            className={`${
-              !hoveredMenuItem || hoveredMenuItem === "/work"
-                ? "text-black"
-                : "text-gray-800"
-            } hidden lg:inline-block font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
-            onMouseEnter={() => setHoveredMenuItem("/work")}
-            onMouseLeave={() => setHoveredMenuItem("")}
-          >
-            <span className="relative z-10">Work</span>
-            <span
-              className={`${
-                hoveredMenuItem === "/work" ? "w-full" : "w-0"
-              } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
-              style={{ bottom: "calc(50% - 1px)", height: "2px" }}
-            ></span>
-          </a>
-        </Link>
-        <Link href="/contact">
-          <a
-            className={`${
-              !hoveredMenuItem || hoveredMenuItem === "/contact"
-                ? "text-black"
-                : "text-gray-800"
-            } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
-            onMouseEnter={() => setHoveredMenuItem("/contact")}
-            onMouseLeave={() => setHoveredMenuItem("")}
-          >
-            <span className="relative z-10">Contact</span>
-            <span
-              className={`${
-                hoveredMenuItem === "/contact" ? "w-full" : "w-0"
-              } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
-              style={{ bottom: "calc(50% - 1px)", height: "2px" }}
-            ></span>
-          </a>
-        </Link>
+                !hoveredMenuItem || hoveredMenuItem === item.href
+                  ? "text-black"
+                  : "text-gray-800"
+              } ${
+                item.hideOnMobile && "hidden lg:inline-block"
+              } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
+              onMouseEnter={() => setHoveredMenuItem(item.href)}
+              onMouseLeave={() => setHoveredMenuItem("")}
+            >
+              <span className="relative z-10">{item.title}</span>
+              <span
+                className={`${
+                  hoveredMenuItem === item.href ? "w-full" : "w-0"
+                } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
+                style={{ bottom: "calc(50% - 1px)", height: "2px" }}
+              ></span>
+            </a>
+          </Link>
+        ))}
       </nav>
 
       <header
@@ -309,6 +276,7 @@ const Layout = ({
                       showHero ? `/images/menu-white.svg` : `/images/menu.svg`
                     }
                     layout="fill"
+                    priority={true}
                   />
                 </span>
               </button>

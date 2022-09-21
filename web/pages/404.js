@@ -1,4 +1,6 @@
+import Link from "next/link";
 import Layout from "../components/layout";
+import { menuItems } from "../data/menu-items";
 
 export default function Custom404() {
   return (
@@ -8,7 +10,18 @@ export default function Custom404() {
     >
       <div className="prose w-full lg:max-w-lg mx-4 my-8 lg:my-24 py-8 px-12 lg:mx-auto border-2 border-black text-center">
         <h1>404 - Page Not Found</h1>
-        <p>Use the site navigation to find the page you were looking for</p>
+        <p>
+          Sorry, we can&apos;t find that page.
+          <br />
+          Try one of these pages instead.
+        </p>
+        <div className="flex flex-wrap gap-4 justify-center">
+          {menuItems.map((item) => (
+            <Link key={item.title} href={item.href}>
+              <a className="block mt-4 text-xl font-bold">{item.title}</a>
+            </Link>
+          ))}
+        </div>
       </div>
     </Layout>
   );
