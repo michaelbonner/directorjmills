@@ -1,7 +1,12 @@
 module.exports = {
+  swcMinify: true,
   reactStrictMode: true,
   images: {
     domains: ["cdn.sanity.io"],
+  },
+  i18n: {
+    locales: ["en-US"],
+    defaultLocale: "en-US",
   },
   async redirects() {
     return [
