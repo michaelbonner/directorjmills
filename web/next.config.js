@@ -55,6 +55,11 @@ module.exports = {
         destination: "/work/pattern-accelerate",
         permanent: true,
       },
+      {
+        source: "/category/uncategorized/",
+        destination: "/work",
+        permanent: true,
+      },
     ];
   },
 };
