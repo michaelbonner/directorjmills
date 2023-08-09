@@ -31,11 +31,6 @@ module.exports = {
         permanent: true,
       },
       {
-        source: "/work/UMMC",
-        destination: "/work/ummc-here-in-mississippi",
-        permanent: true,
-      },
-      {
         source: "/work/tesla",
         destination: "/work/tesla-model-x",
         permanent: true,
