@@ -176,26 +176,26 @@ const Layout = ({
         } inset-0 bg-white transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
       >
         {menuItems.map((item) => (
-          <Link key={item.href} href={item.href}>
-            <a
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`${
+              !hoveredMenuItem || hoveredMenuItem === item.href
+                ? "text-black"
+                : "text-gray-800"
+            } ${
+              item.hideOnMobile && "hidden lg:inline-block"
+            } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
+            onMouseEnter={() => setHoveredMenuItem(item.href)}
+            onMouseLeave={() => setHoveredMenuItem("")}
+          >
+            <span className="relative z-10">{item.title}</span>
+            <span
               className={`${
-                !hoveredMenuItem || hoveredMenuItem === item.href
-                  ? "text-black"
-                  : "text-gray-800"
-              } ${
-                item.hideOnMobile && "hidden lg:inline-block"
-              } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
-              onMouseEnter={() => setHoveredMenuItem(item.href)}
-              onMouseLeave={() => setHoveredMenuItem("")}
-            >
-              <span className="relative z-10">{item.title}</span>
-              <span
-                className={`${
-                  hoveredMenuItem === item.href ? "w-full" : "w-0"
-                } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
-                style={{ bottom: "calc(50% - 1px)", height: "2px" }}
-              ></span>
-            </a>
+                hoveredMenuItem === item.href ? "w-full" : "w-0"
+              } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
+              style={{ bottom: "calc(50% - 1px)", height: "2px" }}
+            ></span>
           </Link>
         ))}
       </nav>
@@ -243,18 +243,14 @@ const Layout = ({
                 showHero ? "text-white" : null
               }`}
             >
-              <Link href={`/`}>
-                <a>Director</a>
-              </Link>
+              <Link href={`/`}>Director</Link>
             </p>
             <p
               className={`uppercase font-light text-3xl ${
                 showHero ? "text-white" : null
               }`}
             >
-              <Link href={`/`}>
-                <a>Jeremy Miller</a>
-              </Link>
+              <Link href={`/`}>Jeremy Miller</Link>
             </p>
           </div>
           <div className="absolute right-4 md:right-0 top-12 flex justify-end items-center">
@@ -287,16 +283,17 @@ const Layout = ({
       <main className="relative z-10 bg-white w-full">{children}</main>
       <footer className="relative z-10 py-8 text-center">
         <nav className="container mx-auto flex space-x-4 justify-center py-8">
-          <Link href="/">
-            <a className="font-bold underline uppercase">Home</a>
+          <Link href="/" className="font-bold underline uppercase">
+            Home
           </Link>
-          <Link href="/work">
-            <a className="hidden lg:inline-block font-bold underline uppercase">
-              Work
-            </a>
+          <Link
+            href="/work"
+            className="hidden lg:inline-block font-bold underline uppercase"
+          >
+            Work
           </Link>
-          <Link href="/contact">
-            <a className="font-bold underline uppercase">Contact</a>
+          <Link href="/contact" className="font-bold underline uppercase">
+            Contact
           </Link>
         </nav>
         &copy; Jeremy Miller {new Date().getFullYear()}
