@@ -17,8 +17,12 @@ export default function Custom404() {
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           {menuItems.map((item) => (
-            <Link key={item.title} href={item.href}>
-              <a className="block mt-4 text-xl font-bold">{item.title}</a>
+            <Link
+              key={item.title}
+              href={item.href}
+              className="block mt-4 text-xl font-bold"
+            >
+              {item.title}
             </Link>
           ))}
         </div>
