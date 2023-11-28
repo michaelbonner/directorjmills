@@ -3,7 +3,14 @@ import groq from "groq";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import { HiChevronDown } from "react-icons/hi";
-import { GrContract, GrExpand, GrPause, GrPlay } from "react-icons/gr";
+import {
+  GrContract,
+  GrExpand,
+  GrPause,
+  GrPlay,
+  GrVolume,
+  GrVolumeMute,
+} from "react-icons/gr";
 import Layout from "../../components/layout";
 import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
@@ -30,22 +37,22 @@ const workItemQuery = groq`
 
 /*
 prevent purging of aspect ratio
-aspect-w-1	aspect-h-1
-aspect-w-2	aspect-h-2
-aspect-w-3	aspect-h-3
-aspect-w-4	aspect-h-4
-aspect-w-5	aspect-h-5
-aspect-w-6	aspect-h-6
-aspect-w-7	aspect-h-7
-aspect-w-8	aspect-h-8
-aspect-w-9	aspect-h-9
-aspect-w-10	aspect-h-10
-aspect-w-11	aspect-h-11
-aspect-w-12	aspect-h-12
-aspect-w-13	aspect-h-13
-aspect-w-14	aspect-h-14
-aspect-w-15	aspect-h-15
-aspect-w-16	aspect-h-16
+aspect-w-1  aspect-h-1
+aspect-w-2  aspect-h-2
+aspect-w-3  aspect-h-3
+aspect-w-4  aspect-h-4
+aspect-w-5  aspect-h-5
+aspect-w-6  aspect-h-6
+aspect-w-7  aspect-h-7
+aspect-w-8  aspect-h-8
+aspect-w-9  aspect-h-9
+aspect-w-10 aspect-h-10
+aspect-w-11 aspect-h-11
+aspect-w-12 aspect-h-12
+aspect-w-13 aspect-h-13
+aspect-w-14 aspect-h-14
+aspect-w-15 aspect-h-15
+aspect-w-16 aspect-h-16
 */
 
 const WorkItem = ({ workItem = {}, workItems = [] }) => {
@@ -61,8 +68,9 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isIos, setIsIos] = useState(false);
   const [isIpad, setIsIpad] = useState(false);
+  const [muted, setMuted] = useState(false);
 
-  const checkIfIos = (navigator) => {
+  const checkIfIos = navigator => {
     return (
       [
         "iPad Simulator",
@@ -77,7 +85,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     );
   };
 
-  const checkIfIpad = (navigator) => {
+  const checkIfIpad = navigator => {
     return (
       !["iPhone", "iPod"].includes(navigator.platform) &&
       navigator.userAgent.includes("Mac") &&
@@ -85,7 +93,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     );
   };
 
-  const toggleFullScreen = (onOff) => {
+  const toggleFullScreen = onOff => {
     const element = document.querySelector(".bpd-player-container");
     if (onOff) {
       if (screenfull.isEnabled) {
@@ -100,7 +108,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     }
   };
 
-  const handleFullScreenChange = (event) => {
+  const handleFullScreenChange = event => {
     if (screenfull.isFullscreen) {
       setIsFullscreen(true);
     } else {
@@ -192,6 +200,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 url={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
                 width={`100%`}
                 playing={videoPlaying}
+                muted={muted}
                 onReady={() => {
                   setTimeout(() => {
                     setTotalPlaySeconds(player.current?.getDuration() || 0);
@@ -243,7 +252,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 </button>
                 <button
                   className="relative w-full border-2 border-black rounded"
-                  onClick={(e) => {
+                  onClick={e => {
                     const scrubberBoundingClientRect =
                       scrubber.current.getBoundingClientRect();
 
@@ -265,6 +274,29 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                     }}
                   ></div>
                 </button>
+                <div className="flex items-center gap-x-2 text-2xl md:gap-x-6">
+                  {muted === true ? (
+                    <button
+                      aria-label="Unmute"
+                      className="bpd-white-icon"
+                      onClick={() => {
+                        setMuted(false);
+                      }}
+                    >
+                      <GrVolumeMute />
+                    </button>
+                  ) : (
+                    <button
+                      aria-label="Mute"
+                      className="bpd-white-icon"
+                      onClick={() => {
+                        setMuted(true);
+                      }}
+                    >
+                      <GrVolume />
+                    </button>
+                  )}
+                </div>
                 <div className="text-2xl flex items-center">
                   {isFullscreen ? (
                     <button onClick={() => toggleFullScreen(false)}>
@@ -366,10 +398,10 @@ export async function getStaticPaths() {
 
   return {
     paths: paths
-      .filter((path) => {
+      .filter(path => {
         return path;
       })
-      .map((path) => {
+      .map(path => {
         return { params: { slug: path.slug.current } };
       }),
     fallback: false,
