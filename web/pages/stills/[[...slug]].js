@@ -6,6 +6,7 @@ import { useMemo } from "react";
 import { ClientOnly } from "../../components/client-only";
 import Layout from "../../components/layout";
 import LittleWhiteBar from "../../components/little-white-bar";
+import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
 import { sanityClient } from "../../lib/sanity";
 
 const StillsGallery = dynamic(() =>
@@ -102,9 +103,11 @@ export async function getStaticProps({ params }) {
 
   const stillsPage = await sanityClient.fetch(groq`${queryDocument}`);
 
+  const isStillsPageEnabled = await getIsStillsPageEnabled();
+
   return {
     props: {
-      isStillsPageEnabled: stillsPage.isEnabled,
+      isStillsPageEnabled,
       stillsPage,
     },
   };
