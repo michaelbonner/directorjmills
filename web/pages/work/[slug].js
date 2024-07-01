@@ -1,8 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import groq from "groq";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import ReactPlayer from "react-player";
-import { HiChevronDown } from "react-icons/hi";
+import { useEffect, useRef, useState } from "react";
 import {
   GrContract,
   GrExpand,
@@ -11,14 +9,17 @@ import {
   GrVolume,
   GrVolumeMute,
 } from "react-icons/gr";
+import { HiChevronDown } from "react-icons/hi";
+import ReactPlayer from "react-player";
+import screenfull from "screenfull";
+import { ClientOnly } from "../../components/client-only";
 import Layout from "../../components/layout";
+import WorkItemTile from "../../components/work-item-tile";
+import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
+import useInterval from "../../hooks/useInterval";
+import { useIsomorphicLayoutEffect } from "../../hooks/useIsomorphicLayoutEffect";
 import { getClient } from "../../lib/sanity";
 import urlForSanitySource from "../../lib/urlForSanitySource";
-import useInterval from "../../hooks/useInterval";
-import WorkItemTile from "../../components/work-item-tile";
-import screenfull from "screenfull";
-import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
-import { ClientOnly } from "../../components/client-only";
 
 const workItemQuery = groq`
 *[_type == "workItem" && slug.current == $slug][0]{
@@ -145,7 +146,7 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
     isPlaying ? 75 : null
   );
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (checkIfIos(window.navigator)) {
       setIsIos(true);
     }
