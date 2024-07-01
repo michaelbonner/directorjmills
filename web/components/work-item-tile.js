@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useLayoutEffect, useState } from "react";
+import { useState } from "react";
 import urlForSanitySource from "../lib/urlForSanitySource";
 
 const WorkItemTile = ({ workItem, index, hideAfterCount = 999 }) => {

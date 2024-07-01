@@ -8,5 +8,6 @@ export const ClientOnly = ({ children }) => {
   }, []);
 
   if (!isClient) return null;
+
   return children;
 };
