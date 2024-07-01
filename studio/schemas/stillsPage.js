@@ -71,10 +71,12 @@ export default {
     },
   ],
   preview: {
-    select: {},
+    select: {
+      title: "title",
+    },
     prepare(selection) {
       return {
-        title: `Stills Page`,
+        title: selection.title || "Stills Page",
       };
     },
   },
