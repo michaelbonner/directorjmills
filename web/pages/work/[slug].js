@@ -18,6 +18,7 @@ import useInterval from "../../hooks/useInterval";
 import WorkItemTile from "../../components/work-item-tile";
 import screenfull from "screenfull";
 import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
+import { ClientOnly } from "../../components/client-only";
 
 const workItemQuery = groq`
 *[_type == "workItem" && slug.current == $slug][0]{
@@ -182,137 +183,139 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
         }`}
       >
         {video_id ? (
-          <div
-            className={`${isFullscreen ? "w-full" : "container"}${
-              !showVideo ? " bg-gray-50" : ""
-            } mx-auto transition-all duration-700`}
-          >
+          <ClientOnly>
             <div
-              className={`my-12 lg:my-0 relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
-                showVideo ? `opacity-100` : `opacity-0`
-              }`}
+              className={`${isFullscreen ? "w-full" : "container"}${
+                !showVideo ? " bg-gray-50" : ""
+              } mx-auto transition-all duration-700`}
             >
-              <ReactPlayer
-                allow="autoplay; fullscreen; picture-in-picture"
-                allowFullScreen={true}
-                controls={isIpad}
-                frameBorder="0"
-                height={`100%`}
-                title={fullTitle}
-                url={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
-                width={`100%`}
-                playing={videoPlaying}
-                muted={muted}
-                onReady={() => {
-                  setTimeout(() => {
-                    setTotalPlaySeconds(player.current?.getDuration() || 0);
-                    setShowVideo(true);
-                  }, [500]);
-                }}
-                onEnded={() => {
-                  setVideoPlaying(false);
-                }}
-                onPlay={async () => {
-                  setIsPlaying(true);
-                }}
-                onPause={() => {
-                  setIsPlaying(false);
-                }}
-                ref={player}
-              ></ReactPlayer>
-              {!isIpad && (
-                <button
-                  className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
-                  onClick={() => setVideoPlaying(!videoPlaying)}
-                >
-                  <GrPlay
-                    className={`bpd-play-icon transition-all duration-500 ${
-                      videoPlaying ? "opacity-0" : "opacity-100"
-                    }`}
-                  />
-                </button>
-              )}
-            </div>
-
-            {!isIos ? (
-              <div className="container mx-auto pt-3 flex space-x-8 bg-white">
-                <button
-                  className="relative text-4xl w-8 h-8"
-                  onClick={() => setVideoPlaying(!videoPlaying)}
-                  title="Play/Pause"
-                >
-                  <GrPause
-                    className={`${
-                      videoPlaying ? "opacity-100" : "opacity-0"
-                    } absolute inset-0 transition-all duration-500`}
-                  />
-                  <GrPlay
-                    className={`${
-                      videoPlaying ? "opacity-0" : "opacity-100"
-                    } absolute inset-0 transition-all duration-500`}
-                  />
-                </button>
-                <button
-                  className="relative w-full border-2 border-black rounded"
-                  onClick={(e) => {
-                    const scrubberBoundingClientRect =
-                      scrubber.current.getBoundingClientRect();
-
-                    const zeroBasedClickPosition =
-                      e.clientX - scrubberBoundingClientRect.left;
-
-                    const xPercentageClicked =
-                      zeroBasedClickPosition / scrubber.current.clientWidth;
-
-                    player.current.seekTo(xPercentageClicked, "fraction");
-                    setScrubberPosition(xPercentageClicked * scrubberWidth);
+              <div
+                className={`my-12 lg:my-0 relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
+                  showVideo ? `opacity-100` : `opacity-0`
+                }`}
+              >
+                <ReactPlayer
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  allowFullScreen={true}
+                  controls={isIpad}
+                  frameBorder="0"
+                  height={`100%`}
+                  title={fullTitle}
+                  url={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
+                  width={`100%`}
+                  playing={videoPlaying}
+                  muted={muted}
+                  onReady={() => {
+                    setTimeout(() => {
+                      setTotalPlaySeconds(player.current?.getDuration() || 0);
+                      setShowVideo(true);
+                    }, [500]);
                   }}
-                  ref={scrubber}
-                >
-                  <div
-                    className="h-full w-1 bg-gray-500 absolute top-0"
-                    style={{
-                      transform: `translate3d(${scrubberPosition}px,0, 0)`,
-                    }}
-                  ></div>
-                </button>
-                <div className="flex items-center gap-x-2 text-2xl md:gap-x-6">
-                  {muted === true ? (
-                    <button
-                      aria-label="Unmute"
-                      className="bpd-white-icon"
-                      onClick={() => {
-                        setMuted(false);
-                      }}
-                    >
-                      <GrVolumeMute />
-                    </button>
-                  ) : (
-                    <button
-                      aria-label="Mute"
-                      className="bpd-white-icon"
-                      onClick={() => {
-                        setMuted(true);
-                      }}
-                    >
-                      <GrVolume />
-                    </button>
-                  )}
-                </div>
-                <div className="text-2xl flex items-center">
-                  {isFullscreen ? (
-                    <button onClick={() => toggleFullScreen(false)}>
-                      <GrContract />
-                    </button>
-                  ) : (
-                    <button onClick={() => toggleFullScreen(true)}>
-                      <GrExpand />
-                    </button>
-                  )}
-                </div>
+                  onEnded={() => {
+                    setVideoPlaying(false);
+                  }}
+                  onPlay={async () => {
+                    setIsPlaying(true);
+                  }}
+                  onPause={() => {
+                    setIsPlaying(false);
+                  }}
+                  ref={player}
+                ></ReactPlayer>
+                {!isIpad && (
+                  <button
+                    className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
+                    onClick={() => setVideoPlaying(!videoPlaying)}
+                  >
+                    <GrPlay
+                      className={`bpd-play-icon transition-all duration-500 ${
+                        videoPlaying ? "opacity-0" : "opacity-100"
+                      }`}
+                    />
+                  </button>
+                )}
               </div>
-            ) : null}
-          </div>
+
+              {!isIos ? (
+                <div className="container mx-auto pt-3 flex space-x-8 bg-white">
+                  <button
+                    className="relative text-4xl w-8 h-8"
+                    onClick={() => setVideoPlaying(!videoPlaying)}
+                    title="Play/Pause"
+                  >
+                    <GrPause
+                      className={`${
+                        videoPlaying ? "opacity-100" : "opacity-0"
+                      } absolute inset-0 transition-all duration-500`}
+                    />
+                    <GrPlay
+                      className={`${
+                        videoPlaying ? "opacity-0" : "opacity-100"
+                      } absolute inset-0 transition-all duration-500`}
+                    />
+                  </button>
+                  <button
+                    className="relative w-full border-2 border-black rounded"
+                    onClick={(e) => {
+                      const scrubberBoundingClientRect =
+                        scrubber.current.getBoundingClientRect();
+
+                      const zeroBasedClickPosition =
+                        e.clientX - scrubberBoundingClientRect.left;
+
+                      const xPercentageClicked =
+                        zeroBasedClickPosition / scrubber.current.clientWidth;
+
+                      player.current.seekTo(xPercentageClicked, "fraction");
+                      setScrubberPosition(xPercentageClicked * scrubberWidth);
+                    }}
+                    ref={scrubber}
+                  >
+                    <div
+                      className="h-full w-1 bg-gray-500 absolute top-0"
+                      style={{
+                        transform: `translate3d(${scrubberPosition}px,0, 0)`,
+                      }}
+                    ></div>
+                  </button>
+                  <div className="flex items-center gap-x-2 text-2xl md:gap-x-6">
+                    {muted === true ? (
+                      <button
+                        aria-label="Unmute"
+                        className="bpd-white-icon"
+                        onClick={() => {
+                          setMuted(false);
+                        }}
+                      >
+                        <GrVolumeMute />
+                      </button>
+                    ) : (
+                      <button
+                        aria-label="Mute"
+                        className="bpd-white-icon"
+                        onClick={() => {
+                          setMuted(true);
+                        }}
+                      >
+                        <GrVolume />
+                      </button>
+                    )}
+                  </div>
+                  <div className="text-2xl flex items-center">
+                    {isFullscreen ? (
+                      <button onClick={() => toggleFullScreen(false)}>
+                        <GrContract />
+                      </button>
+                    ) : (
+                      <button onClick={() => toggleFullScreen(true)}>
+                        <GrExpand />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </ClientOnly>
         ) : (
           <div className="container mx-auto">
             <div
