@@ -17,6 +17,7 @@ import urlForSanitySource from "../../lib/urlForSanitySource";
 import useInterval from "../../hooks/useInterval";
 import WorkItemTile from "../../components/work-item-tile";
 import screenfull from "screenfull";
+import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
 
 const workItemQuery = groq`
 *[_type == "workItem" && slug.current == $slug][0]{
@@ -55,7 +56,7 @@ aspect-w-15 aspect-h-15
 aspect-w-16 aspect-h-16
 */
 
-const WorkItem = ({ workItem = {}, workItems = [] }) => {
+const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
   const [showVideo, setShowVideo] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -70,7 +71,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
   const [isIpad, setIsIpad] = useState(false);
   const [muted, setMuted] = useState(false);
 
-  const checkIfIos = navigator => {
+  const checkIfIos = (navigator) => {
     return (
       [
         "iPad Simulator",
@@ -85,7 +86,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     );
   };
 
-  const checkIfIpad = navigator => {
+  const checkIfIpad = (navigator) => {
     return (
       !["iPhone", "iPod"].includes(navigator.platform) &&
       navigator.userAgent.includes("Mac") &&
@@ -93,7 +94,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     );
   };
 
-  const toggleFullScreen = onOff => {
+  const toggleFullScreen = (onOff) => {
     const element = document.querySelector(".bpd-player-container");
     if (onOff) {
       if (screenfull.isEnabled) {
@@ -108,7 +109,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
     }
   };
 
-  const handleFullScreenChange = event => {
+  const handleFullScreenChange = (event) => {
     if (screenfull.isFullscreen) {
       setIsFullscreen(true);
     } else {
@@ -167,10 +168,11 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
 
   return (
     <Layout
-      title={workItem.seo_title || `${fullTitle} | Director Jeremy Miller`}
       description={
         workItem.seo_description || `${fullTitle} | Director Jeremy Miller`
       }
+      isStillsPageEnabled={isStillsPageEnabled}
+      title={workItem.seo_title || `${fullTitle} | Director Jeremy Miller`}
     >
       <article
         className={`bpd-player-container relative z-20 ${
@@ -252,7 +254,7 @@ const WorkItem = ({ workItem = {}, workItems = [] }) => {
                 </button>
                 <button
                   className="relative w-full border-2 border-black rounded"
-                  onClick={e => {
+                  onClick={(e) => {
                     const scrubberBoundingClientRect =
                       scrubber.current.getBoundingClientRect();
 
@@ -398,10 +400,10 @@ export async function getStaticPaths() {
 
   return {
     paths: paths
-      .filter(path => {
+      .filter((path) => {
         return path;
       })
-      .map(path => {
+      .map((path) => {
         return { params: { slug: path.slug.current } };
       }),
     fallback: false,
@@ -431,8 +433,11 @@ export async function getStaticProps({ params }) {
         notFound: true,
       };
     }
+
+    const isStillsPageEnabled = await getIsStillsPageEnabled();
+
     return {
-      props: { workItem, workItems },
+      props: { isStillsPageEnabled, workItem, workItems },
     };
   } catch (error) {
     return {

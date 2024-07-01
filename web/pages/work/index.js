@@ -2,10 +2,15 @@ import Layout from "../../components/layout";
 import groq from "groq";
 import { getClient } from "../../lib/sanity";
 import WorkItemTile from "../../components/work-item-tile";
+import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
 
-function Work({ workPage, workItems }) {
+function Work({ isStillsPageEnabled, workPage, workItems }) {
   return (
-    <Layout title={workPage.seo_title} description={workPage.seo_description}>
+    <Layout
+      isStillsPageEnabled={isStillsPageEnabled}
+      title={workPage.seo_title}
+      description={workPage.seo_description}
+    >
       <div className="mx-1 grid grid-cols-1 lg:grid-cols-3 gap-1">
         {workItems.map((workItem, index) => {
           return <WorkItemTile workItem={workItem} key={index} />;
@@ -39,8 +44,12 @@ export async function getStaticProps() {
     }
   `
   );
+
+  const isStillsPageEnabled = await getIsStillsPageEnabled();
+
   return {
     props: {
+      isStillsPageEnabled,
       workPage,
       workItems,
     },

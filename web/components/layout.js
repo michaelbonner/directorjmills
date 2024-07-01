@@ -6,6 +6,7 @@ import { useRouter } from "next/dist/client/router";
 import urlForSanitySource from "../lib/urlForSanitySource";
 import ReactPlayer from "react-player";
 import { menuItems } from "../data/menu-items";
+import { getMenuItems } from "../functions/getMenuItems";
 
 const Layout = ({
   children,
@@ -14,6 +15,7 @@ const Layout = ({
   heroImageUrl,
   heroVideoId,
   isDesktop,
+  isStillsPageEnabled,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -175,7 +177,7 @@ const Layout = ({
           menuVisible ? "fixed" : "hidden"
         } inset-0 bg-white transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
       >
-        {menuItems.map((item) => (
+        {getMenuItems({ isStillsPageEnabled }).map((item) => (
           <Link
             key={item.href}
             href={item.href}
@@ -292,6 +294,14 @@ const Layout = ({
           >
             Work
           </Link>
+          {isStillsPageEnabled && (
+            <Link
+              href="/stills"
+              className="hidden lg:inline-block font-bold underline uppercase"
+            >
+              Stills
+            </Link>
+          )}
           <Link href="/contact" className="font-bold underline uppercase">
             Contact
           </Link>

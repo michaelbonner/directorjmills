@@ -5,10 +5,15 @@ import Image from "next/image";
 import Layout from "../components/layout";
 import { getClient } from "../lib/sanity";
 import urlForSanitySource from "../lib/urlForSanitySource";
+import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 
-function Home({ about }) {
+function Home({ about, isStillsPageEnabled }) {
   return (
-    <Layout title={about.seo_title} description={about.seo_description}>
+    <Layout
+      title={about.seo_title}
+      description={about.seo_description}
+      isStillsPageEnabled={isStillsPageEnabled}
+    >
       <div className="max-w-5xl mx-auto px-4 lg:px-0">
         <div className="relative border-2 border-black py-8 px-7 max-w-xs mx-auto w-full">
           <img
@@ -45,6 +50,7 @@ function Home({ about }) {
 }
 
 export async function getStaticProps() {
+  const isStillsPageEnabled = await getIsStillsPageEnabled();
   return {
     props: {
       about: await getClient().fetch(groq`
@@ -58,6 +64,7 @@ export async function getStaticProps() {
             seo_description
           }
         `),
+      isStillsPageEnabled,
     },
   };
 }

@@ -4,8 +4,9 @@ import Layout from "../components/layout";
 import { getClient } from "../lib/sanity";
 import useWindowSize from "../hooks/useWindowSize";
 import WorkItemTile from "../components/work-item-tile";
+import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 
-function Home({ homePage, workItems }) {
+function Home({ homePage, isStillsPageEnabled, workItems }) {
   const [isDesktop, setIsDesktop] = useState(false);
   const size = useWindowSize();
 
@@ -20,6 +21,7 @@ function Home({ homePage, workItems }) {
       heroImageUrl={homePage.poster || null}
       heroVideoId={homePage.video_id}
       isDesktop={isDesktop}
+      isStillsPageEnabled={isStillsPageEnabled}
     >
       <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-1 px-1 pt-1">
         {workItems.map((workItem, index) => {
@@ -61,9 +63,13 @@ export async function getStaticProps() {
     }
   `
   );
+
+  const isStillsPageEnabled = await getIsStillsPageEnabled();
+
   return {
     props: {
       homePage,
+      isStillsPageEnabled,
       workItems,
     },
   };

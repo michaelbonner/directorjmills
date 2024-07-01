@@ -14,8 +14,9 @@
     "@sanity/default-login",
     "@sanity/desk-tool",
     "@sanity/google-maps-input",
-    "dashboard-widget-vercel",
     "@sanity/dashboard",
+    "dashboard-widget-vercel",
+    "media",
     "order-documents"
   ],
   "env": {
@@ -24,6 +25,10 @@
     }
   },
   "parts": [
+    {
+      "implements": "part:@sanity/form-builder/input/image/asset-sources",
+      "path": "./parts/assetSources.js"
+    },
     {
       "name": "part:@sanity/base/schema",
       "path": "./schemas/schema"

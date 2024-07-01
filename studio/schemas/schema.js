@@ -8,6 +8,7 @@ import aboutPage from "./aboutPage";
 import blockContent from "./blockContent";
 import homePage from "./homePage";
 import workItem from "./workItem";
+import stillsPage from "./stillsPage";
 import workPage from "./workPage";
 
 // Then we give our schema to the builder and provide the result to Sanity
@@ -21,6 +22,7 @@ export default createSchema({
     // in the studio.
     homePage,
     aboutPage,
+    stillsPage,
     workPage,
     workItem,
     blockContent,
