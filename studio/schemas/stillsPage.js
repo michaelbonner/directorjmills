@@ -24,6 +24,7 @@ export default {
     },
     {
       name: "slug",
+      description: "Will be /stills/{{slug}}, (leave blank for /stills)",
       title: "Slug",
       type: "slug",
       options: {
