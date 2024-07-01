@@ -27,10 +27,13 @@ function Home({ about, isStillsPageEnabled }) {
                   alt="x"
                   className="bg-white px-8"
                   height="30"
-                  objectFit="cover"
                   src="/images/menu-close.svg"
                   width="30"
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto",
+                    objectFit: "cover"
+                  }} />
               </div>
             </div>
           </div>

@@ -102,7 +102,10 @@ export const StillsGallery = ({ images = [] }) => {
                   src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
                   width={width}
                   unoptimized
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               </div>
             );
           })}
@@ -136,7 +139,10 @@ export const StillsGallery = ({ images = [] }) => {
                   src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
                   width={width}
                   unoptimized
-                />
+                  style={{
+                    maxWidth: "100%",
+                    height: "auto"
+                  }} />
               </div>
             );
           })}

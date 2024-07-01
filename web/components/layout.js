@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/dist/client/router";
-import urlForSanitySource from "../lib/urlForSanitySource";
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
-import { menuItems } from "../data/menu-items";
 import { getMenuItems } from "../functions/getMenuItems";
+import urlForSanitySource from "../lib/urlForSanitySource";
 
 const Layout = ({
   children,
@@ -166,7 +165,8 @@ const Layout = ({
                 alt="Close menu"
                 className={`w-12 h-8 fill-current text-white stroke-2 stroke-current`}
                 src={`/images/menu-close.svg`}
-                layout="fill"
+                fill
+                sizes="100vw"
               />
             </span>
           </button>
@@ -273,8 +273,9 @@ const Layout = ({
                     src={
                       showHero ? `/images/menu-white.svg` : `/images/menu.svg`
                     }
-                    layout="fill"
                     priority={true}
+                    fill
+                    sizes="100vw"
                   />
                 </span>
               </button>
