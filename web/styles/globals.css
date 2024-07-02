@@ -77,3 +77,15 @@
 .bpd-player-container:-moz-full-screen {
   background-color: rgb(255, 255, 255);
 }
+
+.yarl__root {
+  --yarl__color_backdrop: rgba(255, 255, 255, 0.9);
+
+  --yarl__color_button: black;
+  --yarl__color_button_active: #111;
+  --yarl__color_button_disabled: #333;
+  --yarl__slide_title_color: black;
+  --yarl__slide_description_color: black;
+
+  --yarl__button_filter: drop-shadow(0px 2px 8px rgba(255, 255, 255, 0.8));
+}
