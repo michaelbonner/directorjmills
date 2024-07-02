@@ -10,40 +10,6 @@ export const StillsGallery = ({ images = [] }) => {
   const [isGalleryModelOpen, setIsGalleryModelOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
 
-  const imageTypeMap = [
-    {
-      width: 400,
-      height: 300,
-      colSpan: "col-span-2",
-    },
-    {
-      width: 600,
-      height: 300,
-      colSpan: "col-span-3",
-    },
-    {
-      width: 800,
-      height: 400,
-      colSpan: "col-span-4",
-    },
-    {
-      width: 600,
-      height: 400,
-      colSpan: "col-span-3",
-    },
-  ];
-
-  const desktopImageTypeSequence = [
-    // row 0
-    2, 2, 2,
-    // row 1
-    1, 0, 0, 0, 1,
-    // row 2
-    3, 3, 3, 3,
-    // row 3
-    0, 1, 1, 0, 0,
-  ];
-
   const zoomRef = useRef(null);
 
   if (typeof window === "undefined") return null;
