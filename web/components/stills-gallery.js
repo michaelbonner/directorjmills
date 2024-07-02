@@ -10,40 +10,6 @@ export const StillsGallery = ({ images = [] }) => {
   const [isGalleryModelOpen, setIsGalleryModelOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
 
-  const imageTypeMap = [
-    {
-      width: 400,
-      height: 300,
-      colSpan: "col-span-2",
-    },
-    {
-      width: 600,
-      height: 300,
-      colSpan: "col-span-3",
-    },
-    {
-      width: 800,
-      height: 400,
-      colSpan: "col-span-4",
-    },
-    {
-      width: 600,
-      height: 400,
-      colSpan: "col-span-3",
-    },
-  ];
-
-  const desktopImageTypeSequence = [
-    // row 0
-    2, 2, 2,
-    // row 1
-    1, 0, 0, 0, 1,
-    // row 2
-    3, 3, 3, 3,
-    // row 3
-    0, 1, 1, 0, 0,
-  ];
-
   const zoomRef = useRef(null);
 
   if (typeof window === "undefined") return null;
@@ -68,26 +34,39 @@ export const StillsGallery = ({ images = [] }) => {
         zoom={{ ref: zoomRef }}
       />
 
-      <section className="mx-auto my-12 max-w-13xl px-6 text-center lg:mt-16">
+      <section className="mx-auto my-12 max-w-13xl px-6 text-center">
         {/* desktop grid */}
         <div
           className={classNames(
-            "mt-0 hidden grid-cols-2 gap-4 px-1",
-            "lg:grid lg:grid-cols-12"
+            "mt-0 hidden gap-4 px-1",
+            "lg:grid lg:grid-cols-6"
           )}
         >
           {images.map((image, index) => {
-            const desktopIndex = index % 17;
-            const imageType =
-              imageTypeMap[desktopImageTypeSequence[desktopIndex]];
-            const width = imageType.width;
-            const height = imageType.height;
+            const getWidthXHeight = () => {
+              const widthXHeight = image.imageUrl
+                .split("-")
+                .pop()
+                .split(".")[0];
+
+              const imageWidth = widthXHeight.split("x")[0];
+              const imageHeight = widthXHeight.split("x")[1];
+
+              const scaleRatio =
+                imageWidth > imageHeight ? 600 / imageWidth : 200 / imageHeight;
+
+              return {
+                width: Math.round(imageWidth * scaleRatio),
+                height: Math.round(imageHeight * scaleRatio),
+              };
+            };
+
+            const { width, height } = getWidthXHeight();
 
             return (
               <div
                 className={classNames(
-                  imageType.colSpan,
-                  "bpd-gallery-image-container"
+                  "bpd-gallery-image-container flex justify-center items-center"
                 )}
                 key={index}
               >
@@ -104,8 +83,9 @@ export const StillsGallery = ({ images = [] }) => {
                   unoptimized
                   style={{
                     maxWidth: "100%",
-                    height: "auto"
-                  }} />
+                    height: "auto",
+                  }}
+                />
               </div>
             );
           })}
@@ -120,8 +100,25 @@ export const StillsGallery = ({ images = [] }) => {
           )}
         >
           {images.map((image, index) => {
-            const width = 800;
-            const height = 600;
+            const getWidthXHeight = () => {
+              const widthXHeight = image.imageUrl
+                .split("-")
+                .pop()
+                .split(".")[0];
+
+              const imageWidth = widthXHeight.split("x")[0];
+              const imageHeight = widthXHeight.split("x")[1];
+
+              const scaleRatio =
+                imageWidth > imageHeight ? 300 / imageWidth : 200 / imageHeight;
+
+              return {
+                width: Math.round(imageWidth * scaleRatio),
+                height: Math.round(imageHeight * scaleRatio),
+              };
+            };
+
+            const { width, height } = getWidthXHeight();
 
             return (
               <div
@@ -141,8 +138,9 @@ export const StillsGallery = ({ images = [] }) => {
                   unoptimized
                   style={{
                     maxWidth: "100%",
-                    height: "auto"
-                  }} />
+                    height: "auto",
+                  }}
+                />
               </div>
             );
           })}
