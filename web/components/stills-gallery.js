@@ -34,9 +34,15 @@ export const StillsGallery = ({ images = [] }) => {
         zoom={{ ref: zoomRef }}
       />
 
-      <section className="mx-auto my-12 max-w-13xl px-6 text-center lg:mt-16">
+      <section className="mx-auto my-12 max-w-13xl px-6 text-center">
         <ResponsiveMasonry
-          columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
+          columnsCountBreakPoints={{
+            350: 2,
+            900: 3,
+            1200: 4,
+            1600: 6,
+            2000: 8,
+          }}
           gutter="10px"
         >
           <Masonry>
