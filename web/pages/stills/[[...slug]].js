@@ -5,15 +5,15 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { ClientOnly } from "../../components/client-only";
 import Layout from "../../components/layout";
-import LittleWhiteBar from "../../components/little-white-bar";
 import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
 import { sanityClient } from "../../lib/sanity";
 
-const StillsGallery = dynamic(() =>
-  import("../../components/stills-gallery", {
-    loading: () => <p>Loading...</p>,
-    ssr: false,
-  })
+const StillsGallery = dynamic(
+  () =>
+    import("../../components/stills-gallery", {
+      loading: () => <p>Loading...</p>,
+      ssr: false,
+    })
 );
 
 function Stills({ isStillsPageEnabled, stillsPage }) {
@@ -55,8 +55,6 @@ function Stills({ isStillsPageEnabled, stillsPage }) {
       isStillsPageEnabled={isStillsPageEnabled}
       title={stillsPage.seoTitle}
     >
-      <LittleWhiteBar />
-
       <ClientOnly>
         <StillsGallery images={shuffledImages} />
       </ClientOnly>

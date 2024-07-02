@@ -34,7 +34,7 @@ export const StillsGallery = ({ images = [] }) => {
         zoom={{ ref: zoomRef }}
       />
 
-      <section className="mx-auto my-12 max-w-13xl px-6 text-center lg:mt-16">
+      <section className="mx-auto my-12 max-w-13xl px-6 text-center">
         {/* desktop grid */}
         <div
           className={classNames(
@@ -65,7 +65,9 @@ export const StillsGallery = ({ images = [] }) => {
 
             return (
               <div
-                className={classNames("bpd-gallery-image-container")}
+                className={classNames(
+                  "bpd-gallery-image-container flex justify-center items-center"
+                )}
                 key={index}
               >
                 <Image
