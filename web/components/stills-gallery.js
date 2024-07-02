@@ -1,6 +1,6 @@
-import classNames from "classnames";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
@@ -9,40 +9,6 @@ import "yet-another-react-lightbox/styles.css";
 export const StillsGallery = ({ images = [] }) => {
   const [isGalleryModelOpen, setIsGalleryModelOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
-
-  const imageTypeMap = [
-    {
-      width: 400,
-      height: 300,
-      colSpan: "col-span-2",
-    },
-    {
-      width: 600,
-      height: 300,
-      colSpan: "col-span-3",
-    },
-    {
-      width: 800,
-      height: 400,
-      colSpan: "col-span-4",
-    },
-    {
-      width: 600,
-      height: 400,
-      colSpan: "col-span-3",
-    },
-  ];
-
-  const desktopImageTypeSequence = [
-    // row 0
-    2, 2, 2,
-    // row 1
-    1, 0, 0, 0, 1,
-    // row 2
-    3, 3, 3, 3,
-    // row 3
-    0, 1, 1, 0, 0,
-  ];
 
   const zoomRef = useRef(null);
 
@@ -68,86 +34,61 @@ export const StillsGallery = ({ images = [] }) => {
         zoom={{ ref: zoomRef }}
       />
 
-      <section className="mx-auto my-12 max-w-13xl px-6 text-center lg:mt-16">
-        {/* desktop grid */}
-        <div
-          className={classNames(
-            "mt-0 hidden grid-cols-2 gap-4 px-1",
-            "lg:grid lg:grid-cols-12"
-          )}
+      <section className="mx-auto my-12 max-w-13xl px-6 text-center">
+        <ResponsiveMasonry
+          columnsCountBreakPoints={{
+            350: 2,
+            900: 3,
+            1200: 4,
+            1600: 6,
+            2000: 8,
+          }}
+          gutter="10px"
         >
-          {images.map((image, index) => {
-            const desktopIndex = index % 17;
-            const imageType =
-              imageTypeMap[desktopImageTypeSequence[desktopIndex]];
-            const width = imageType.width;
-            const height = imageType.height;
+          <Masonry>
+            {images.map((image, index) => {
+              const getWidthXHeight = () => {
+                const widthXHeight = image.imageUrl
+                  .split("-")
+                  .pop()
+                  .split(".")[0];
 
-            return (
-              <div
-                className={classNames(
-                  imageType.colSpan,
-                  "bpd-gallery-image-container"
-                )}
-                key={index}
-              >
-                <Image
-                  alt={image.altText}
-                  className={`bpd-gallery-image cursor-pointer`}
-                  height={height}
-                  onClick={() => {
-                    setIsGalleryModelOpen(true);
-                    setPhotoIndex(index);
-                  }}
-                  src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
-                  width={width}
-                  unoptimized
-                  style={{
-                    maxWidth: "100%",
-                    height: "auto"
-                  }} />
-              </div>
-            );
-          })}
-        </div>
-        {/* end: desktop grid */}
+                const imageWidth = widthXHeight.split("x")[0];
+                const imageHeight = widthXHeight.split("x")[1];
 
-        {/* mobile grid */}
-        <div
-          className={classNames(
-            "mt-0 grid grid-cols-2 gap-4 px-1",
-            "lg:hidden lg:grid-cols-12"
-          )}
-        >
-          {images.map((image, index) => {
-            const width = 800;
-            const height = 600;
+                const scaleRatio = 600 / imageWidth;
 
-            return (
-              <div
-                className={classNames("bpd-gallery-image-container")}
-                key={index}
-              >
-                <Image
-                  alt={image.altText}
-                  className={`bpd-gallery-image cursor-pointer`}
-                  height={height}
-                  onClick={() => {
-                    setIsGalleryModelOpen(true);
-                    setPhotoIndex(index);
-                  }}
-                  src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
-                  width={width}
-                  unoptimized
-                  style={{
-                    maxWidth: "100%",
-                    height: "auto"
-                  }} />
-              </div>
-            );
-          })}
-        </div>
-        {/* end: mobile grid */}
+                return {
+                  width: Math.round(imageWidth * scaleRatio),
+                  height: Math.round(imageHeight * scaleRatio),
+                };
+              };
+
+              const { width, height } = getWidthXHeight();
+
+              return (
+                <div className="p-2" key={index}>
+                  <Image
+                    alt={image.altText}
+                    className={`bpd-gallery-image cursor-pointer`}
+                    height={height}
+                    onClick={() => {
+                      setIsGalleryModelOpen(true);
+                      setPhotoIndex(index);
+                    }}
+                    src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
+                    width={width}
+                    unoptimized
+                    style={{
+                      maxWidth: "100%",
+                      height: "auto",
+                    }}
+                  />
+                </div>
+              );
+            })}
+          </Masonry>
+        </ResponsiveMasonry>
       </section>
     </div>
   );
