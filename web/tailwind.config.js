@@ -7,7 +7,7 @@ module.exports = {
     extend: {},
     fontFamily: {
       sans: ["proxima-nova", "sans-serif"],
-      outline: ["hwt-republic-gothic-outline", "sans-serif"],
+      outline: ["gothic-outline-title", "sans-serif"],
     },
   },
   variants: {
