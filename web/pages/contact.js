@@ -1,13 +1,17 @@
 /* eslint-disable @next/next/no-img-element */
 import { PortableText } from "@portabletext/react";
+import { clsx } from "clsx";
 import groq from "groq";
 import Image from "next/image";
+import { useState } from "react";
 import Layout from "../components/layout";
+import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 import { getClient } from "../lib/sanity";
 import urlForSanitySource from "../lib/urlForSanitySource";
-import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 
-function Home({ about, isStillsPageEnabled }) {
+function ContactPage({ about, isStillsPageEnabled }) {
+  const [isMoreAwardsVisible, setIsMoreAwardsVisible] = useState(false);
+
   return (
     <Layout
       title={about.seo_title}
@@ -32,8 +36,9 @@ function Home({ about, isStillsPageEnabled }) {
                   style={{
                     maxWidth: "100%",
                     height: "auto",
-                    objectFit: "cover"
-                  }} />
+                    objectFit: "cover",
+                  }}
+                />
               </div>
             </div>
           </div>
@@ -46,6 +51,32 @@ function Home({ about, isStillsPageEnabled }) {
         </div>
         <div className="my-16 prose max-w-5xl text-center mx-auto">
           <PortableText value={about.notableAwards} />
+          <div
+            className="grid overflow-hidden -mt-6"
+            style={{
+              gridTemplateRows: isMoreAwardsVisible ? "1fr" : "0fr",
+              transition: "grid-template-rows 1s",
+            }}
+          >
+            <div
+              className={clsx(isMoreAwardsVisible ? "visible" : "hidden")}
+              style={{
+                minHeight: 0,
+                transition: "visibility 1s",
+              }}
+            >
+              <PortableText value={about.otherAwards} />
+            </div>
+          </div>
+
+          <div className={clsx(isMoreAwardsVisible ? "mt-0" : "mt-6")}>
+            <button
+              className="underline"
+              onClick={() => setIsMoreAwardsVisible(!isMoreAwardsVisible)}
+            >
+              Show More
+            </button>
+          </div>
         </div>
       </div>
     </Layout>
@@ -63,6 +94,7 @@ export async function getStaticProps() {
             bio,
             representation,
             notableAwards,
+            otherAwards,
             seo_title,
             seo_description
           }
@@ -72,4 +104,4 @@ export async function getStaticProps() {
   };
 }
 
-export default Home;
+export default ContactPage;

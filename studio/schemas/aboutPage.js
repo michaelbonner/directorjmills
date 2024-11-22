@@ -99,6 +99,11 @@ export default {
       title: "Notable Awards",
       type: "blockContent",
     },
+    {
+      name: "otherAwards",
+      title: "Other Awards",
+      type: "blockContent",
+    },
   ],
   preview: {
     select: {
