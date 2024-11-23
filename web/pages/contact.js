@@ -74,7 +74,7 @@ function ContactPage({ about, isStillsPageEnabled }) {
               className="underline"
               onClick={() => setIsMoreAwardsVisible(!isMoreAwardsVisible)}
             >
-              Show More
+              {isMoreAwardsVisible ? "Close" : "Show More"}
             </button>
           </div>
         </div>
