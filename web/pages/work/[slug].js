@@ -335,7 +335,7 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
 
         <div className="container px-4 md:px-0 mx-auto mt-4">
           <div className="flex justify-start items-center">
-            <h1 className="text-2xl md:text-2xl lg:text-4xl uppercase flex space-x-4 md:space-x-8 text-left py-4">
+            <h1 className="text-2xl md:text-2xl lg:text-4xl uppercase flex space-x-2 md:space-x-8 text-left py-4">
               <span className="font-extrabold tracking-wide">
                 {clientName ? `${clientName}` : ""}
               </span>
