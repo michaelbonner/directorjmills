@@ -111,7 +111,7 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
     }
   };
 
-  const handleFullScreenChange = (event) => {
+  const handleFullScreenChange = () => {
     if (screenfull.isFullscreen) {
       setIsFullscreen(true);
     } else {
@@ -442,6 +442,7 @@ export async function getStaticProps({ params }) {
       props: { isStillsPageEnabled, workItem, workItems },
     };
   } catch (error) {
+    console.error("error", error);
     return {
       props: {},
     };
