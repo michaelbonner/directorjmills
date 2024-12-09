@@ -339,9 +339,7 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
               <span className="font-extrabold tracking-wide">
                 {clientName ? `${clientName}` : ""}
               </span>
-              <span className="font-outline tracking-wide">
-                {title ? `${title}` : ""}
-              </span>
+              <span className="font-light">{title ? `${title}` : ""}</span>
             </h1>
           </div>
 
@@ -382,7 +380,7 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
         </div>
       </article>
       <aside className="hidden lg:block container mx-auto border-t mt-12 pt-12">
-        <h3 className="font-outline uppercase text-3xl py-8 tracking-wider px-4 lg:px-0">
+        <h3 className="font-light uppercase text-3xl py-8 px-4 lg:px-0">
           Work
         </h3>
         <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-1">

@@ -42,7 +42,7 @@ function Stills({ isStillsPageEnabled, stillsPage }) {
   const heroContent = (
     <div className="flex h-full w-full flex-col items-center justify-center text-white">
       <h1>{stillsPage.title}</h1>
-      <h2 className="font-outline text-2xl uppercase lg:text-6xl">
+      <h2 className="font-light text-2xl uppercase lg:text-6xl">
         {stillsPage.subtitle}
       </h2>
     </div>
