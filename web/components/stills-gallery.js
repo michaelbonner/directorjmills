@@ -6,11 +6,6 @@ import { useRef, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-export const ResponsiveMasonry = dynamic(() =>
-  import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry)
-);
-export const Masonry = dynamic(() => import("react-responsive-masonry"));
-
 export const StillsGallery = ({ images = [] }) => {
   const [isGalleryModelOpen, setIsGalleryModelOpen] = useState(false);
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -40,62 +35,74 @@ export const StillsGallery = ({ images = [] }) => {
       />
 
       <section className="mx-auto my-12 max-w-13xl px-6 text-center">
-        <ResponsiveMasonry
-          columnsCountBreakPoints={{
-            350: 2,
-            900: 3,
-            1200: 4,
-            1600: 6,
-            2000: 8,
-          }}
-          gutter="10px"
-        >
-          <Masonry>
-            {images.map((image, index) => {
-              const getWidthXHeight = () => {
-                const widthXHeight = image.imageUrl
-                  .split("-")
-                  .pop()
-                  .split(".")[0];
-
-                const imageWidth = widthXHeight.split("x")[0];
-                const imageHeight = widthXHeight.split("x")[1];
-
-                const scaleRatio = 600 / imageWidth;
-
-                return {
-                  width: Math.round(imageWidth * scaleRatio),
-                  height: Math.round(imageHeight * scaleRatio),
-                };
-              };
-
-              const { width, height } = getWidthXHeight();
-
-              return (
-                <div className="p-2" key={index}>
-                  <Image
-                    alt={image.altText}
-                    className={`bpd-gallery-image cursor-pointer`}
-                    height={height}
-                    onClick={() => {
-                      setIsGalleryModelOpen(true);
-                      setPhotoIndex(index);
-                    }}
-                    src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
-                    width={width}
-                    unoptimized
-                    style={{
-                      maxWidth: "100%",
-                      height: "auto",
-                    }}
-                  />
-                </div>
-              );
-            })}
-          </Masonry>
-        </ResponsiveMasonry>
+        <MasonryStills
+          images={images}
+          setIsGalleryModelOpen={setIsGalleryModelOpen}
+          setPhotoIndex={setPhotoIndex}
+        />
       </section>
     </div>
+  );
+};
+
+const MasonryStills = ({ images, setIsGalleryModelOpen, setPhotoIndex }) => {
+  const ResponsiveMasonry = dynamic(() =>
+    import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry)
+  );
+  const Masonry = dynamic(() => import("react-responsive-masonry"));
+
+  return (
+    <ResponsiveMasonry
+      columnsCountBreakPoints={{
+        350: 2,
+        900: 3,
+        1200: 4,
+        1600: 6,
+        2000: 8,
+      }}
+      gutter="10px"
+    >
+      <Masonry>
+        {images.map((image, index) => {
+          const getWidthXHeight = () => {
+            const widthXHeight = image.imageUrl.split("-").pop().split(".")[0];
+
+            const imageWidth = widthXHeight.split("x")[0];
+            const imageHeight = widthXHeight.split("x")[1];
+
+            const scaleRatio = 600 / imageWidth;
+
+            return {
+              width: Math.round(imageWidth * scaleRatio),
+              height: Math.round(imageHeight * scaleRatio),
+            };
+          };
+
+          const { width, height } = getWidthXHeight();
+
+          return (
+            <div className="p-2" key={index}>
+              <Image
+                alt={image.altText}
+                className={`bpd-gallery-image cursor-pointer`}
+                height={height}
+                onClick={() => {
+                  setIsGalleryModelOpen(true);
+                  setPhotoIndex(index);
+                }}
+                src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
+                width={width}
+                unoptimized
+                style={{
+                  maxWidth: "100%",
+                  height: "auto",
+                }}
+              />
+            </div>
+          );
+        })}
+      </Masonry>
+    </ResponsiveMasonry>
   );
 };
 
