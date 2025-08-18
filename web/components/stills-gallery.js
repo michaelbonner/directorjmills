@@ -1,10 +1,15 @@
+import "yet-another-react-lightbox/styles.css";
+
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 
-import "yet-another-react-lightbox/styles.css";
+export const ResponsiveMasonry = dynamic(() =>
+  import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry)
+);
+export const Masonry = dynamic(() => import("react-responsive-masonry"));
 
 export const StillsGallery = ({ images = [] }) => {
   const [isGalleryModelOpen, setIsGalleryModelOpen] = useState(false);
