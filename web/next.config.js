@@ -55,6 +55,11 @@ module.exports = {
         destination: "/work",
         permanent: true,
       },
+      {
+        source: "/NINJA",
+        destination: "/work/ninja",
+        permanent: true,
+      },
     ];
   },
 };
