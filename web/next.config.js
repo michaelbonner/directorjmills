@@ -57,7 +57,7 @@ module.exports = {
       },
       {
         source: "/NINJA",
-        destination: "/work/ninja",
+        destination: "/work/NINJA",
         permanent: true,
       },
     ];
