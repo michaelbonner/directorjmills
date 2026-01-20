@@ -125,9 +125,12 @@ export function WorkItemClient({
 
   useInterval(
     () => {
-      setScrubberPosition(
-        (player.current.getCurrentTime() / totalPlaySeconds) * scrubberWidth,
-      );
+      if (player.current) {
+        const currentTime = player.current.currentTime;
+        if (currentTime !== undefined && totalPlaySeconds > 0) {
+          setScrubberPosition((currentTime / totalPlaySeconds) * scrubberWidth);
+        }
+      }
     },
     isPlaying ? 75 : null,
   );
@@ -188,21 +191,31 @@ export function WorkItemClient({
                   frameBorder="0"
                   height={`100%`}
                   title={fullTitle}
-                  url={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
+                  src={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
                   width={`100%`}
                   playing={videoPlaying}
                   muted={muted}
                   onReady={() => {
+                    console.log('Player ready');
                     setTimeout(() => {
-                      setTotalPlaySeconds(player.current?.getDuration() || 0);
                       setShowVideo(true);
-                    }, [500]);
+                    }, 100);
+                  }}
+                  onDurationChange={() => {
+                    if (player.current) {
+                      setTotalPlaySeconds(player.current.duration || 0);
+                    }
+                  }}
+                  onStart={() => {
+                    console.log('Player started');
+                    setShowVideo(true);
                   }}
                   onEnded={() => {
                     setVideoPlaying(false);
                   }}
                   onPlay={async () => {
                     setIsPlaying(true);
+                    setShowVideo(true);
                   }}
                   onPause={() => {
                     setIsPlaying(false);
@@ -253,8 +266,12 @@ export function WorkItemClient({
                       const xPercentageClicked =
                         zeroBasedClickPosition / scrubber.current.clientWidth;
 
-                      player.current.seekTo(xPercentageClicked, "fraction");
-                      setScrubberPosition(xPercentageClicked * scrubberWidth);
+                      if (player.current) {
+                        // Calculate the target time based on percentage and duration
+                        const targetTime = xPercentageClicked * totalPlaySeconds;
+                        player.current.currentTime = targetTime;
+                        setScrubberPosition(xPercentageClicked * scrubberWidth);
+                      }
                     }}
                     ref={scrubber}
                   >
