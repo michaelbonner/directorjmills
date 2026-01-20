@@ -10,7 +10,7 @@ import Layout from "../../../components/layout";
 const StillsGallery = dynamic(
   () => import("../../../components/stills-gallery"),
   {
-    loading: () => <p>Loading...</p>,
+    loading: () => <p className="p-4 text-center">Loading...</p>,
     ssr: false,
   },
 );

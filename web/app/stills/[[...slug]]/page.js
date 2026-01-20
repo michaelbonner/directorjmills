@@ -1,7 +1,7 @@
 import groq from "groq";
 import { notFound } from "next/navigation";
-import { sanityClient } from "../../../lib/sanity";
 import { getIsStillsPageEnabled } from "../../../functions/getIsStillsPageEnabled";
+import { sanityClient } from "../../../lib/sanity";
 import { StillsClient } from "./stills-client";
 
 async function getData(slug) {
