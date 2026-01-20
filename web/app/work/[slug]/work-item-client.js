@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
-import groq from "groq";
+"use client";
+
 import { useEffect, useRef, useState } from "react";
 import {
   GrContract,
@@ -12,31 +13,12 @@ import {
 import { HiChevronDown } from "react-icons/hi";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
-import { ClientOnly } from "../../components/client-only";
-import Layout from "../../components/layout";
-import WorkItemTile from "../../components/work-item-tile";
-import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
-import useInterval from "../../hooks/useInterval";
-import { useIsomorphicLayoutEffect } from "../../hooks/useIsomorphicLayoutEffect";
-import { getClient } from "../../lib/sanity";
-import urlForSanitySource from "../../lib/urlForSanitySource";
-
-const workItemQuery = groq`
-*[_type == "workItem" && slug.current == $slug][0]{
-  _id,
-  behindTheScenes,
-  clientName,
-  credits,
-  extraPaddingOnVideo,
-  frames,
-  poster,
-  slug,
-  title,
-  video_id,
-  videoHeightAspectRatio,
-  videoWidthAspectRatio,
-}
-`;
+import { ClientOnly } from "../../../components/client-only";
+import Layout from "../../../components/layout";
+import WorkItemTile from "../../../components/work-item-tile";
+import useInterval from "../../../hooks/useInterval";
+import { useIsomorphicLayoutEffect } from "../../../hooks/useIsomorphicLayoutEffect";
+import urlForSanitySource from "../../../lib/urlForSanitySource";
 
 /*
 prevent purging of aspect ratio
@@ -58,7 +40,7 @@ aspect-w-15 aspect-h-15
 aspect-w-16 aspect-h-16
 */
 
-const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
+export function WorkItemClient({ isStillsPageEnabled, workItem = {}, workItems = [] }) {
   const [showVideo, setShowVideo] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -391,62 +373,4 @@ const WorkItem = ({ isStillsPageEnabled, workItem = {}, workItems = [] }) => {
       </aside>
     </Layout>
   );
-};
-
-export async function getStaticPaths() {
-  const paths = await getClient().fetch(
-    `
-    *[_type == "workItem"][!(_id in path('drafts.**'))]{slug}
-  `
-  );
-
-  return {
-    paths: paths
-      .filter((path) => {
-        return path;
-      })
-      .map((path) => {
-        return { params: { slug: path.slug.current } };
-      }),
-    fallback: false,
-  };
 }
-
-export async function getStaticProps({ params }) {
-  // It's important to default the slug so that it doesn't return "undefined"
-  const { slug = "" } = params;
-  try {
-    const workItem = await getClient().fetch(workItemQuery, { slug });
-    const workItems = await getClient().fetch(
-      groq`
-      *[_type == "workItem"][!(_id in path('drafts.**'))]|order(order asc){
-        _id,
-        slug,
-        clientName,
-        title,
-        poster,
-        "shortClipMp4URL": shortClipMp4.asset->url,
-        "shortClipOgvURL": shortClipOgv.asset->url,
-      }
-    `
-    );
-    if (!workItem) {
-      return {
-        notFound: true,
-      };
-    }
-
-    const isStillsPageEnabled = await getIsStillsPageEnabled();
-
-    return {
-      props: { isStillsPageEnabled, workItem, workItems },
-    };
-  } catch (error) {
-    console.error("error", error);
-    return {
-      props: {},
-    };
-  }
-}
-
-export default WorkItem;

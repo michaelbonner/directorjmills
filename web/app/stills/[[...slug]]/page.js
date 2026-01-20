@@ -1,0 +1,63 @@
+import groq from "groq";
+import { sanityClient } from "../../../lib/sanity";
+import { getIsStillsPageEnabled } from "../../../functions/getIsStillsPageEnabled";
+import { StillsClient } from "./stills-client";
+
+async function getData(slug) {
+  const queryDocument = `*[_type == "stillsPage" && slug.current == ${
+    slug ? `"${slug}"` : null
+  }][0]{
+      isEnabled,
+      seoDescription,
+      seoTitle,
+      subtitle,
+      title,
+      images[]{
+          caption,
+          "imageUrl": asset->url,
+          "name": asset->originalFilename,
+      },
+    }`;
+
+  const stillsPage = await sanityClient.fetch(groq`${queryDocument}`);
+  const isStillsPageEnabled = await getIsStillsPageEnabled();
+
+  return {
+    stillsPage,
+    isStillsPageEnabled,
+  };
+}
+
+export async function generateStaticParams() {
+  const paths = await sanityClient.fetch(
+    `*[_type == "stillsPage"][!(_id in path('drafts.**'))]{slug}`
+  );
+
+  return paths
+    .filter((path) => path && path.slug?.current)
+    .map((path) => ({
+      slug: [path.slug.current],
+    }));
+}
+
+export async function generateMetadata({ params }) {
+  const slug = params?.slug?.at(0) ?? "";
+  const { stillsPage } = await getData(slug);
+
+  return {
+    title: stillsPage.seoTitle,
+    description: stillsPage.seoDescription,
+  };
+}
+
+export default async function StillsPage({ params }) {
+  const slug = params?.slug?.at(0) ?? "";
+  const { stillsPage, isStillsPageEnabled } = await getData(slug);
+
+  return (
+    <StillsClient
+      stillsPage={stillsPage}
+      isStillsPageEnabled={isStillsPageEnabled}
+    />
+  );
+}

@@ -1,10 +1,11 @@
 import Link from "next/link";
 import Layout from "../components/layout";
-import { menuItems } from "../data/menu-items";
 import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 import { getMenuItems } from "../functions/getMenuItems";
 
-export default function Custom404({ isStillsPageEnabled }) {
+export default async function NotFound() {
+  const isStillsPageEnabled = await getIsStillsPageEnabled();
+
   return (
     <Layout
       title={"404 - Director Jeremy Miller"}
@@ -32,14 +33,4 @@ export default function Custom404({ isStillsPageEnabled }) {
       </div>
     </Layout>
   );
-}
-
-export async function getStaticProps() {
-  const isStillsPageEnabled = await getIsStillsPageEnabled();
-
-  return {
-    props: {
-      isStillsPageEnabled,
-    },
-  };
 }
