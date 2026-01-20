@@ -146,7 +146,7 @@ const Layout = ({
       <div className="absolute w-full top-12 lg:top-16">
         <div className="relative z-50 lg:container mx-auto flex justify-end items-center overflow-visible">
           <button
-            className="w-12 h-8 focus:outline-none absolute top-0 lg:top-4 right-4 lg:right-0"
+            className="w-12 h-8 focus:outline-hidden absolute top-0 lg:top-4 right-4 lg:right-0"
             onClick={() => toggleMenu(!menuOpen)}
             aria-label="Close menu"
           >
@@ -170,7 +170,7 @@ const Layout = ({
       <nav
         className={`${menuOpen ? "translate-x-0" : "translate-x-4 opacity-0"} ${
           menuVisible ? "fixed" : "hidden"
-        } inset-0 bg-white transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
+        } inset-0 bg-white/90 backdrop-blur-lg transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
       >
         {getMenuItems({ isStillsPageEnabled }).map((item) => (
           <Link
@@ -200,7 +200,7 @@ const Layout = ({
       <header
         className={`relative ${
           heroVideoId
-            ? `lg:bg-gradient-to-b from-gray-400 to-white via-gray-100 lg:bg-opacity-25`
+            ? `lg:bg-linear-to-b from-gray-400 to-white via-gray-100 lg:bg-opacity-25`
             : null
         }`}
         style={headerStyles}
@@ -253,7 +253,7 @@ const Layout = ({
           <div className="absolute right-4 md:right-0 top-12 flex justify-end items-center">
             <div className="relative lg:ml-8 lg:mr-0">
               <button
-                className="w-12 h-8 focus:outline-none relative"
+                className="w-12 h-8 focus:outline-hidden relative"
                 onClick={() => toggleMenu(!menuOpen)}
                 aria-label="Open menu"
               >

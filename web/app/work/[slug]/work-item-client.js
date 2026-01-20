@@ -242,7 +242,7 @@ export function WorkItemClient({
                     />
                   </button>
                   <button
-                    className="relative w-full border-2 border-black rounded"
+                    className="relative w-full border-2 border-black rounded-sm"
                     onClick={(e) => {
                       const scrubberBoundingClientRect =
                         scrubber.current.getBoundingClientRect();
