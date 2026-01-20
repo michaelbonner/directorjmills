@@ -8,11 +8,12 @@ import { ClientOnly } from "../../../components/client-only";
 import Layout from "../../../components/layout";
 
 const StillsGallery = dynamic(
-  () =>
-    import("../../../components/stills-gallery", {
-      loading: () => <p>Loading...</p>,
-      ssr: false,
-    })
+  () => import("../../../components/stills-gallery"),
+  {
+    loading: () => <p>Loading...</p>,
+    ssr: false,
+  }
+);
 );
 
 export function StillsClient({ isStillsPageEnabled, stillsPage }) {
