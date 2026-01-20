@@ -43,8 +43,8 @@ export async function generateMetadata() {
   const { workPage } = await getData();
 
   return {
-    title: workPage.seo_title,
-    description: workPage.seo_description,
+    title: workPage?.seo_title || "Work | Director Jeremy Miller",
+    description: workPage?.seo_description || "Work | Director Jeremy Miller",
   };
 }
 
