@@ -41,7 +41,7 @@ async function getData(slug) {
       "shortClipMp4URL": shortClipMp4.asset->url,
       "shortClipOgvURL": shortClipOgv.asset->url,
     }
-  `
+  `,
   );
 
   const isStillsPageEnabled = await getIsStillsPageEnabled();
@@ -55,7 +55,7 @@ async function getData(slug) {
 
 export async function generateStaticParams() {
   const paths = await getClient().fetch(
-    `*[_type == "workItem"][!(_id in path('drafts.**'))]{slug}`
+    `*[_type == "workItem"][!(_id in path('drafts.**'))]{slug}`,
   );
 
   return paths

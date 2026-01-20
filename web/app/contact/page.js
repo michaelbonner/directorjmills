@@ -38,6 +38,9 @@ export default async function ContactPage() {
   const { about, isStillsPageEnabled } = await getData();
 
   return (
-    <ContactPageClient about={about} isStillsPageEnabled={isStillsPageEnabled} />
+    <ContactPageClient
+      about={about}
+      isStillsPageEnabled={isStillsPageEnabled}
+    />
   );
 }

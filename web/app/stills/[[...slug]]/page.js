@@ -31,7 +31,7 @@ async function getData(slug) {
 
 export async function generateStaticParams() {
   const paths = await sanityClient.fetch(
-    `*[_type == "stillsPage"][!(_id in path('drafts.**'))]{slug}`
+    `*[_type == "stillsPage"][!(_id in path('drafts.**'))]{slug}`,
   );
 
   return paths
