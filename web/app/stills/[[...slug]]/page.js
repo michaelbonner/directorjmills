@@ -42,7 +42,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const slug = params?.slug?.at(0) ?? "";
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug?.at(0) ?? "";
   const { stillsPage } = await getData(slug);
 
   if (!stillsPage) {
@@ -56,7 +57,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function StillsPage({ params }) {
-  const slug = params?.slug?.at(0) ?? "";
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug?.at(0) ?? "";
   const { stillsPage, isStillsPageEnabled } = await getData(slug);
 
   if (!stillsPage) {

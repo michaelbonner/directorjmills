@@ -66,7 +66,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const data = await getData(params.slug);
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data) {
     return {};
@@ -84,7 +85,8 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function WorkItemPage({ params }) {
-  const data = await getData(params.slug);
+  const { slug } = await params;
+  const data = await getData(slug);
 
   if (!data) {
     notFound();

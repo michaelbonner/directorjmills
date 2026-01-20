@@ -62,16 +62,17 @@ test.describe('Home Page', () => {
 
     // Get first work item link from within main content area
     const firstWorkItem = page.locator('main').getByRole('link').first();
+
+    // Wait for the link to be visible and get href
+    await firstWorkItem.waitFor({ state: 'visible' });
     const href = await firstWorkItem.getAttribute('href');
 
     // Click and verify navigation
     await firstWorkItem.click();
-    await page.waitForLoadState('networkidle');
+    await page.waitForURL(/\/work\/.+/, { timeout: 10000 });
 
     // Check that we navigated
-    if (href) {
-      await expect(page).toHaveURL(new RegExp(href));
-    }
+    await expect(page).toHaveURL(/\/work\/.+/);
   });
 
   test('should show only 6 work items initially if hideAfterCount is set', async ({ page }) => {
