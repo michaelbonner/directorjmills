@@ -1,4 +1,5 @@
 import groq from "groq";
+import { notFound } from "next/navigation";
 import { sanityClient } from "../../../lib/sanity";
 import { getIsStillsPageEnabled } from "../../../functions/getIsStillsPageEnabled";
 import { StillsClient } from "./stills-client";
@@ -44,6 +45,10 @@ export async function generateMetadata({ params }) {
   const slug = params?.slug?.at(0) ?? "";
   const { stillsPage } = await getData(slug);
 
+  if (!stillsPage) {
+    notFound();
+  }
+
   return {
     title: stillsPage.seoTitle,
     description: stillsPage.seoDescription,
@@ -53,6 +58,10 @@ export async function generateMetadata({ params }) {
 export default async function StillsPage({ params }) {
   const slug = params?.slug?.at(0) ?? "";
   const { stillsPage, isStillsPageEnabled } = await getData(slug);
+
+  if (!stillsPage) {
+    notFound();
+  }
 
   return (
     <StillsClient

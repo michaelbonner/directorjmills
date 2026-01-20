@@ -14,7 +14,6 @@ const StillsGallery = dynamic(
     ssr: false,
   }
 );
-);
 
 export function StillsClient({ isStillsPageEnabled, stillsPage }) {
   const shuffledImages = useMemo(() => {
