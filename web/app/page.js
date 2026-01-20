@@ -1,8 +1,6 @@
 import groq from "groq";
-import Layout from "../components/layout";
-import { getClient } from "../lib/sanity";
-import WorkItemTile from "../components/work-item-tile";
 import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
+import { getClient } from "../lib/sanity";
 import { HomeClient } from "./home-client";
 
 async function getData() {
@@ -44,8 +42,8 @@ export async function generateMetadata() {
   const { homePage } = await getData();
 
   return {
-    title: homePage.seo_title,
-    description: homePage.seo_description,
+    title: homePage?.seo_title || "Director Jeremy Miller",
+    description: homePage?.seo_description || "Director Jeremy Miller",
   };
 }
 
