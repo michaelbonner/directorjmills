@@ -1,7 +1,9 @@
-import { useRouter } from "next/dist/client/router";
+"use client";
+
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { getMenuItems } from "../functions/getMenuItems";
@@ -18,7 +20,7 @@ const Layout = ({
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
-  const router = useRouter();
+  const pathname = usePathname();
   const [hoveredMenuItem, setHoveredMenuItem] = useState("");
   const [headerStyles, setHeaderStyles] = useState({});
   const [showHero, setShowHero] = useState(false);
@@ -51,16 +53,10 @@ const Layout = ({
   }, [menuOpen]);
 
   useEffect(() => {
-    const handleRouteChangeComplete = () => {
-      setMenuVisible(false);
-      setMenuOpen(false);
-    };
-    router.events.on("routeChangeComplete", handleRouteChangeComplete);
-
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChangeComplete);
-    };
-  }, [router]);
+    // Close menu when pathname changes (route navigation)
+    setMenuVisible(false);
+    setMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if ((heroImageUrl || heroVideoId) && isDesktop) {

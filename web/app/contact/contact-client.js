@@ -1,15 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+
 import { PortableText } from "@portabletext/react";
 import { clsx } from "clsx";
-import groq from "groq";
 import Image from "next/image";
 import { useState } from "react";
-import Layout from "../components/layout";
-import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
-import { getClient } from "../lib/sanity";
-import urlForSanitySource from "../lib/urlForSanitySource";
+import Layout from "../../components/layout";
+import urlForSanitySource from "../../lib/urlForSanitySource";
 
-function ContactPage({ about, isStillsPageEnabled }) {
+export function ContactPageClient({ about, isStillsPageEnabled }) {
   const [isMoreAwardsVisible, setIsMoreAwardsVisible] = useState(false);
 
   return (
@@ -82,26 +81,3 @@ function ContactPage({ about, isStillsPageEnabled }) {
     </Layout>
   );
 }
-
-export async function getStaticProps() {
-  const isStillsPageEnabled = await getIsStillsPageEnabled();
-  return {
-    props: {
-      about: await getClient().fetch(groq`
-          *[_type == "aboutPage"][0]{
-            title,
-            photo,
-            bio,
-            representation,
-            notableAwards,
-            otherAwards,
-            seo_title,
-            seo_description
-          }
-        `),
-      isStillsPageEnabled,
-    },
-  };
-}
-
-export default ContactPage;
