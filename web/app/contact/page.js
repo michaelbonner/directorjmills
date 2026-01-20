@@ -29,8 +29,8 @@ export async function generateMetadata() {
   const { about } = await getData();
 
   return {
-    title: about.seo_title,
-    description: about.seo_description,
+    title: about?.seo_title || "Contact | Director Jeremy Miller",
+    description: about?.seo_description || "Contact Director Jeremy Miller",
   };
 }
 
