@@ -14,7 +14,7 @@ async function getData() {
       poster,
       video_id,
     }
-  `
+  `,
   );
 
   const workItems = await getClient().fetch(
@@ -28,7 +28,7 @@ async function getData() {
       "shortClipMp4URL": shortClipMp4.asset->url,
       "shortClipOgvURL": shortClipOgv.asset->url,
     }
-  `
+  `,
   );
 
   const isStillsPageEnabled = await getIsStillsPageEnabled();

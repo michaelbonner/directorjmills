@@ -12,7 +12,7 @@ const StillsGallery = dynamic(
   {
     loading: () => <p>Loading...</p>,
     ssr: false,
-  }
+  },
 );
 
 export function StillsClient({ isStillsPageEnabled, stillsPage }) {
@@ -30,11 +30,11 @@ export function StillsClient({ isStillsPageEnabled, stillsPage }) {
                 (image.name || `image-${index}`)
                   .replace(/-/g, " ")
                   .replace(/_/g, " ")
-                  .replace(".jpg", "")
+                  .replace(".jpg", ""),
               ),
           }),
-          { shuffleAll: true }
-        )
+          { shuffleAll: true },
+        ),
     );
   }, [stillsPage.images]);
 

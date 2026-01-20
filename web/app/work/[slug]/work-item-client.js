@@ -40,7 +40,11 @@ aspect-w-15 aspect-h-15
 aspect-w-16 aspect-h-16
 */
 
-export function WorkItemClient({ isStillsPageEnabled, workItem = {}, workItems = [] }) {
+export function WorkItemClient({
+  isStillsPageEnabled,
+  workItem = {},
+  workItems = [],
+}) {
   const [showVideo, setShowVideo] = useState(false);
   const [creditsOpen, setCreditsOpen] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
@@ -122,10 +126,10 @@ export function WorkItemClient({ isStillsPageEnabled, workItem = {}, workItems =
   useInterval(
     () => {
       setScrubberPosition(
-        (player.current.getCurrentTime() / totalPlaySeconds) * scrubberWidth
+        (player.current.getCurrentTime() / totalPlaySeconds) * scrubberWidth,
       );
     },
-    isPlaying ? 75 : null
+    isPlaying ? 75 : null,
   );
 
   useIsomorphicLayoutEffect(() => {
