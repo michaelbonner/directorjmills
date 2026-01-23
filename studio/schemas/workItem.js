@@ -24,6 +24,17 @@ export default {
         source: "title",
         maxLength: 100,
       },
+      validation: (Rule) =>
+        Rule.required().custom((slug) => {
+          if (!slug || !slug.current) {
+            return "Slug is required";
+          }
+          const kebabCasePattern = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+          if (!kebabCasePattern.test(slug.current)) {
+            return "Slug must be in kebab-case format (lowercase letters, numbers, and hyphens only, no spaces or uppercase)";
+          }
+          return true;
+        }),
     },
     {
       name: "seo_title",
