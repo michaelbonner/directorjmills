@@ -1,63 +1,62 @@
-import { MdPhotoLibrary as icon } from "react-icons/md";
-import assetSources from "../parts/assetSources";
+import {defineType, defineField} from 'sanity'
+import {MdPhotoLibrary as icon} from 'react-icons/md'
 
-export default {
-  name: "stillsPage",
-  title: "Stills Page",
-  type: "document",
+export default defineType({
+  name: 'stillsPage',
+  title: 'Stills Page',
+  type: 'document',
   icon,
   fields: [
-    {
-      name: "isEnabled",
-      title: "Is Enabled",
-      type: "boolean",
-    },
-    {
-      name: "title",
-      title: "Title",
-      type: "string",
-    },
-    {
-      name: "subtitle",
-      title: "Subtitle",
-      type: "string",
-    },
-    {
-      name: "slug",
-      description: "Will be /stills/{{slug}}, (leave blank for /stills)",
-      title: "Slug",
-      type: "slug",
+    defineField({
+      name: 'isEnabled',
+      title: 'Is Enabled',
+      type: 'boolean',
+    }),
+    defineField({
+      name: 'title',
+      title: 'Title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'subtitle',
+      title: 'Subtitle',
+      type: 'string',
+    }),
+    defineField({
+      name: 'slug',
+      description: 'Will be /stills/{{slug}}, (leave blank for /stills)',
+      title: 'Slug',
+      type: 'slug',
       options: {
-        source: "title",
+        source: 'title',
         maxLength: 100,
       },
-    },
-    {
-      name: "seoTitle",
-      title: "SEO Title",
-      type: "string",
-    },
-    {
-      name: "seoDescription",
-      title: "SEO Description",
-      type: "text",
-    },
-    {
-      name: "images",
-      title: "Images",
-      type: "array",
+    }),
+    defineField({
+      name: 'seoTitle',
+      title: 'SEO Title',
+      type: 'string',
+    }),
+    defineField({
+      name: 'seoDescription',
+      title: 'SEO Description',
+      type: 'text',
+    }),
+    defineField({
+      name: 'images',
+      title: 'Images',
+      type: 'array',
       of: [
         {
-          type: "image",
+          type: 'image',
           options: {
             hotspot: true,
-            sources: assetSources,
           },
           fields: [
             {
-              name: "caption",
-              type: "string",
-              title: "Caption",
+              name: 'caption',
+              type: 'string',
+              title: 'Caption',
               options: {
                 isHighlighted: true,
               },
@@ -66,18 +65,18 @@ export default {
         },
       ],
       options: {
-        layout: "grid",
+        layout: 'grid',
       },
-    },
+    }),
   ],
   preview: {
     select: {
-      title: "title",
+      title: 'title',
     },
     prepare(selection) {
       return {
-        title: selection.title || "Stills Page",
-      };
+        title: selection.title || 'Stills Page',
+      }
     },
   },
-};
+})
