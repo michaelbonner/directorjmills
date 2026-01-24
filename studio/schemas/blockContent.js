@@ -1,3 +1,5 @@
+import {defineType} from 'sanity'
+
 /**
  * This is the schema definition for the rich text fields used for
  * for this blog studio. When you import it in schemas.js it can be
@@ -8,7 +10,7 @@
  *    type: 'blockContent'
  *  }
  */
-export default {
+export default defineType({
   title: 'Block Content',
   name: 'blockContent',
   type: 'array',
@@ -48,9 +50,10 @@ export default {
                 title: 'URL',
                 name: 'href',
                 type: 'url',
-                validation: Rule => Rule.uri({
-                  scheme: ['http', 'https', 'mailto', 'tel']
-                })
+                validation: (Rule) =>
+                  Rule.uri({
+                    scheme: ['http', 'https', 'mailto', 'tel'],
+                  }),
               },
             ],
           },
@@ -65,4 +68,4 @@ export default {
       options: {hotspot: true},
     },
   ],
-}
+})
