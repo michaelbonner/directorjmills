@@ -81,9 +81,8 @@ const Layout = ({
 
   return (
     <div
-      className={`${isDesktop && heroVideoId ? "opacity-0" : null} ${
-        isDesktop && heroVideoId && videoPlaying ? "bpd-fade-in" : null
-      }`}
+      className={`${isDesktop && heroVideoId ? "opacity-0" : null} ${isDesktop && heroVideoId && videoPlaying ? "bpd-fade-in" : null
+        }`}
     >
       <Head>
         <title>{title || "Director Jeremy Miller"}</title>
@@ -151,9 +150,8 @@ const Layout = ({
             aria-label="Close menu"
           >
             <span
-              className={`${menuOpen ? "opacity-100" : "opacity-0"} ${
-                menuVisible ? "absolute" : "hidden"
-              } top-0 right-0 transform transition-all ease-in delay-500 duration-300`}
+              className={`${menuOpen ? "opacity-100" : "opacity-0"} ${menuVisible ? "absolute" : "hidden"
+                } top-0 right-0 transform transition-all ease-in delay-500 duration-300`}
               style={{ width: "48px", height: "32px" }}
             >
               <Image
@@ -168,29 +166,25 @@ const Layout = ({
         </div>
       </div>
       <nav
-        className={`${menuOpen ? "translate-x-0" : "translate-x-4 opacity-0"} ${
-          menuVisible ? "fixed" : "hidden"
-        } inset-0 bg-white/90 backdrop-blur-lg transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
+        className={`${menuOpen ? "translate-x-0" : "translate-x-4 opacity-0"} ${menuVisible ? "fixed" : "hidden"
+          } inset-0 bg-white/90 backdrop-blur-lg transform transition-all ease-in duration-300 z-40 text-right flex flex-col justify-center items-center`}
       >
         {getMenuItems({ isStillsPageEnabled }).map((item) => (
           <Link
             key={item.href}
             href={item.href}
-            className={`${
-              !hoveredMenuItem || hoveredMenuItem === item.href
-                ? "text-black"
-                : "text-gray-800"
-            } ${
-              item.hideOnMobile && "hidden lg:inline-block"
-            } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
+            className={`${!hoveredMenuItem || hoveredMenuItem === item.href
+              ? "text-black"
+              : "text-gray-800"
+              } ${item.hideOnMobile && "hidden lg:inline-block"
+              } font-extrabold relative group py-6 uppercase text-bold text-2xl md:text-4xl transition-all duration-700 w-64 text-center`}
             onMouseEnter={() => setHoveredMenuItem(item.href)}
             onMouseLeave={() => setHoveredMenuItem("")}
           >
             <span className="relative z-10">{item.title}</span>
             <span
-              className={`${
-                hoveredMenuItem === item.href ? "w-full" : "w-0"
-              } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
+              className={`${hoveredMenuItem === item.href ? "w-full" : "w-0"
+                } transition-all duration-500 absolute z-0 left-0 right-0 bg-gray-900`}
               style={{ bottom: "calc(50% - 1px)", height: "2px" }}
             ></span>
           </Link>
@@ -198,18 +192,16 @@ const Layout = ({
       </nav>
 
       <header
-        className={`relative ${
-          heroVideoId
-            ? `lg:bg-linear-to-b from-gray-400 to-white via-gray-100 lg:bg-opacity-25`
-            : null
-        }`}
+        className={`relative ${heroVideoId
+          ? `lg:bg-linear-to-b from-gray-400 to-white via-gray-100 lg:bg-opacity-25`
+          : null
+          }`}
         style={headerStyles}
       >
         {isDesktop && heroVideoId && (
           <div
-            className={`bpd-hero-foreground absolute z-0 h-full w-full inset-0 ${
-              videoPlaying ? "opacity-100" : "opacity-0"
-            }`}
+            className={`bpd-hero-foreground absolute z-0 h-full w-full inset-0 ${videoPlaying ? "opacity-100" : "opacity-0"
+              }`}
           >
             <ReactPlayer
               allow="autoplay; fullscreen; picture-in-picture"
@@ -236,16 +228,14 @@ const Layout = ({
         <div className="relative text-center py-8 container mx-auto z-10">
           <div>
             <p
-              className={`uppercase font-extrabold text-3xl ${
-                showHero ? "text-white" : null
-              }`}
+              className={`uppercase font-extrabold text-3xl ${showHero ? "text-white" : null
+                }`}
             >
               <Link href={`/`}>Director</Link>
             </p>
             <p
-              className={`uppercase font-light text-3xl ${
-                showHero ? "text-white" : null
-              }`}
+              className={`uppercase font-light text-3xl ${showHero ? "text-white" : null
+                }`}
             >
               <Link href={`/`}>Jeremy Miller</Link>
             </p>
@@ -258,9 +248,8 @@ const Layout = ({
                 aria-label="Open menu"
               >
                 <span
-                  className={`${!menuOpen ? "opacity-100" : "opacity-0"} ${
-                    !menuVisible ? "absolute" : "hidden"
-                  } top-0 right-0 w-12 h-8 transform transition-all ease-in duration-300`}
+                  className={`${!menuOpen ? "opacity-100" : "opacity-0"} ${!menuVisible ? "absolute" : "hidden"
+                    } top-0 right-0 w-12 h-8 transform transition-all ease-in duration-300`}
                 >
                   <Image
                     alt="Open menu"
@@ -279,7 +268,7 @@ const Layout = ({
         </div>
       </header>
       <main className="relative z-10 bg-white w-full">{children}</main>
-      <footer className="relative z-10 py-8 text-center">
+      <footer className="relative z-10 py-8 text-center bg-white">
         <nav className="container mx-auto flex space-x-4 justify-center py-8">
           <Link href="/" className="font-bold underline uppercase">
             Home
