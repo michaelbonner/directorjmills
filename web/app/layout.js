@@ -11,7 +11,7 @@ export default function RootLayout({ children }) {
       <head>
         <link rel="stylesheet" href="https://use.typekit.net/gvj6hwn.css" />
       </head>
-      <body>
+      <body className="bg-white">
         <GTMInitializer />
         {children}
       </body>

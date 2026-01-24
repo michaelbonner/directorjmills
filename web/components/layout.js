@@ -80,10 +80,7 @@ const Layout = ({
   }, []);
 
   return (
-    <div
-      className={`${isDesktop && heroVideoId ? "opacity-0" : null} ${isDesktop && heroVideoId && videoPlaying ? "bpd-fade-in" : null
-        }`}
-    >
+    <div>
       <Head>
         <title>{title || "Director Jeremy Miller"}</title>
         <link
