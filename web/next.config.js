@@ -60,6 +60,8 @@ module.exports = {
         destination: "/work/NINJA",
         permanent: true,
       },
+      { source: "/work/Bad%20Habits", destination: "/work/bad-habits", permanent: true },
+      { source: "/work/movie%20night", destination: "/work/movie-night", permanent: true },
     ];
   },
 };
