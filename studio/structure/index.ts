@@ -12,7 +12,7 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.document()
             .schemaType('homePage')
-            .documentId('homePage')
+            .documentId('92a0be0a-1074-4f29-b75e-b3bea3a46964')
         ),
       S.listItem()
         .title('Work Page')
@@ -20,7 +20,7 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.document()
             .schemaType('workPage')
-            .documentId('workPage')
+            .documentId('225c1791-ccee-4a3c-8d40-df19fdb1cfaf')
         ),
       S.listItem()
         .title('Contact Page')
@@ -28,7 +28,7 @@ export const structure: StructureResolver = (S) =>
         .child(
           S.document()
             .schemaType('aboutPage')
-            .documentId('aboutPage')
+            .documentId('c16f2166-ce88-40ca-b854-831fe432d4d9')
         ),
       S.listItem()
         .title('Stills Pages')
