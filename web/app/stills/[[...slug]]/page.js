@@ -50,9 +50,14 @@ export async function generateMetadata({ params }) {
     notFound();
   }
 
+  const canonicalPath = slug ? `/stills/${slug}` : "/stills";
+
   return {
     title: stillsPage?.seoTitle || "Stills | Director Jeremy Miller",
     description: stillsPage?.seoDescription || "Stills | Director Jeremy Miller",
+    alternates: {
+      canonical: canonicalPath,
+    },
   };
 }
 

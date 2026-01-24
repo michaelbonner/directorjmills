@@ -44,6 +44,9 @@ export async function generateMetadata() {
   return {
     title: homePage?.seo_title || "Director Jeremy Miller",
     description: homePage?.seo_description || "Director Jeremy Miller",
+    alternates: {
+      canonical: "/",
+    },
   };
 }
 

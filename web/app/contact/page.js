@@ -31,6 +31,9 @@ export async function generateMetadata() {
   return {
     title: about?.seo_title || "Contact | Director Jeremy Miller",
     description: about?.seo_description || "Contact Director Jeremy Miller",
+    alternates: {
+      canonical: "/contact",
+    },
   };
 }
 

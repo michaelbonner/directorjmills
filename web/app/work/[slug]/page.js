@@ -81,6 +81,9 @@ export async function generateMetadata({ params }) {
     title: workItem.seo_title || `${fullTitle} | Director Jeremy Miller`,
     description:
       workItem.seo_description || `${fullTitle} | Director Jeremy Miller`,
+    alternates: {
+      canonical: `/work/${slug.toLowerCase()}`,
+    },
   };
 }
 

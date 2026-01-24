@@ -45,6 +45,9 @@ export async function generateMetadata() {
   return {
     title: workPage?.seo_title || "Work | Director Jeremy Miller",
     description: workPage?.seo_description || "Work | Director Jeremy Miller",
+    alternates: {
+      canonical: "/work",
+    },
   };
 }
 

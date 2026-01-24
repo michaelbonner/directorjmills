@@ -2,9 +2,7 @@ import "../styles/globals.css";
 import { GTMInitializer } from "./gtm-initializer";
 
 export const metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
-  ),
+  metadataBase: new URL("https://jeremymillerdirector.com/"),
 };
 
 export default function RootLayout({ children }) {
