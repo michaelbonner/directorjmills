@@ -43,6 +43,23 @@
   }
 }
 
+.bpd-fade-out {
+  animation: fadeOutAnimation ease 3s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-delay: 1400ms;
+  opacity: 1;
+}
+
+@keyframes fadeOutAnimation {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .prose h2 {
   @apply text-3xl;
   @apply mb-3;
