@@ -1,3 +1,5 @@
 .vercel
 web/playwright-report
 web/test-results
+studio/.claude/
+web/.claude/
