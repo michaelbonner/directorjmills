@@ -1,24 +1,29 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
+import { clsx } from "clsx";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
-  GrContract,
-  GrExpand,
-  GrPause,
-  GrPlay,
-  GrVolume,
-  GrVolumeMute,
-} from "react-icons/gr";
-import { HiChevronDown } from "react-icons/hi";
+  FiMaximize,
+  FiMinimize,
+  FiPause,
+  FiPlay,
+  FiVolume2,
+  FiVolumeX,
+} from "react-icons/fi";
 import ReactPlayer from "react-player";
 import screenfull from "screenfull";
 import { ClientOnly } from "../../../components/client-only";
 import Layout from "../../../components/layout";
-import WorkItemTile from "../../../components/work-item-tile";
+import { WorkGrid } from "../../../components/work-grid";
 import useInterval from "../../../hooks/useInterval";
 import { useIsomorphicLayoutEffect } from "../../../hooks/useIsomorphicLayoutEffect";
+import { useTitledVimeoRef } from "../../../hooks/useTitledVimeoRef";
 import urlForSanitySource from "../../../lib/urlForSanitySource";
+import { globalStyles } from "../../../styles/globalStyles";
+
+const MORE_WORK_COUNT = 6;
 
 /*
 prevent purging of aspect ratio
@@ -46,7 +51,6 @@ export function WorkItemClient({
   workItems = [],
 }) {
   const [showVideo, setShowVideo] = useState(false);
-  const [creditsOpen, setCreditsOpen] = useState(false);
   const [videoPlaying, setVideoPlaying] = useState(false);
   const player = useRef(null);
   const scrubber = useRef(null);
@@ -156,6 +160,14 @@ export function WorkItemClient({
   const videoWidthAspectRatio = workItem.videoWidthAspectRatio || "16";
 
   const fullTitle = clientName ? `${clientName} | ${title}` : title;
+  const titledPlayerRef = useTitledVimeoRef(fullTitle, player);
+
+  const moreWork = workItems
+    .filter((item) => item._id !== workItem._id)
+    .slice(0, MORE_WORK_COUNT);
+
+  const controlButtonClassName =
+    "flex h-12 w-12 shrink-0 items-center justify-center text-xl text-white/80 transition-colors hover:text-white sm:h-10 sm:w-10";
 
   return (
     <Layout
@@ -165,233 +177,268 @@ export function WorkItemClient({
       isStillsPageEnabled={isStillsPageEnabled}
       title={workItem.seo_title || `${fullTitle} | Director Jeremy Miller`}
     >
-      <article
-        className={`bpd-player-container relative z-20 ${
-          isFullscreen
-            ? "h-screen flex flex-col justify-center items-center"
-            : ""
-        }`}
-      >
-        {video_id ? (
-          <ClientOnly>
-            <div
-              className={`${isFullscreen ? "w-full" : "container"}${
-                !showVideo ? " bg-gray-50" : ""
-              } mx-auto transition-all duration-700`}
-            >
+      <article>
+        <div
+          className={clsx(
+            "bpd-player-container relative z-20 bg-neutral-950 text-white",
+            isFullscreen
+              ? "flex h-screen flex-col items-center justify-center"
+              : "py-8 lg:py-12",
+          )}
+        >
+          {video_id ? (
+            <ClientOnly>
               <div
-                className={`my-12 lg:my-0 relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700 ${
-                  showVideo ? `opacity-100` : `opacity-0`
-                }`}
-              >
-                <ReactPlayer
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  allowFullScreen={true}
-                  controls={isIpad}
-                  frameBorder="0"
-                  height={`100%`}
-                  title={fullTitle}
-                  src={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
-                  width={`100%`}
-                  playing={videoPlaying}
-                  muted={muted}
-                  onReady={() => {
-                    console.log('Player ready');
-                    setTimeout(() => {
-                      setShowVideo(true);
-                    }, 100);
-                  }}
-                  onDurationChange={() => {
-                    if (player.current) {
-                      setTotalPlaySeconds(player.current.duration || 0);
-                    }
-                  }}
-                  onStart={() => {
-                    console.log('Player started');
-                    setShowVideo(true);
-                  }}
-                  onEnded={() => {
-                    setVideoPlaying(false);
-                  }}
-                  onPlay={async () => {
-                    setIsPlaying(true);
-                    setShowVideo(true);
-                  }}
-                  onPause={() => {
-                    setIsPlaying(false);
-                  }}
-                  ref={player}
-                ></ReactPlayer>
-                {!isIpad && (
-                  <button
-                    className="absolute inset-0 bg-transparent flex items-center justify-center cursor-pointer text-6xl"
-                    onClick={() => setVideoPlaying(!videoPlaying)}
-                  >
-                    <GrPlay
-                      className={`bpd-play-icon transition-all duration-500 ${
-                        videoPlaying ? "opacity-0" : "opacity-100"
-                      }`}
-                    />
-                  </button>
+                className={clsx(
+                  isFullscreen ? "w-full" : globalStyles.container,
+                  "transition-all duration-700",
                 )}
-              </div>
-
-              {!isIos ? (
-                <div className="container mx-auto pt-3 flex space-x-8 bg-white">
-                  <button
-                    className="relative text-4xl w-8 h-8"
-                    onClick={() => setVideoPlaying(!videoPlaying)}
-                    title="Play/Pause"
-                  >
-                    <GrPause
-                      className={`${
-                        videoPlaying ? "opacity-100" : "opacity-0"
-                      } absolute inset-0 transition-all duration-500`}
+              >
+                <div
+                  className={`relative aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} bg-neutral-900`}
+                >
+                  {poster ? (
+                    <img
+                      alt=""
+                      className="h-full w-full object-cover"
+                      src={urlForSanitySource(poster).width(1600).url()}
                     />
-                    <GrPlay
-                      className={`${
-                        videoPlaying ? "opacity-0" : "opacity-100"
-                      } absolute inset-0 transition-all duration-500`}
-                    />
-                  </button>
-                  <button
-                    className="relative w-full border-2 border-black rounded-sm"
-                    onClick={(e) => {
-                      const scrubberBoundingClientRect =
-                        scrubber.current.getBoundingClientRect();
-
-                      const zeroBasedClickPosition =
-                        e.clientX - scrubberBoundingClientRect.left;
-
-                      const xPercentageClicked =
-                        zeroBasedClickPosition / scrubber.current.clientWidth;
-
+                  ) : (
+                    <div />
+                  )}
+                  <ReactPlayer
+                    style={{
+                      opacity: showVideo ? 1 : 0,
+                      transition: "opacity 700ms",
+                    }}
+                    allow="autoplay; fullscreen; picture-in-picture"
+                    allowFullScreen={true}
+                    controls={isIpad}
+                    frameBorder="0"
+                    height={`100%`}
+                    title={fullTitle}
+                    src={`https://player.vimeo.com/video/${video_id}?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479`}
+                    width={`100%`}
+                    playing={videoPlaying}
+                    muted={muted}
+                    onReady={() => {
+                      setTimeout(() => {
+                        setShowVideo(true);
+                      }, 100);
+                    }}
+                    onDurationChange={() => {
                       if (player.current) {
-                        // Calculate the target time based on percentage and duration
-                        const targetTime = xPercentageClicked * totalPlaySeconds;
-                        player.current.currentTime = targetTime;
-                        setScrubberPosition(xPercentageClicked * scrubberWidth);
+                        setTotalPlaySeconds(player.current.duration || 0);
                       }
                     }}
-                    ref={scrubber}
-                  >
-                    <div
-                      className="h-full w-1 bg-gray-500 absolute top-0"
-                      style={{
-                        transform: `translate3d(${scrubberPosition}px,0, 0)`,
+                    onStart={() => {
+                      setShowVideo(true);
+                    }}
+                    onEnded={() => {
+                      setVideoPlaying(false);
+                    }}
+                    onPlay={async () => {
+                      setIsPlaying(true);
+                      setShowVideo(true);
+                    }}
+                    onPause={() => {
+                      setIsPlaying(false);
+                    }}
+                    ref={titledPlayerRef}
+                  ></ReactPlayer>
+                  {(!isIpad || !videoPlaying) && (
+                    <button
+                      aria-label={videoPlaying ? "Pause video" : "Play video"}
+                      className="group absolute inset-0 flex cursor-pointer items-center justify-center bg-transparent"
+                      onClick={() => {
+                        setShowVideo(true);
+                        setVideoPlaying(!videoPlaying);
                       }}
-                    ></div>
-                  </button>
-                  <div className="flex items-center gap-x-2 text-2xl md:gap-x-6">
+                    >
+                      <span
+                        className={clsx(
+                          "flex h-20 w-20 items-center justify-center rounded-full border border-white/70 bg-neutral-950/30 text-3xl backdrop-blur-sm transition-all duration-500 group-hover:scale-105 lg:h-24 lg:w-24",
+                          videoPlaying ? "opacity-0" : "opacity-100",
+                        )}
+                      >
+                        <FiPlay className="translate-x-0.5" />
+                      </span>
+                    </button>
+                  )}
+                </div>
+
+                {!isIos ? (
+                  <div
+                    className={clsx(
+                      "flex items-center gap-3 pt-4 sm:gap-5",
+                      isFullscreen && "px-5 sm:px-8",
+                    )}
+                  >
+                    <button
+                      aria-label={videoPlaying ? "Pause" : "Play"}
+                      className={controlButtonClassName}
+                      onClick={() => setVideoPlaying(!videoPlaying)}
+                      title="Play/Pause"
+                    >
+                      {videoPlaying ? <FiPause /> : <FiPlay />}
+                    </button>
+                    <button
+                      aria-label="Seek"
+                      className="relative h-12 min-w-0 w-full sm:h-10"
+                      onClick={(e) => {
+                        const scrubberBoundingClientRect =
+                          scrubber.current.getBoundingClientRect();
+
+                        const zeroBasedClickPosition =
+                          e.clientX - scrubberBoundingClientRect.left;
+
+                        const xPercentageClicked =
+                          zeroBasedClickPosition / scrubber.current.clientWidth;
+
+                        if (player.current) {
+                          // Calculate the target time based on percentage and duration
+                          const targetTime =
+                            xPercentageClicked * totalPlaySeconds;
+                          player.current.currentTime = targetTime;
+                          setScrubberPosition(
+                            xPercentageClicked * scrubberWidth,
+                          );
+                        }
+                      }}
+                      ref={scrubber}
+                    >
+                      <span className="absolute inset-x-0 top-1/2 h-px bg-white/25" />
+                      <span
+                        className="absolute top-1/2 left-0 h-px bg-white"
+                        style={{ width: `${scrubberPosition}px` }}
+                      />
+                      <span
+                        className="absolute top-1/2 left-0 -ml-1.5 h-3 w-3 rounded-full bg-white"
+                        style={{
+                          transform: `translate3d(${scrubberPosition}px, -50%, 0)`,
+                        }}
+                      />
+                    </button>
                     {muted === true ? (
                       <button
                         aria-label="Unmute"
-                        className="bpd-white-icon"
+                        className={controlButtonClassName}
                         onClick={() => {
                           setMuted(false);
                         }}
                       >
-                        <GrVolumeMute />
+                        <FiVolumeX />
                       </button>
                     ) : (
                       <button
                         aria-label="Mute"
-                        className="bpd-white-icon"
+                        className={controlButtonClassName}
                         onClick={() => {
                           setMuted(true);
                         }}
                       >
-                        <GrVolume />
+                        <FiVolume2 />
                       </button>
                     )}
-                  </div>
-                  <div className="text-2xl flex items-center">
                     {isFullscreen ? (
-                      <button onClick={() => toggleFullScreen(false)}>
-                        <GrContract />
+                      <button
+                        aria-label="Exit fullscreen"
+                        className={controlButtonClassName}
+                        onClick={() => toggleFullScreen(false)}
+                      >
+                        <FiMinimize />
                       </button>
                     ) : (
-                      <button onClick={() => toggleFullScreen(true)}>
-                        <GrExpand />
+                      <button
+                        aria-label="Enter fullscreen"
+                        className={controlButtonClassName}
+                        onClick={() => toggleFullScreen(true)}
+                      >
+                        <FiMaximize />
                       </button>
                     )}
                   </div>
-                </div>
-              ) : null}
+                ) : null}
+              </div>
+            </ClientOnly>
+          ) : (
+            <div className={globalStyles.container}>
+              <div
+                className={`aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700`}
+              >
+                {poster ? (
+                  <img
+                    alt={fullTitle}
+                    className="h-full w-full object-cover"
+                    src={urlForSanitySource(poster).width(1600).url()}
+                  />
+                ) : null}
+              </div>
             </div>
-          </ClientOnly>
-        ) : (
-          <div className="container mx-auto">
-            <div
-              className={`aspect-w-${videoWidthAspectRatio} aspect-h-${videoHeightAspectRatio} transition-all duration-700`}
-            >
-              {poster ? (
-                <img
-                  alt="Poster image"
-                  className="w-full h-full"
-                  src={urlForSanitySource(poster).width(1200).url()}
-                />
-              ) : null}
-            </div>
-          </div>
-        )}
+          )}
+        </div>
 
-        <div className="container px-4 md:px-0 mx-auto mt-4">
-          <div className="flex justify-start items-center">
-            <h1 className="text-2xl md:text-2xl lg:text-4xl uppercase flex space-x-2 md:space-x-4 text-left py-4">
-              <span className="font-extrabold tracking-wide">
-                {clientName ? `${clientName}` : ""}
-              </span>
-              <span className="font-light">{title ? `${title}` : ""}</span>
-            </h1>
-          </div>
-
-          <div>
-            {credits && credits.length > 0 && (
-              <>
-                <button
-                  className="w-full flex items-center space-x-2 font-bold text-lg lg:text-2xl text-left my-12 uppercase border-b-2 border-black pb-2"
-                  onClick={() => setCreditsOpen(!creditsOpen)}
-                  type="button"
-                >
-                  <span>Credits</span>
-                  <span
-                    className={`${
-                      creditsOpen ? "rotate-180" : null
-                    } transform transition-all text-4xl`}
-                  >
-                    <HiChevronDown />
-                  </span>
-                </button>
-                <div
-                  className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-4 ${
-                    creditsOpen ? "h-auto" : "h-0"
-                  } transition-all overflow-hidden`}
-                >
-                  {credits.map((credit, index) => {
-                    return (
-                      <div className="grid grid-cols-3" key={index}>
-                        <div className="font-bold">{credit.role}</div>
-                        <div className="col-span-2">{credit.value}</div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
+        <div
+          className={clsx(
+            globalStyles.container,
+            "grid gap-12 py-16 lg:grid-cols-12 lg:gap-10 lg:py-24",
+          )}
+        >
+          <div className="lg:col-span-5">
+            {clientName && (
+              <p className={clsx(globalStyles.eyebrow, "mb-5")}>{clientName}</p>
             )}
+            <h1 className={clsx(globalStyles.h2, "max-w-[18ch]")}>{title}</h1>
           </div>
+
+          {credits && credits.length > 0 && (
+            <div className="lg:col-span-7 lg:pt-2">
+              <h2 className={clsx(globalStyles.eyebrow, "mb-5")}>Credits</h2>
+              <dl className="grid grid-cols-1 gap-x-10 border-t border-neutral-300 sm:grid-cols-2">
+                {credits.map((credit, index) => {
+                  return (
+                    <div
+                      className="grid grid-cols-5 gap-4 border-b border-neutral-300 py-3"
+                      key={index}
+                    >
+                      <dt className="col-span-2 text-sm font-medium tracking-[0.06em] text-neutral-500 uppercase">
+                        {credit.role}
+                      </dt>
+                      <dd className="col-span-3 text-base">{credit.value}</dd>
+                    </div>
+                  );
+                })}
+              </dl>
+            </div>
+          )}
         </div>
       </article>
-      <aside className="hidden lg:block container mx-auto border-t mt-12 pt-12">
-        <h3 className="font-light uppercase text-3xl py-8 px-4 lg:px-0">
-          Work
-        </h3>
-        <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-1">
-          {workItems.map((workItem, index) => {
-            return <WorkItemTile workItem={workItem} key={index} />;
-          })}
-        </div>
-      </aside>
+
+      {moreWork.length > 0 && (
+        <aside className="border-t border-neutral-300 bg-[#eeece8] py-20 lg:py-28">
+          <div className={globalStyles.container}>
+            <div className="mb-12 flex flex-col gap-6 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
+              <div>
+                <p className={clsx(globalStyles.eyebrow, "mb-5")}>
+                  Keep watching
+                </p>
+                <h2 className={globalStyles.h2}>More work</h2>
+              </div>
+              <Link
+                href="/work"
+                className={clsx(
+                  globalStyles.textLink,
+                  "self-start lg:self-auto",
+                )}
+              >
+                View all work
+                <span aria-hidden="true">↗</span>
+              </Link>
+            </div>
+            <WorkGrid workItems={moreWork} />
+          </div>
+        </aside>
+      )}
     </Layout>
   );
 }

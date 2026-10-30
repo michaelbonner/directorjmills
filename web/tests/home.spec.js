@@ -12,11 +12,11 @@ test.describe('Home Page', () => {
     await page.goto('/');
 
     // Wait for the grid to be visible
-    const grid = page.locator('.grid.grid-cols-1');
+    const grid = page.getByTestId('work-grid');
     await expect(grid).toBeVisible();
 
     // Check that work items are present
-    const workItems = page.locator('.grid.grid-cols-1 > *');
+    const workItems = page.getByTestId('work-grid').locator('> *');
     await expect(workItems.first()).toBeVisible();
   });
 
@@ -25,7 +25,7 @@ test.describe('Home Page', () => {
     await page.goto('/');
 
     // Check for desktop grid layout
-    const grid = page.locator('.grid.lg\\:grid-cols-3');
+    const grid = page.getByTestId('work-grid');
     await expect(grid).toBeVisible();
   });
 
@@ -34,7 +34,7 @@ test.describe('Home Page', () => {
     await page.goto('/');
 
     // Check that grid exists (will be single column on mobile)
-    const grid = page.locator('.grid.grid-cols-1');
+    const grid = page.getByTestId('work-grid');
     await expect(grid).toBeVisible();
   });
 
@@ -61,7 +61,7 @@ test.describe('Home Page', () => {
     await page.goto('/');
 
     // Get first work item link from within main content area
-    const firstWorkItem = page.locator('main').getByRole('link').first();
+    const firstWorkItem = page.locator('main a[href^="/work/"]').first();
 
     // Wait for the link to be visible and get href
     await firstWorkItem.waitFor({ state: 'visible' });
@@ -75,15 +75,14 @@ test.describe('Home Page', () => {
     await expect(page).toHaveURL(/\/work\/.+/);
   });
 
-  test('should show only 6 work items initially if hideAfterCount is set', async ({ page }) => {
+  test('should show at most 6 featured work items', async ({ page }) => {
     await page.goto('/');
 
     // Wait for work items to load
-    await page.waitForSelector('.grid.grid-cols-1', { timeout: 10000 });
+    await page.getByTestId('work-grid').waitFor({ timeout: 10000 });
 
-    // The hideAfterCount prop is set to 6, but this is handled by the component
-    // Just verify grid exists
-    const grid = page.locator('.grid.grid-cols-1');
-    await expect(grid).toBeVisible();
+    // The home page features the first 6 work items
+    const workItems = page.getByTestId('work-grid').locator('> *');
+    expect(await workItems.count()).toBeLessThanOrEqual(6);
   });
 });

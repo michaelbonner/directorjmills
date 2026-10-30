@@ -1,7 +1,9 @@
+import { clsx } from "clsx";
 import groq from "groq";
 import Layout from "../../components/layout";
+import { WorkGrid } from "../../components/work-grid";
 import { getClient } from "../../lib/sanity";
-import WorkItemTile from "../../components/work-item-tile";
+import { globalStyles } from "../../styles/globalStyles";
 import { getIsStillsPageEnabled } from "../../functions/getIsStillsPageEnabled";
 
 async function getData() {
@@ -60,11 +62,26 @@ export default async function Work() {
       title={workPage.seo_title}
       description={workPage.seo_description}
     >
-      <div className="mx-1 grid grid-cols-1 lg:grid-cols-3 gap-1">
-        {workItems.map((workItem, index) => {
-          return <WorkItemTile workItem={workItem} key={index} />;
-        })}
-      </div>
+      <section
+        className={clsx(
+          globalStyles.container,
+          "pt-12 pb-20 lg:pt-20 lg:pb-28",
+        )}
+      >
+        <div className="mb-12 grid gap-8 border-b border-neutral-300 pb-12 lg:mb-16 lg:grid-cols-12 lg:gap-10 lg:pb-16">
+          <div className="lg:col-span-7">
+            <p className={clsx(globalStyles.eyebrow, "mb-5")}>
+              {workItems.length} projects
+            </p>
+            <h1 className={globalStyles.h1}>Work</h1>
+          </div>
+          <p className="max-w-[48ch] self-end text-lg/8 text-pretty text-neutral-600 lg:col-span-5">
+            Commercial, branded and narrative films for automotive, tech and
+            lifestyle brands.
+          </p>
+        </div>
+        <WorkGrid workItems={workItems} />
+      </section>
     </Layout>
   );
 }
