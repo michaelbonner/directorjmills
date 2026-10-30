@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
+import { globalStyles } from "../styles/globalStyles";
 
 export const StillsGallery = ({ images = [] }) => {
   const [isGalleryModelOpen, setIsGalleryModelOpen] = useState(false);
@@ -34,7 +35,7 @@ export const StillsGallery = ({ images = [] }) => {
         zoom={{ ref: zoomRef }}
       />
 
-      <section className="mx-auto my-12 max-w-13xl px-6 text-center">
+      <section className={`${globalStyles.container} pt-8 pb-20 lg:pb-28`}>
         <MasonryStills
           images={images}
           setIsGalleryModelOpen={setIsGalleryModelOpen}
@@ -47,7 +48,7 @@ export const StillsGallery = ({ images = [] }) => {
 
 const MasonryStills = ({ images, setIsGalleryModelOpen, setPhotoIndex }) => {
   const ResponsiveMasonry = dynamic(() =>
-    import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry)
+    import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry),
   );
   const Masonry = dynamic(() => import("react-responsive-masonry"));
 
@@ -60,7 +61,7 @@ const MasonryStills = ({ images, setIsGalleryModelOpen, setPhotoIndex }) => {
         1600: 6,
         2000: 8,
       }}
-      gutter="10px"
+      gutter="0px"
     >
       <Masonry>
         {images.map((image, index) => {
@@ -81,15 +82,20 @@ const MasonryStills = ({ images, setIsGalleryModelOpen, setPhotoIndex }) => {
           const { width, height } = getWidthXHeight();
 
           return (
-            <div className="p-2" key={index}>
+            <button
+              type="button"
+              className="block w-full overflow-hidden p-1"
+              key={index}
+              onClick={() => {
+                setIsGalleryModelOpen(true);
+                setPhotoIndex(index);
+              }}
+              aria-label={`Open ${image.altText}`}
+            >
               <Image
                 alt={image.altText}
-                className={`bpd-gallery-image cursor-pointer`}
+                className="bpd-gallery-image transition-opacity duration-300 hover:opacity-85"
                 height={height}
-                onClick={() => {
-                  setIsGalleryModelOpen(true);
-                  setPhotoIndex(index);
-                }}
                 src={`${image.imageUrl}?w=${width}&h=${height}&auto=format&fit=crop&crop=focalpoint`}
                 width={width}
                 unoptimized
@@ -98,7 +104,7 @@ const MasonryStills = ({ images, setIsGalleryModelOpen, setPhotoIndex }) => {
                   height: "auto",
                 }}
               />
-            </div>
+            </button>
           );
         })}
       </Masonry>
