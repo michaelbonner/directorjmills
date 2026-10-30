@@ -3,19 +3,11 @@
 import { clsx } from "clsx";
 import capitalize from "just-capitalize";
 import shuffle from "just-shuffle";
-import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import { ClientOnly } from "../../../components/client-only";
 import Layout from "../../../components/layout";
+import StillsGallery from "../../../components/stills-gallery";
 import { globalStyles } from "../../../styles/globalStyles";
-
-const StillsGallery = dynamic(
-  () => import("../../../components/stills-gallery"),
-  {
-    loading: () => <p className="p-4 text-center">Loading...</p>,
-    ssr: false,
-  },
-);
 
 export function StillsClient({ isStillsPageEnabled, stillsPage }) {
   const shuffledImages = useMemo(() => {

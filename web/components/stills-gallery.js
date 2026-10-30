@@ -1,8 +1,8 @@
 import "yet-another-react-lightbox/styles.css";
 
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import Lightbox from "yet-another-react-lightbox";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import { globalStyles } from "../styles/globalStyles";
@@ -12,8 +12,6 @@ export const StillsGallery = ({ images = [] }) => {
   const [photoIndex, setPhotoIndex] = useState(0);
 
   const zoomRef = useRef(null);
-
-  if (typeof window === "undefined") return null;
 
   return (
     <div>
@@ -47,11 +45,6 @@ export const StillsGallery = ({ images = [] }) => {
 };
 
 const MasonryStills = ({ images, setIsGalleryModelOpen, setPhotoIndex }) => {
-  const ResponsiveMasonry = dynamic(() =>
-    import("react-responsive-masonry").then((mod) => mod.ResponsiveMasonry),
-  );
-  const Masonry = dynamic(() => import("react-responsive-masonry"));
-
   return (
     <ResponsiveMasonry
       columnsCountBreakPoints={{

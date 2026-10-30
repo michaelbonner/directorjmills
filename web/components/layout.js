@@ -9,6 +9,7 @@ import ReactPlayer from "react-player";
 import { getMenuItems } from "../functions/getMenuItems";
 import urlForSanitySource from "../lib/urlForSanitySource";
 import { globalStyles } from "../styles/globalStyles";
+import { useTitledVimeoRef } from "../hooks/useTitledVimeoRef";
 
 const Layout = ({
   children,
@@ -22,6 +23,7 @@ const Layout = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const [videoPlaying, setVideoPlaying] = useState(false);
+  const heroPlayerRef = useTitledVimeoRef("Jeremy Miller director reel");
 
   const hasHero = Boolean(heroContent || heroImageUrl || heroVideoId);
   const menuItems = getMenuItems({ isStillsPageEnabled });
@@ -137,7 +139,7 @@ const Layout = ({
             "flex items-center justify-between gap-8 py-5 lg:py-7",
           )}
         >
-          <Link href="/" aria-label="Homepage" className="group leading-none">
+          <Link href="/" className="group leading-none">
             <span className="block text-2xl font-semibold tracking-[-0.03em] uppercase lg:text-3xl">
               Jeremy Miller
             </span>
@@ -261,6 +263,7 @@ const Layout = ({
                   }}
                   onPlay={() => setVideoPlaying(true)}
                   title="Jeremy Miller director reel"
+                  ref={heroPlayerRef}
                   src={`https://player.vimeo.com/video/${heroVideoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=true&background=true`}
                   width={`100%`}
                 />
@@ -285,7 +288,7 @@ const Layout = ({
           )}
         >
           <div className="lg:col-span-6">
-            <Link href="/" aria-label="Homepage" className="inline-block">
+            <Link href="/" className="inline-block">
               <span className="block text-3xl font-semibold tracking-[-0.03em] uppercase lg:text-4xl">
                 Jeremy Miller
               </span>

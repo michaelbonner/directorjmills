@@ -56,7 +56,7 @@ const WorkItemTile = ({ workItem, index }) => {
       <div className="mt-4 flex items-start justify-between gap-6 border-t border-neutral-300 pt-4">
         <div className="min-w-0">
           {workItem.clientName && (
-            <p className="text-sm font-medium tracking-[0.12em] text-neutral-500 uppercase">
+            <p className="text-sm font-medium tracking-[0.12em] text-neutral-600 uppercase">
               {workItem.clientName}
             </p>
           )}
@@ -66,7 +66,7 @@ const WorkItemTile = ({ workItem, index }) => {
         </div>
         {typeof index === "number" && (
           <span
-            className="pt-0.5 text-sm text-neutral-400 tabular-nums transition-colors group-hover:text-neutral-950"
+            className="pt-0.5 text-sm text-neutral-600 tabular-nums transition-colors group-hover:text-neutral-950"
             aria-hidden="true"
           >
             {String(index + 1).padStart(2, "0")}

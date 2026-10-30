@@ -19,6 +19,7 @@ import Layout from "../../../components/layout";
 import { WorkGrid } from "../../../components/work-grid";
 import useInterval from "../../../hooks/useInterval";
 import { useIsomorphicLayoutEffect } from "../../../hooks/useIsomorphicLayoutEffect";
+import { useTitledVimeoRef } from "../../../hooks/useTitledVimeoRef";
 import urlForSanitySource from "../../../lib/urlForSanitySource";
 import { globalStyles } from "../../../styles/globalStyles";
 
@@ -159,13 +160,14 @@ export function WorkItemClient({
   const videoWidthAspectRatio = workItem.videoWidthAspectRatio || "16";
 
   const fullTitle = clientName ? `${clientName} | ${title}` : title;
+  const titledPlayerRef = useTitledVimeoRef(fullTitle, player);
 
   const moreWork = workItems
     .filter((item) => item._id !== workItem._id)
     .slice(0, MORE_WORK_COUNT);
 
   const controlButtonClassName =
-    "flex h-10 w-10 shrink-0 items-center justify-center text-xl text-white/80 transition-colors hover:text-white";
+    "flex h-12 w-12 shrink-0 items-center justify-center text-xl text-white/80 transition-colors hover:text-white sm:h-10 sm:w-10";
 
   return (
     <Layout
@@ -242,13 +244,16 @@ export function WorkItemClient({
                     onPause={() => {
                       setIsPlaying(false);
                     }}
-                    ref={player}
+                    ref={titledPlayerRef}
                   ></ReactPlayer>
-                  {!isIpad && (
+                  {(!isIpad || !videoPlaying) && (
                     <button
                       aria-label={videoPlaying ? "Pause video" : "Play video"}
                       className="group absolute inset-0 flex cursor-pointer items-center justify-center bg-transparent"
-                      onClick={() => setVideoPlaying(!videoPlaying)}
+                      onClick={() => {
+                        setShowVideo(true);
+                        setVideoPlaying(!videoPlaying);
+                      }}
                     >
                       <span
                         className={clsx(
@@ -279,7 +284,7 @@ export function WorkItemClient({
                     </button>
                     <button
                       aria-label="Seek"
-                      className="relative h-10 w-full"
+                      className="relative h-12 min-w-0 w-full sm:h-10"
                       onClick={(e) => {
                         const scrubberBoundingClientRect =
                           scrubber.current.getBoundingClientRect();

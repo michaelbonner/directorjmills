@@ -150,3 +150,18 @@ test.describe('Work Detail Page', () => {
     }
   });
 });
+
+test('video projects show a usable play control on iPad', async ({ page }) => {
+  await page.addInitScript(() => {
+    Object.defineProperty(navigator, 'platform', { get: () => 'iPad' });
+  });
+  await page.setViewportSize({ width: 320, height: 700 });
+  await page.goto('/work/share-in-the-adventure');
+
+  const playButton = page.getByRole('button', { name: 'Play video' });
+  await expect(playButton).toBeVisible();
+  await playButton.click();
+
+  await expect(playButton).toHaveCount(0);
+  await expect(page.locator('vimeo-video')).toHaveCSS('opacity', '1');
+});
