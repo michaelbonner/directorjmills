@@ -1,10 +1,10 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 
 export const ClientOnly = ({ children }) => {
-  const isClient = useMemo(() => {
-    if (typeof window === "undefined") return null;
+  const [isClient, setIsClient] = useState(false);
 
-    return true;
+  useEffect(() => {
+    setIsClient(true);
   }, []);
 
   if (!isClient) return null;

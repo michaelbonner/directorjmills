@@ -11,14 +11,8 @@ test.describe('Contact Page', () => {
   test('should display the headshot photo', async ({ page }) => {
     await page.goto('/contact');
 
-    // Check for the photo container
-    const photoContainer = page.locator('.border-2.border-black');
-    await expect(photoContainer).toBeVisible();
-
-    // Check for the image
-    const photo = page.locator('img[alt*="Jeremy Miller Headshot"], img[alt*="Headshot"]').first();
-    // Wait a bit for image to potentially load
-    await page.waitForTimeout(1000);
+    const photo = page.locator('img[alt*="Headshot"]').first();
+    await expect(photo).toBeVisible();
   });
 
   test('should display bio section', async ({ page }) => {
@@ -32,9 +26,8 @@ test.describe('Contact Page', () => {
   test('should display representation section', async ({ page }) => {
     await page.goto('/contact');
 
-    // Multiple prose sections should be present (bio, representation, awards)
-    const proseSections = page.locator('.prose');
-    await expect(proseSections).toHaveCount(3);
+    const representationHeading = page.locator('h2:has-text("Representation")');
+    await expect(representationHeading).toBeVisible();
   });
 
   test('should have "Show More" button initially', async ({ page }) => {
@@ -93,20 +86,17 @@ test.describe('Contact Page', () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/contact');
 
-    // Check that the photo container is visible
-    const photoContainer = page.locator('.border-2.border-black');
-    await expect(photoContainer).toBeVisible();
+    const photo = page.locator('img[alt*="Headshot"]').first();
+    await expect(photo).toBeVisible();
 
     // Check that content sections are visible
     const proseSection = page.locator('.prose').first();
     await expect(proseSection).toBeVisible();
   });
 
-  test('should display centered content', async ({ page }) => {
+  test('should display the page heading', async ({ page }) => {
     await page.goto('/contact');
 
-    // Check for centered container (using first one as multiple elements have this class)
-    const container = page.locator('.max-w-5xl.mx-auto').first();
-    await expect(container).toBeVisible();
+    await expect(page.locator('main h1')).toHaveText(/Jeremy Miller/i);
   });
 });
