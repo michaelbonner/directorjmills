@@ -60,7 +60,7 @@ export default async function Work() {
   const { workPage, workItems, isStillsPageEnabled } = await getData();
 
   const copy = {
-    projectCountLabel: workPage?.projectCountLabel || "projects",
+    projectCountLabel: workPage?.projectCountLabel,
     heading: workPage?.heading || "Work",
     intro:
       workPage?.intro ||
