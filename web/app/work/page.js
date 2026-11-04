@@ -81,9 +81,11 @@ export default async function Work() {
       >
         <div className="mb-12 grid gap-8 border-b border-neutral-300 pb-12 lg:mb-16 lg:grid-cols-12 lg:gap-10 lg:pb-16">
           <div className="lg:col-span-7">
-            <p className={clsx(globalStyles.eyebrow, "mb-5")}>
-              {workItems.length} {copy.projectCountLabel}
-            </p>
+            {!!copy.projectCountLabel && (
+              <p className={clsx(globalStyles.eyebrow, "mb-5")}>
+                {copy.projectCountLabel}
+              </p>
+            )}
             <h1 className={globalStyles.h1}>{copy.heading}</h1>
           </div>
           <p className="max-w-[48ch] self-end text-lg/8 text-pretty text-neutral-600 lg:col-span-5">
