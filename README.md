@@ -21,6 +21,13 @@ Built using Next.js, consumes data from Sanity
 
 - Push your code to `master` and wait about a minute for Vercel to build it
 
+### How content changes go live
+
+Pages are cached by Next.js. When a document is published in the CMS, a Sanity webhook POSTs to `/api/revalidate`, which clears the cache so the next visitor sees the new content.
+
+- Webhook: [sanity.io/manage](https://www.sanity.io/manage/project/lm6942hb/api/webhooks) → URL `https://jeremymillerdirector.com/api/revalidate`, dataset `production`, trigger on create/update/delete, with a secret
+- The same secret must be set as `SANITY_REVALIDATE_SECRET` in Vercel
+
 ## Sanity CMS
 
 We are using Sanity's CMS to power the content creation process.

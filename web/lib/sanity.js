@@ -6,7 +6,10 @@ import { PortableText as PortableTextComponent } from "@portabletext/react";
 const config = {
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  useCdn: process.env.NODE_ENV === "production",
+  // Pages are cached by Next.js and purged by the Sanity webhook
+  // (app/api/revalidate), so read from the live API to avoid the CDN serving
+  // stale content right after a publish.
+  useCdn: false,
   apiVersion: "2021-03-25",
 };
 
