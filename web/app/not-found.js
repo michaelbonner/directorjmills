@@ -1,5 +1,6 @@
 import { clsx } from "clsx";
 import Link from "next/link";
+import { FiArrowUpRight } from "react-icons/fi";
 import Layout from "../components/layout";
 import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 import { getMenuItems } from "../functions/getMenuItems";
@@ -30,7 +31,7 @@ export default async function NotFound() {
               className={globalStyles.textLink}
             >
               {item.title}
-              <span aria-hidden="true">↗</span>
+              <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
             </Link>
           ))}
         </div>

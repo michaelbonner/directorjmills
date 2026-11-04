@@ -5,6 +5,7 @@ import { clsx } from "clsx";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
+  FiArrowUpRight,
   FiMaximize,
   FiMinimize,
   FiPause,
@@ -432,7 +433,7 @@ export function WorkItemClient({
                 )}
               >
                 View all work
-                <span aria-hidden="true">↗</span>
+                <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
               </Link>
             </div>
             <WorkGrid workItems={moreWork} />

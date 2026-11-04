@@ -2,6 +2,7 @@
 
 import { clsx } from "clsx";
 import Link from "next/link";
+import { FiArrowDown, FiArrowUpRight } from "react-icons/fi";
 import Layout from "../components/layout";
 import { WorkGrid } from "../components/work-grid";
 import { globalStyles } from "../styles/globalStyles";
@@ -31,11 +32,11 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
       <div className="mt-3 flex flex-wrap gap-x-10 gap-y-2">
         <Link href="#work" className={globalStyles.textLink}>
           {copy.heroWorkLink}
-          <span aria-hidden="true">↓</span>
+          <FiArrowDown aria-hidden="true" className="size-4 shrink-0" />
         </Link>
         <Link href="/contact" className={globalStyles.textLink}>
           {copy.heroContactLink}
-          <span aria-hidden="true">↗</span>
+          <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
         </Link>
       </div>
     </div>
@@ -66,7 +67,7 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
               className={clsx(globalStyles.textLink, "self-start lg:self-auto")}
             >
               {copy.workLink}
-              <span aria-hidden="true">↗</span>
+              <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
             </Link>
           </div>
           <WorkGrid workItems={workItems.slice(0, FEATURED_WORK_COUNT)} />
@@ -91,7 +92,7 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
             className="inline-flex min-h-12 items-center gap-5 self-start border border-neutral-950 px-6 py-3 text-sm font-medium tracking-[0.08em] uppercase transition-colors hover:bg-neutral-950 hover:text-white lg:self-auto"
           >
             {copy.contactLink}
-            <span aria-hidden="true">↗</span>
+            <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
           </Link>
         </div>
       </section>

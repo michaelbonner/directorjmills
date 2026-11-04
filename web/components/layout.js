@@ -5,6 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
+import { FiArrowUpRight } from "react-icons/fi";
 import { getMenuItems } from "../functions/getMenuItems";
 import urlForSanitySource from "../lib/urlForSanitySource";
 import { globalStyles } from "../styles/globalStyles";
@@ -345,7 +346,7 @@ const Layout = ({
               className="inline-flex items-center gap-3 border-b border-neutral-950 pb-1 text-base font-medium hover:opacity-60"
             >
               Representation &amp; contact
-              <span aria-hidden="true">↗</span>
+              <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
             </Link>
           </div>
         </div>
