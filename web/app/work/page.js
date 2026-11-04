@@ -14,6 +14,9 @@ async function getData() {
     seo_description,
     poster,
     video_id,
+    projectCountLabel,
+    heading,
+    intro,
   }
   `,
   );
@@ -56,11 +59,19 @@ export async function generateMetadata() {
 export default async function Work() {
   const { workPage, workItems, isStillsPageEnabled } = await getData();
 
+  const copy = {
+    projectCountLabel: workPage?.projectCountLabel || "projects",
+    heading: workPage?.heading || "Work",
+    intro:
+      workPage?.intro ||
+      "Commercial, branded and narrative films for automotive, tech and lifestyle brands.",
+  };
+
   return (
     <Layout
       isStillsPageEnabled={isStillsPageEnabled}
-      title={workPage.seo_title}
-      description={workPage.seo_description}
+      title={workPage?.seo_title}
+      description={workPage?.seo_description}
     >
       <section
         className={clsx(
@@ -71,13 +82,12 @@ export default async function Work() {
         <div className="mb-12 grid gap-8 border-b border-neutral-300 pb-12 lg:mb-16 lg:grid-cols-12 lg:gap-10 lg:pb-16">
           <div className="lg:col-span-7">
             <p className={clsx(globalStyles.eyebrow, "mb-5")}>
-              {workItems.length} projects
+              {workItems.length} {copy.projectCountLabel}
             </p>
-            <h1 className={globalStyles.h1}>Work</h1>
+            <h1 className={globalStyles.h1}>{copy.heading}</h1>
           </div>
           <p className="max-w-[48ch] self-end text-lg/8 text-pretty text-neutral-600 lg:col-span-5">
-            Commercial, branded and narrative films for automotive, tech and
-            lifestyle brands.
+            {copy.intro}
           </p>
         </div>
         <WorkGrid workItems={workItems} />
