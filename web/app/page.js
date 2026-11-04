@@ -3,6 +3,8 @@ import { getIsStillsPageEnabled } from "../functions/getIsStillsPageEnabled";
 import { getClient } from "../lib/sanity";
 import { HomeClient } from "./home-client";
 
+export const revalidate = 60;
+
 async function getData() {
   const homePage = await getClient().fetch(
     groq`
@@ -11,6 +13,16 @@ async function getData() {
       seo_description,
       poster,
       video_id,
+      heroEyebrow,
+      heroHeading,
+      heroWorkLink,
+      heroContactLink,
+      workEyebrow,
+      workHeading,
+      workLink,
+      contactEyebrow,
+      contactHeading,
+      contactLink,
     }
   `,
   );

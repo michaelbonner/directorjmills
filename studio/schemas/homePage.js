@@ -32,6 +32,58 @@ export default defineType({
       description:
         'Enter the ID ( {{video_id}} ) of the video, not the whole url. https://player.vimeo.com/video/{{video_id}}?badge=0&autopause=0&player_id=0&app_id=58479',
     }),
+    defineField({
+      name: 'heroEyebrow',
+      title: 'Hero Eyebrow',
+      type: 'string',
+      description: 'Small line above the main homepage heading.',
+    }),
+    defineField({
+      name: 'heroHeading',
+      title: 'Hero Heading',
+      type: 'string',
+      description: 'Main heading over the homepage video or image.',
+    }),
+    defineField({
+      name: 'heroWorkLink',
+      title: 'Hero Work Link',
+      type: 'string',
+    }),
+    defineField({
+      name: 'heroContactLink',
+      title: 'Hero Contact Link',
+      type: 'string',
+    }),
+    defineField({
+      name: 'workEyebrow',
+      title: 'Work Section Eyebrow',
+      type: 'string',
+    }),
+    defineField({
+      name: 'workHeading',
+      title: 'Work Section Heading',
+      type: 'string',
+    }),
+    defineField({
+      name: 'workLink',
+      title: 'Work Section Link',
+      type: 'string',
+    }),
+    defineField({
+      name: 'contactEyebrow',
+      title: 'Contact Section Eyebrow',
+      type: 'string',
+    }),
+    defineField({
+      name: 'contactHeading',
+      title: 'Contact Section Heading',
+      type: 'string',
+    }),
+    defineField({
+      name: 'contactLink',
+      title: 'Contact Section Link',
+      type: 'string',
+    }),
   ],
   preview: {
     select: {},

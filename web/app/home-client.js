@@ -9,19 +9,32 @@ import { globalStyles } from "../styles/globalStyles";
 const FEATURED_WORK_COUNT = 6;
 
 export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
+  const copy = {
+    heroEyebrow: homePage?.heroEyebrow || "Director · Salt Lake City",
+    heroHeading: homePage?.heroHeading || "Stories that stay with you",
+    heroWorkLink: homePage?.heroWorkLink || "Selected work",
+    heroContactLink: homePage?.heroContactLink || "Get in touch",
+    workEyebrow: homePage?.workEyebrow || "Selected work",
+    workHeading: homePage?.workHeading || "Stories made to be felt",
+    workLink: homePage?.workLink || "View all work",
+    contactEyebrow: homePage?.contactEyebrow || "Start here",
+    contactHeading: homePage?.contactHeading || "Have a project in mind?",
+    contactLink: homePage?.contactLink || "Representation & contact",
+  };
+
   const heroContent = (
     <div className="flex flex-col items-start gap-5">
       <p className="border-b border-white/60 pb-3 text-sm font-medium tracking-[0.12em] uppercase">
-        Director · Salt Lake City
+        {copy.heroEyebrow}
       </p>
-      <h1 className={clsx(globalStyles.h1, "max-w-[14ch]")}>Jeremy Miller</h1>
+      <h1 className={clsx(globalStyles.h1, "max-w-[14ch]")}>{copy.heroHeading}</h1>
       <div className="mt-3 flex flex-wrap gap-x-10 gap-y-2">
         <Link href="#work" className={globalStyles.textLink}>
-          Selected work
+          {copy.heroWorkLink}
           <span aria-hidden="true">↓</span>
         </Link>
         <Link href="/contact" className={globalStyles.textLink}>
-          Get in touch
+          {copy.heroContactLink}
           <span aria-hidden="true">↗</span>
         </Link>
       </div>
@@ -30,11 +43,11 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
 
   return (
     <Layout
-      title={homePage.seo_title}
-      description={homePage.seo_description}
+      title={homePage?.seo_title}
+      description={homePage?.seo_description}
       heroContent={heroContent}
-      heroImageUrl={homePage.poster || null}
-      heroVideoId={homePage.video_id}
+      heroImageUrl={homePage?.poster || null}
+      heroVideoId={homePage?.video_id}
       isStillsPageEnabled={isStillsPageEnabled}
     >
       <section id="work" className="scroll-mt-8 py-20 lg:py-28">
@@ -42,17 +55,17 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
           <div className="mb-12 flex flex-col gap-6 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
             <div>
               <p className={clsx(globalStyles.eyebrow, "mb-5")}>
-                Selected work
+                {copy.workEyebrow}
               </p>
               <h2 className={clsx(globalStyles.h2, "max-w-[20ch]")}>
-                Stories made to be felt
+                {copy.workHeading}
               </h2>
             </div>
             <Link
               href="/work"
               className={clsx(globalStyles.textLink, "self-start lg:self-auto")}
             >
-              View all work
+              {copy.workLink}
               <span aria-hidden="true">↗</span>
             </Link>
           </div>
@@ -68,16 +81,16 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
           )}
         >
           <div>
-            <p className={clsx(globalStyles.eyebrow, "mb-5")}>Start here</p>
+            <p className={clsx(globalStyles.eyebrow, "mb-5")}>{copy.contactEyebrow}</p>
             <h2 className={clsx(globalStyles.h2, "max-w-[20ch]")}>
-              Have a project in mind?
+              {copy.contactHeading}
             </h2>
           </div>
           <Link
             href="/contact"
             className="inline-flex min-h-12 items-center gap-5 self-start border border-neutral-950 px-6 py-3 text-sm font-medium tracking-[0.08em] uppercase transition-colors hover:bg-neutral-950 hover:text-white lg:self-auto"
           >
-            Representation &amp; contact
+            {copy.contactLink}
             <span aria-hidden="true">↗</span>
           </Link>
         </div>
