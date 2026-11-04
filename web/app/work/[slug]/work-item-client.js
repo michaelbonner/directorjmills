@@ -433,7 +433,10 @@ export function WorkItemClient({
                 )}
               >
                 View all work
-                <FiArrowUpRight aria-hidden="true" className="size-4 shrink-0" />
+                <FiArrowUpRight
+                  aria-hidden="true"
+                  className="size-4 shrink-0"
+                />
               </Link>
             </div>
             <WorkGrid workItems={moreWork} />

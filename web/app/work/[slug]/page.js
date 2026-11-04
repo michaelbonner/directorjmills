@@ -24,7 +24,9 @@ const workItemQuery = groq`
 `;
 
 async function getData(slug) {
-  const workItem = await getClient().fetch(workItemQuery, { slug: slug.toLowerCase() });
+  const workItem = await getClient().fetch(workItemQuery, {
+    slug: slug.toLowerCase(),
+  });
 
   if (!workItem) {
     return null;

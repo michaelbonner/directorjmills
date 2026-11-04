@@ -28,7 +28,9 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
       <p className="border-b border-white/60 pb-3 text-sm font-medium tracking-[0.12em] uppercase">
         {copy.heroEyebrow}
       </p>
-      <h1 className={clsx(globalStyles.h1, "max-w-[14ch]")}>{copy.heroHeading}</h1>
+      <h1 className={clsx(globalStyles.h1, "max-w-[14ch]")}>
+        {copy.heroHeading}
+      </h1>
       <div className="mt-3 flex flex-wrap gap-x-10 gap-y-2">
         <Link href="#work" className={globalStyles.textLink}>
           {copy.heroWorkLink}
@@ -82,7 +84,9 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
           )}
         >
           <div>
-            <p className={clsx(globalStyles.eyebrow, "mb-5")}>{copy.contactEyebrow}</p>
+            <p className={clsx(globalStyles.eyebrow, "mb-5")}>
+              {copy.contactEyebrow}
+            </p>
             <h2 className={clsx(globalStyles.h2, "max-w-[20ch]")}>
               {copy.contactHeading}
             </h2>

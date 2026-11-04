@@ -10,7 +10,9 @@ export async function POST(req) {
   const secret = process.env.SANITY_REVALIDATE_SECRET;
 
   if (!secret) {
-    return new NextResponse("Missing SANITY_REVALIDATE_SECRET", { status: 500 });
+    return new NextResponse("Missing SANITY_REVALIDATE_SECRET", {
+      status: 500,
+    });
   }
 
   try {

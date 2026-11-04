@@ -54,7 +54,8 @@ export async function generateMetadata({ params }) {
 
   return {
     title: stillsPage?.seoTitle || "Stills | Director Jeremy Miller",
-    description: stillsPage?.seoDescription || "Stills | Director Jeremy Miller",
+    description:
+      stillsPage?.seoDescription || "Stills | Director Jeremy Miller",
     alternates: {
       canonical: canonicalPath,
     },
