@@ -4,12 +4,10 @@ import { clsx } from "clsx";
 import Head from "next/head";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
+import React, { useEffect, useRef, useState } from "react";
 import { getMenuItems } from "../functions/getMenuItems";
 import urlForSanitySource from "../lib/urlForSanitySource";
 import { globalStyles } from "../styles/globalStyles";
-import { useTitledVimeoRef } from "../hooks/useTitledVimeoRef";
 
 const Layout = ({
   children,
@@ -23,7 +21,7 @@ const Layout = ({
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const [videoPlaying, setVideoPlaying] = useState(false);
-  const heroPlayerRef = useTitledVimeoRef("Jeremy Miller director reel");
+  const heroIframeRef = useRef(null);
 
   const hasHero = Boolean(heroContent || heroImageUrl || heroVideoId);
   const menuItems = getMenuItems({ isStillsPageEnabled });
@@ -62,6 +60,42 @@ const Layout = ({
       desktopQuery.removeEventListener("change", closeOnDesktop);
     };
   }, []);
+
+  useEffect(() => {
+    if (!heroVideoId) return;
+
+    // Background-mode Vimeo autoplays on its own; listen over postMessage
+    // for the first timeupdate so the video only fades in once frames move
+    const handleMessage = (event) => {
+      if (event.origin !== "https://player.vimeo.com") return;
+      const iframe = heroIframeRef.current;
+      if (!iframe || event.source !== iframe.contentWindow) return;
+
+      let data = event.data;
+      if (typeof data === "string") {
+        try {
+          data = JSON.parse(data);
+        } catch {
+          return;
+        }
+      }
+
+      if (data?.event === "ready") {
+        iframe.contentWindow.postMessage(
+          { method: "addEventListener", value: "timeupdate" },
+          "https://player.vimeo.com",
+        );
+      } else if (data?.event === "timeupdate" && data.data?.seconds > 0) {
+        setVideoPlaying(true);
+      }
+    };
+
+    window.addEventListener("message", handleMessage);
+
+    return () => {
+      window.removeEventListener("message", handleMessage);
+    };
+  }, [heroVideoId]);
 
   const isLightHeader = hasHero && !menuOpen;
 
@@ -246,26 +280,18 @@ const Layout = ({
                 cover using the picture's ratio to push the bars off-screen.
               */}
               <div className="absolute top-1/2 left-1/2 h-[max(56.25cqw,135cqh)] w-[max(100cqw,240cqh)] -translate-x-1/2 -translate-y-1/2">
-                <ReactPlayer
+                {/*
+                  A plain iframe, not ReactPlayer: its Vimeo element boots the
+                  player with its own params and then reloads the iframe, which
+                  doubled the download and delayed playback by several seconds.
+                */}
+                <iframe
+                  ref={heroIframeRef}
                   allow="autoplay; fullscreen; picture-in-picture"
-                  controls={false}
-                  frameBorder="0"
-                  height={`100%`}
-                  loop={true}
-                  muted={true}
-                  playing={true}
-                  playsinline={true}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    pointerEvents: "none",
-                  }}
-                  onPlay={() => setVideoPlaying(true)}
+                  className="pointer-events-none absolute inset-0 h-full w-full border-0"
+                  src={`https://player.vimeo.com/video/${heroVideoId}?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&app_id=58479`}
+                  tabIndex={-1}
                   title="Jeremy Miller director reel"
-                  ref={heroPlayerRef}
-                  src={`https://player.vimeo.com/video/${heroVideoId}?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=true&background=true`}
-                  width={`100%`}
                 />
               </div>
             </div>
