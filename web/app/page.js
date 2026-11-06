@@ -13,6 +13,7 @@ async function getData() {
       seo_description,
       poster,
       video_id,
+      "heroVideoMp4URL": heroVideoMp4.asset->url,
       heroEyebrow,
       heroHeading,
       heroWorkLink,

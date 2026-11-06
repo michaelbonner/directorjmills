@@ -33,16 +33,26 @@ export default defineType({
         'Enter the ID ( {{video_id}} ) of the video, not the whole url. https://player.vimeo.com/video/{{video_id}}?badge=0&autopause=0&player_id=0&app_id=58479',
     }),
     defineField({
+      name: 'heroVideoMp4',
+      title: 'Hero Loop Video (MP4)',
+      type: 'file',
+      description:
+        'Optional. Upload an MP4 of the homepage loop for smooth, seamless looping. When set, this is used instead of the Vimeo video. Keep it short and compressed: large files load slowly on poor connections, so Vimeo is better for performance.',
+      options: {
+        accept: 'video/mp4',
+      },
+    }),
+    defineField({
       name: 'heroEyebrow',
       title: 'Hero Eyebrow',
       type: 'string',
-      description: 'Small line above the main homepage heading.',
+      description: 'Small line above the main homepage heading. Leave blank to hide.',
     }),
     defineField({
       name: 'heroHeading',
       title: 'Hero Heading',
       type: 'string',
-      description: 'Main heading over the homepage video or image.',
+      description: 'Main heading over the homepage video or image. Leave blank to hide.',
     }),
     defineField({
       name: 'heroWorkLink',
