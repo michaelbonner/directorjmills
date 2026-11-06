@@ -11,8 +11,8 @@ const FEATURED_WORK_COUNT = 6;
 
 export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
   const copy = {
-    heroEyebrow: homePage?.heroEyebrow || "Director · Salt Lake City",
-    heroHeading: homePage?.heroHeading || "Stories that stay with you",
+    heroEyebrow: homePage?.heroEyebrow,
+    heroHeading: homePage?.heroHeading,
     heroWorkLink: homePage?.heroWorkLink || "Selected work",
     heroContactLink: homePage?.heroContactLink || "Get in touch",
     workEyebrow: homePage?.workEyebrow || "Selected work",
@@ -25,12 +25,18 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
 
   const heroContent = (
     <div className="flex flex-col items-start gap-5">
-      <p className="border-b border-white/60 pb-3 text-sm font-medium tracking-[0.12em] uppercase">
-        {copy.heroEyebrow}
-      </p>
-      <h1 className={clsx(globalStyles.h1, "max-w-[14ch]")}>
-        {copy.heroHeading}
-      </h1>
+      {copy.heroEyebrow && (
+        <p className="border-b border-white/60 pb-3 text-sm font-medium tracking-[0.12em] uppercase">
+          {copy.heroEyebrow}
+        </p>
+      )}
+      {copy.heroHeading ? (
+        <h1 className={clsx(globalStyles.h1, "max-w-[14ch]")}>
+          {copy.heroHeading}
+        </h1>
+      ) : (
+        <h1 className="sr-only">Jeremy Miller, Director</h1>
+      )}
       <div className="mt-3 flex flex-wrap gap-x-10 gap-y-2">
         <Link href="#work" className={globalStyles.textLink}>
           {copy.heroWorkLink}
@@ -51,6 +57,7 @@ export function HomeClient({ homePage, workItems, isStillsPageEnabled }) {
       heroContent={heroContent}
       heroImageUrl={homePage?.poster || null}
       heroVideoId={homePage?.video_id}
+      heroVideoUrl={homePage?.heroVideoMp4URL}
       isStillsPageEnabled={isStillsPageEnabled}
     >
       <section id="work" className="scroll-mt-8 py-20 lg:py-28">

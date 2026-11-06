@@ -17,14 +17,23 @@ const Layout = ({
   heroContent,
   heroImageUrl,
   heroVideoId,
+  heroVideoUrl,
   isStillsPageEnabled,
 }) => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   const [videoPlaying, setVideoPlaying] = useState(false);
   const heroIframeRef = useRef(null);
+  const heroVideoRef = useRef(null);
+  const [mp4Failed, setMp4Failed] = useState(false);
 
-  const hasHero = Boolean(heroContent || heroImageUrl || heroVideoId);
+  // A native MP4 loops seamlessly; Vimeo's background player stalls at the
+  // loop point while it re-buffers, so prefer the upload when there is one
+  // and fall back to Vimeo if it fails to load
+  const mp4Url = mp4Failed ? null : heroVideoUrl;
+  const vimeoVideoId = mp4Url ? null : heroVideoId;
+  const hasVideo = Boolean(mp4Url || vimeoVideoId);
+  const hasHero = Boolean(heroContent || heroImageUrl || hasVideo);
   const menuItems = getMenuItems({ isStillsPageEnabled });
   const isCurrent = (href) =>
     href === "/" ? pathname === "/" : pathname?.startsWith(href);
@@ -63,7 +72,15 @@ const Layout = ({
   }, []);
 
   useEffect(() => {
-    if (!heroVideoId) return;
+    // The MP4 can start playing before hydration attaches onPlaying
+    const video = heroVideoRef.current;
+    if (video && !video.paused) {
+      setVideoPlaying(true);
+    }
+  }, [mp4Url]);
+
+  useEffect(() => {
+    if (!vimeoVideoId) return;
 
     // Background-mode Vimeo autoplays on its own; listen over postMessage
     // for the first timeupdate so the video only fades in once frames move
@@ -96,7 +113,7 @@ const Layout = ({
     return () => {
       window.removeEventListener("message", handleMessage);
     };
-  }, [heroVideoId]);
+  }, [vimeoVideoId]);
 
   const isLightHeader = hasHero && !menuOpen;
 
@@ -268,33 +285,51 @@ const Layout = ({
               }}
             />
           )}
-          {heroVideoId && (
+          {hasVideo && (
             <div
               className={clsx(
                 "absolute inset-0 -z-10 overflow-hidden transition-opacity duration-1000 [container-type:size]",
                 videoPlaying ? "opacity-100" : "opacity-0",
               )}
             >
-              {/*
-                Size the 16:9 player to cover the hero like object-cover.
-                The reel is letterboxed (~2.4:1 inside a 16:9 frame), so
-                cover using the picture's ratio to push the bars off-screen.
-              */}
-              <div className="absolute top-1/2 left-1/2 h-[max(56.25cqw,135cqh)] w-[max(100cqw,240cqh)] -translate-x-1/2 -translate-y-1/2">
-                {/*
-                  A plain iframe, not ReactPlayer: its Vimeo element boots the
-                  player with its own params and then reloads the iframe, which
-                  doubled the download and delayed playback by several seconds.
-                */}
-                <iframe
-                  ref={heroIframeRef}
-                  allow="autoplay; fullscreen; picture-in-picture"
-                  className="pointer-events-none absolute inset-0 h-full w-full border-0"
-                  src={`https://player.vimeo.com/video/${heroVideoId}?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&app_id=58479`}
-                  tabIndex={-1}
-                  title="Jeremy Miller director reel"
+              {mp4Url ? (
+                <video
+                  ref={heroVideoRef}
+                  className="absolute inset-0 h-full w-full object-cover"
+                  src={mp4Url}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  aria-hidden="true"
+                  onPlaying={() => setVideoPlaying(true)}
+                  onError={() => setMp4Failed(true)}
                 />
-              </div>
+              ) : (
+                <>
+                  {/*
+                    Size the 16:9 player to cover the hero like object-cover.
+                    The reel is letterboxed (~2.4:1 inside a 16:9 frame), so
+                    cover using the picture's ratio to push the bars off-screen.
+                  */}
+                  <div className="absolute top-1/2 left-1/2 h-[max(56.25cqw,135cqh)] w-[max(100cqw,240cqh)] -translate-x-1/2 -translate-y-1/2">
+                    {/*
+                      A plain iframe, not ReactPlayer: its Vimeo element boots the
+                      player with its own params and then reloads the iframe, which
+                      doubled the download and delayed playback by several seconds.
+                    */}
+                    <iframe
+                      ref={heroIframeRef}
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      className="pointer-events-none absolute inset-0 h-full w-full border-0"
+                      src={`https://player.vimeo.com/video/${vimeoVideoId}?background=1&autoplay=1&loop=1&muted=1&autopause=0&dnt=1&app_id=58479`}
+                      tabIndex={-1}
+                      title="Jeremy Miller director reel"
+                    />
+                  </div>
+                </>
+              )}
             </div>
           )}
           <div className="flex min-h-[560px] items-end bg-linear-to-t from-neutral-950/85 via-neutral-950/30 to-neutral-950/40 py-16 sm:min-h-[640px] lg:min-h-[min(820px,92svh)] lg:bg-linear-to-r lg:from-neutral-950/80 lg:via-neutral-950/35 lg:to-neutral-950/10 lg:py-20">
