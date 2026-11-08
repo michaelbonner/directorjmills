@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import urlForSanitySource from "../lib/urlForSanitySource";
 
-const WorkItemTile = ({ workItem, index }) => {
+const WorkItemTile = ({ workItem }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [hasHovered, setHasHovered] = useState(false);
 
@@ -64,14 +64,6 @@ const WorkItemTile = ({ workItem, index }) => {
             {workItem.title}
           </h3>
         </div>
-        {typeof index === "number" && (
-          <span
-            className="pt-0.5 text-sm text-neutral-600 tabular-nums transition-colors group-hover:text-neutral-950"
-            aria-hidden="true"
-          >
-            {String(index + 1).padStart(2, "0")}
-          </span>
-        )}
       </div>
     </Link>
   );
