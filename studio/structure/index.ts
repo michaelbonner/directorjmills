@@ -4,7 +4,9 @@ import {
   MdPerson,
   MdPhotoLibrary,
   MdLocalMovies,
+  MdSwapVert,
 } from "react-icons/md";
+import { WorkItemOrder } from "./WorkItemOrder";
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -51,5 +53,16 @@ export const structure: StructureResolver = (S) =>
             .title("Work Items")
             .defaultOrdering([{ field: "order", direction: "asc" }])
             .canHandleIntent((_name, params) => params.type === "workItem"),
+        ),
+      S.listItem()
+        .title("Reorder Work Items")
+        .icon(MdSwapVert)
+        .child(
+          S.component(WorkItemOrder)
+            .id("workItemOrder")
+            .title("Reorder Work Items")
+            .child((documentId) =>
+              S.document().schemaType("workItem").documentId(documentId),
+            ),
         ),
     ]);

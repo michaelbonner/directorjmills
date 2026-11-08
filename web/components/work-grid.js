@@ -10,8 +10,8 @@ export const WorkGrid = ({ workItems = [], className }) => {
         className,
       )}
     >
-      {workItems.map((workItem, index) => (
-        <WorkItemTile workItem={workItem} index={index} key={workItem._id} />
+      {workItems.map((workItem) => (
+        <WorkItemTile workItem={workItem} key={workItem._id} />
       ))}
     </div>
   );

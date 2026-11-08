@@ -67,6 +67,7 @@ The `workItem` document type is the core content model for portfolio pieces:
 **Structure Tool:** Custom desk structure in `structure/index.ts` provides:
 - Singleton pages for Home, Work, and Contact pages
 - Ordered work items list (sorted by `order` field ascending)
+- "Reorder Work Items" drag-and-drop pane that writes the `order` field
 - Document type filtering
 
 **Plugins:**
@@ -99,7 +100,7 @@ validation: (Rule) =>
 ```
 
 ### Manual Document Ordering
-Work items use a manual `order` field (number type, hidden in UI). The desk structure sorts work items by this field in ascending order. Users set numeric values directly in documents to control display order.
+Work items use a manual `order` field (number type, hidden in UI). The desk structure sorts work items by this field in ascending order. Editors reorder items in the "Reorder Work Items" pane (`structure/WorkItemOrder.tsx`), a drag-and-drop list that rewrites `order` (0..n-1) on the published doc and any draft.
 
 ### Preview Configurations
 Document types include custom preview configurations in their `prepare()` functions. For example, `workItem` combines client name and title in the preview.
